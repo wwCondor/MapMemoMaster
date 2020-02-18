@@ -80,8 +80,8 @@ class ReminderController: UIViewController {
         let searchResultsTableView = UITableView()
         searchResultsTableView.backgroundColor = UIColor.clear
         searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-        searchResultsTableView.dataSource = self
-        searchResultsTableView.delegate = self
+//        searchResultsTableView.dataSource = self
+//        searchResultsTableView.delegate = self
         searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
         return searchResultsTableView
     }()
@@ -207,8 +207,8 @@ class ReminderController: UIViewController {
         
         titleInputField.delegate = self
         messageInputField.delegate = self
-        locationSearchBar.delegate = self
-        searchCompleter.delegate = self
+//        locationSearchBar.delegate = self
+//        searchCompleter.delegate = self
         
         if modeSelected == .addReminderMode {
             setupNavigationBarForAddMode()
@@ -221,7 +221,7 @@ class ReminderController: UIViewController {
     
     private func setupSearchBar() {
         locationSearchBar.translatesAutoresizingMaskIntoConstraints = false
-        locationSearchBar.delegate = self
+//        locationSearchBar.delegate = self
         locationSearchBar.placeholder = PlaceHolderText.location
         locationSearchBar.barTintColor = UIColor(named: .appBackgroundColor)
         locationSearchBar.tintColor = UIColor(named: .tintColor)
@@ -259,8 +259,8 @@ class ReminderController: UIViewController {
                 isActiveInfoField.text = ToggleText.isNotActive
             }
             
-            bubbleColorView.backgroundColor = UIColor(named: reminder.bubbleColor!)!.withAlphaComponent(0.7)
-            bubbleColorView.layer.borderColor = UIColor(named: reminder.bubbleColor!)?.cgColor
+            bubbleColorView.backgroundColor = UIColor(named: reminder.pinColor!)!.withAlphaComponent(0.7)
+            bubbleColorView.layer.borderColor = UIColor(named: reminder.pinColor!)?.cgColor
             bubbleRadiusInfoField.text = "\(reminder.bubbleRadius.clean)m"
         } else {
             presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
@@ -521,7 +521,7 @@ class ReminderController: UIViewController {
             reminder.triggerWhenEntering = triggerToggle.isOn
             reminder.isRepeating = repeatToggle.isOn
             reminder.isActive = isActiveToggle.isOn
-            reminder.bubbleColor = bubbleColors[colorSelected]
+            reminder.pinColor = bubbleColors[colorSelected]
             reminder.bubbleRadius = Double(radiusInMeters)
             
             reminder.managedObjectContext?.saveChanges()
@@ -539,7 +539,7 @@ class ReminderController: UIViewController {
                 reminder.triggerWhenEntering = triggerToggle.isOn
                 reminder.isRepeating = repeatToggle.isOn
                 reminder.isActive = isActiveToggle.isOn
-                reminder.bubbleColor = bubbleColors[colorSelected]
+                reminder.pinColor = bubbleColors[colorSelected]
                 reminder.bubbleRadius = Double(radiusInMeters)
                 
                 reminder.managedObjectContext?.saveChanges()
@@ -638,52 +638,52 @@ extension ReminderController: UITextFieldDelegate {
     }
 }
 
-// MARK: UISearchBarDelegate
-extension ReminderController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchCompleter.queryFragment = searchText
-    }
-}
+//// MARK: UISearchBarDelegate
+//extension ReminderController: UISearchBarDelegate {
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        searchCompleter.queryFragment = searchText
+//    }
+//}
+//
+//// MARK: MKLocalSearchCompleterDelegate
+//extension ReminderController: MKLocalSearchCompleterDelegate {
+//    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+//        searchResults = completer.results
+//        searchResultsTableView.reloadData()
+//    }
+//
+//    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+////        presentAlert(description: error.localizedDescription, viewController: self)
+//    }
+//}
 
-// MARK: MKLocalSearchCompleterDelegate
-extension ReminderController: MKLocalSearchCompleterDelegate {
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-        searchResultsTableView.reloadData()
-    }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-//        presentAlert(description: error.localizedDescription, viewController: self)
-    }
-}
-
-extension ReminderController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let searchResult = searchResults[indexPath.row]
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.selectionStyle = .none
-        cell.textLabel?.text = searchResult.title
-        cell.detailTextLabel?.text = searchResult.subtitle
-        cell.textLabel?.textColor = UIColor(named: .tintColor)
-        cell.detailTextLabel?.textColor = UIColor(named: .tintColor)
-        cell.backgroundColor = UIColor(named: .appBackgroundColor)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let completion = searchResults[indexPath.row]
-        
-        let searchRequest = MKLocalSearch.Request(completion: completion)
-        let search = MKLocalSearch(request: searchRequest)
-        search.start { (result, error) in
-            let coordinate = result?.mapItems.last?.placemark.coordinate
-            self.latitudeInputField.text = coordinate?.latitude.toString
-            self.longitudeInputField.text = coordinate?.longitude.toString
-            self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
-        }
-    }
-}
+//extension ReminderController: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return searchResults.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let searchResult = searchResults[indexPath.row]
+//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+//        cell.selectionStyle = .none
+//        cell.textLabel?.text = searchResult.title
+//        cell.detailTextLabel?.text = searchResult.subtitle
+//        cell.textLabel?.textColor = UIColor(named: .tintColor)
+//        cell.detailTextLabel?.textColor = UIColor(named: .tintColor)
+//        cell.backgroundColor = UIColor(named: .appBackgroundColor)
+//        return cell
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let completion = searchResults[indexPath.row]
+//
+//        let searchRequest = MKLocalSearch.Request(completion: completion)
+//        let search = MKLocalSearch(request: searchRequest)
+//        search.start { (result, error) in
+//            let coordinate = result?.mapItems.last?.placemark.coordinate
+//            self.latitudeInputField.text = coordinate?.latitude.toString
+//            self.longitudeInputField.text = coordinate?.longitude.toString
+//            self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
+//        }
+//    }
+//}

@@ -7,15 +7,44 @@
 //
 
 import UIKit
+import MapKit
 
 class ReminderVC: UIViewController {
+    
+    let cellId = "searchResultsId"
+    
+    private let searchCompleter = MKLocalSearchCompleter()
+    var searchResults = [MKLocalSearchCompletion]()
+    
+    private let locationSearchBar = MMLocationSearchBar()
+    
+    private let titleTextField = MMTextField(placeholder: PlaceHolderText.title)
+    private let messageTextField = MMTextField(placeholder: PlaceHolderText.message)
+    
+    lazy var searchResultsTableView: UITableView = {
+        let searchResultsTableView = UITableView()
+        searchResultsTableView.backgroundColor = UIColor.clear
+        searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        searchResultsTableView.dataSource = self
+        searchResultsTableView.delegate = self
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        return searchResultsTableView
+    }()
+    
+    private let triggerToggleButton = MMToggleButton(buttonType: .triggerButton)
+    private let repeatToggleButton = MMToggleButton(buttonType: .repeatButtton)
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        createDismissKeyboardTapGesture()
 
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .systemBackground
 
         configureNavigationBar()
+        layoutUI()
+        setDelegates()
     }
     
     private func configureNavigationBar() {
@@ -24,6 +53,43 @@ class ReminderVC: UIViewController {
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
         navigationItem.rightBarButtonItem = saveButton
 //        navigationItem.title = "Add Reminder"
+    }
+    
+    private func layoutUI() {
+        view.addSubviews(locationSearchBar, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton)
+        
+        let padding: CGFloat = 10
+        
+        NSLayoutConstraint.activate([
+            locationSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            locationSearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            locationSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            locationSearchBar.heightAnchor.constraint(equalToConstant: 60),
+            
+            titleTextField.topAnchor.constraint(equalTo: locationSearchBar.bottomAnchor, constant: padding),
+            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            titleTextField.heightAnchor.constraint(equalToConstant: 48),
+            
+            messageTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: padding),
+            messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            messageTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            messageTextField.heightAnchor.constraint(equalToConstant: 48),
+            
+            triggerToggleButton.topAnchor.constraint(equalTo: messageTextField.bottomAnchor, constant: padding),
+            triggerToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            triggerToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            triggerToggleButton.heightAnchor.constraint(equalToConstant: 48),
+            
+            repeatToggleButton.topAnchor.constraint(equalTo: triggerToggleButton.bottomAnchor, constant: padding),
+            repeatToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            repeatToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            repeatToggleButton.heightAnchor.constraint(equalToConstant: 48),
+        ])
+    }
+    
+    private func setDelegates() {
+        locationSearchBar.delegate = self
     }
     
     @objc private func backButtonTapped() {
@@ -37,5 +103,54 @@ class ReminderVC: UIViewController {
     
     private func saveReminder() {
         print("saving reminder")
+    }
+}
+
+extension ReminderVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchCompleter.queryFragment = searchText
+    }
+}
+
+extension ReminderVC: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print(error)
+        #warning("Change to alert")
+    }
+}
+
+extension ReminderVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let searchResult = searchResults[indexPath.row]
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        cell.selectionStyle = .none
+        cell.textLabel?.text = searchResult.title
+        cell.detailTextLabel?.text = searchResult.subtitle
+        cell.textLabel?.textColor = UIColor(named: .tintColor)
+        cell.detailTextLabel?.textColor = UIColor(named: .tintColor)
+        cell.backgroundColor = UIColor(named: .appBackgroundColor)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let completion = searchResults[indexPath.row]
+        
+        let searchRequest = MKLocalSearch.Request(completion: completion)
+        let search = MKLocalSearch(request: searchRequest)
+        search.start { (result, error) in
+            let coordinate = result?.mapItems.last?.placemark.coordinate
+            print("Coordinate latitude \(String(describing: coordinate?.latitude.toString)) longitude \(String(describing: coordinate?.longitude.toString))")
+//            self.latitudeInputField.text = coordinate?.latitude.toString
+//            self.longitudeInputField.text = coordinate?.longitude.toString
+            self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
+        }
     }
 }

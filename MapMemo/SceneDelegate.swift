@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         configureNavigationBar()
+//        configureKeyboard()
     }
     
     private func configureNavigationBar() {
@@ -29,6 +30,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.barTintColor = .systemBackground
+//        navigationBarAppearance.shadowImage = UIImage()
+//        navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
 //        navigationBarAppearance.barTintColor = .systemYellow
 //        navigationBarAppearance.isTranslucent = false
         navigationBarAppearance.tintColor = .systemPink
@@ -39,6 +42,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        tapBarAppearance.
 //    }
 
+//    private func configureKeyboard() {
+//
+//        keyboardAppearance      = .dark
+//        spellCheckingType       = .no
+//        autocapitalizationType  = .none
+//        autocorrectionType      = .no
+//        keyboardAppearance      = .dark
+//        returnKeyType           = .done
+//    }
+    
     func sceneDidDisconnect(_ scene: UIScene) { }
 
     func sceneDidBecomeActive(_ scene: UIScene) { }

@@ -10,6 +10,6 @@ import UIKit
 
 enum Configuration {
     static let compassBackgroundSize: CGFloat = 50
-    static let compassSize: CGFloat = Configuration.compassBackgroundSize - 15
+    static let compassSize: CGFloat = 30
 }
 

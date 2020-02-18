@@ -23,6 +23,7 @@ class ReminderListVC: UIViewController {
         view.backgroundColor = .systemYellow
         
         configureNavigationBar()
+        configureTableView()
         layoutUI()
     }
     
@@ -38,8 +39,13 @@ class ReminderListVC: UIViewController {
         navigationItem.rightBarButtonItem = addButton
     }
     
+    private func configureTableView() {
+        remindersTableView.backgroundColor = .systemBackground
+    }
+    
     private func layoutUI() {
-        
+        view.addSubview(remindersTableView)
+        remindersTableView.pinToEdges(of: view)
     }
     
     private func configureDataSource() {
@@ -51,7 +57,11 @@ class ReminderListVC: UIViewController {
     }
     
     private func updateData(on reminders: [Reminder]) {
-        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Reminder>()
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(reminders)
+        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
 
 
@@ -63,14 +73,8 @@ class ReminderListVC: UIViewController {
     }
 }
 
-extension ReminderListVC: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+extension ReminderListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
-    }
-    
-    
 }

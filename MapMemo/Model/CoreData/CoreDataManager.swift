@@ -55,7 +55,6 @@ extension NSManagedObjectContext {
             return reminders.first
         } catch {
             fatalError("Error: \(error.localizedDescription)")
-            return nil
         }
     }
 }

@@ -26,7 +26,7 @@ class MMReminderCell: UITableViewCell {
     }
     
     private func configureCell() {
-        backgroundColor = .black
+        backgroundColor = .systemOrange
     }
     
     private func configureCellContent() {

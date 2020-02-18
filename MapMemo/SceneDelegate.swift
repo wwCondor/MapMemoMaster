@@ -13,7 +13,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = MMTabBarController()
+        window?.makeKeyAndVisible()
+        
+        configureNavigationBar()
+        
+    }
+    
+    private func configureNavigationBar() {
+        //        let navigationBarAppearance = UINavigationBar.appearance()
+        //        navigationBarAppearance.barTintColor = UIColor(named: .objectColor) // Bar background color
+        //        navigationBarAppearance.tintColor = UIColor(named: .tintColor) // Tintcolor text and icons
+        //        navigationBarAppearance.isTranslucent = false
+        let navigationBarAppearance = UINavigationBar.appearance()
+        navigationBarAppearance.barTintColor = .systemYellow
+        navigationBarAppearance.isTranslucent = false
+        navigationBarAppearance.tintColor = .systemPink
     }
 
     func sceneDidDisconnect(_ scene: UIScene) { }

@@ -58,15 +58,15 @@ class MainController: UIViewController {
         return compass
     }()
     
-    lazy var mView: UIImageView = {
-        let image = UIImage(named: Icon.m.name)?.withRenderingMode(.alwaysTemplate)
-        let mView = UIImageView(image: image)
-        mView.translatesAutoresizingMaskIntoConstraints = false
-//        mView.backgroundColor = UIColor.red//(named: .objectColor)
-        mView.tintColor = UIColor(named: .tintColor)
-//        mView.alpha = 0.70
-        return mView
-    }()
+//    lazy var mView: UIImageView = {
+//        let image = UIImage(named: Icon.m.name)?.withRenderingMode(.alwaysTemplate)
+//        let mView = UIImageView(image: image)
+//        mView.translatesAutoresizingMaskIntoConstraints = false
+////        mView.backgroundColor = UIColor.red//(named: .objectColor)
+//        mView.tintColor = UIColor(named: .tintColor)
+////        mView.alpha = 0.70
+//        return mView
+//    }()
     
     lazy var settingsShortcut: CustomButton = {
         let settingsShortcut = CustomButton(type: .custom)
@@ -215,15 +215,15 @@ class MainController: UIViewController {
     }
     
     private func setupM() {
-        view.addSubview(mView)
-        
-        NSLayoutConstraint.activate([
-            mView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            mView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            mView.widthAnchor.constraint(equalToConstant: view.frame.size.width),
-            mView.heightAnchor.constraint(equalToConstant: view.frame.size.width),
-        ])
-        
+//        view.addSubview(mView)
+//        
+//        NSLayoutConstraint.activate([
+//            mView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            mView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            mView.widthAnchor.constraint(equalToConstant: view.frame.size.width),
+//            mView.heightAnchor.constraint(equalToConstant: view.frame.size.width),
+//        ])
+//        
     }
     
     private func setupView() {

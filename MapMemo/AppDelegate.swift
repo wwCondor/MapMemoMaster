@@ -20,22 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        locationManager = CLLocationManager()
-//        locationManager!.delegate = self
-        notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.delegate = self
-        
-        let notificationsManager = NotificationManager.shared
-        notificationsManager.requestNotificationAuthorization()
-        
-        let navigationBarAppearance = UINavigationBar.appearance()
-        navigationBarAppearance.barTintColor = UIColor(named: .objectColor) // Bar background color
-        navigationBarAppearance.tintColor = UIColor(named: .tintColor) // Tintcolor text and icons
-        navigationBarAppearance.isTranslucent = false
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.makeKeyAndVisible()
-        window?.rootViewController = UINavigationController(rootViewController: MainController())
+//        locationManager = CLLocationManager()
+////        locationManager!.delegate = self
+//        notificationCenter = UNUserNotificationCenter.current()
+//        notificationCenter.delegate = self
+//
+//        let notificationsManager = NotificationManager.shared
+//        notificationsManager.requestNotificationAuthorization()
+//
+//
+//
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        window?.makeKeyAndVisible()
+//        window?.rootViewController = UINavigationController(rootViewController: MainController())
         
         return true
     }

@@ -18,8 +18,11 @@ struct Constant {
     static let activeReminderContentHeight: CGFloat = Constant.activeReminderCellSize/3
     static let activeReminderOffset: CGFloat        = Constant.activeReminderCellSize/4
     static let offset: CGFloat                      = Constant.inputFieldSize/4
+    
+    
     static let compassSize: CGFloat                 = Constant.buttonBarHeight
     static let compassCornerRadius: CGFloat         = Constant.buttonBarHeight/2
+    
     static let cellPadding: CGFloat                 = Constant.inputFieldSize/8
     static let arrowOffset: CGFloat                 = 13
 }

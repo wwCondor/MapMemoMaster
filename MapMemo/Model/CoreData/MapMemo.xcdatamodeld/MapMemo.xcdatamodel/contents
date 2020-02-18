@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Reminder" representedClassName=".Reminder" syncable="YES">
-        <attribute name="bubbleColor" attributeType="String"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Reminder" representedClassName=" .Reminder" syncable="YES" codeGenerationType="class">
         <attribute name="bubbleRadius" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="isActive" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isRepeating" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -9,6 +8,7 @@
         <attribute name="locationName" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="message" attributeType="String" maxValueString="40"/>
+        <attribute name="pinColor" attributeType="String"/>
         <attribute name="title" attributeType="String" maxValueString="20"/>
         <attribute name="triggerWhenEntering" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>

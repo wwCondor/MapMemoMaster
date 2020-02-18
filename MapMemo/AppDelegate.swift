@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func handleNotification(for region: CLRegion) {
-        guard let reminder = managedObjectContext.fetchReminder(with: region.identifier, context: managedObjectContext) else {
+        guard let reminder = CoreDataManager.shared.managedObjectContext.fetchReminder(with: region.identifier, context: CoreDataManager.shared.managedObjectContext) else {
             // Check for reminder
             if UIApplication.shared.applicationState == .active {
                 presentAlert(description: ReminderError.fetchReminder.localizedDescription)
@@ -48,13 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         if UIApplication.shared.applicationState == .active {
             let triggerCondition = reminder.triggerWhenEntering ? "Arrived at" : "Leaving"
-            presentAlert(description: "\(triggerCondition) \(reminder.locationName): \(reminder.message)")
+            presentAlert(description: "\(triggerCondition) \(String(describing: reminder.locationName)): \(String(describing: reminder.message))")
         }
         // Disable after trigger when user selected isRepeating == false
         if reminder.isRepeating != true {
             reminder.isActive = false
-            managedObjectContext.saveChanges()
-            print("\(reminder.title) is active: \(reminder.isActive)")
+            CoreDataManager.shared.managedObjectContext.saveChanges()
+            print("\(String(describing: reminder.title)) is active: \(reminder.isActive)")
         }
         UIApplication.shared.applicationIconBadgeNumber += 1
     }
@@ -73,52 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) { }
-
-    // MARK: - Core Data stack
-    // NSManagedObjectContext: Object used to manipulate and track changes to managed objects.
-    lazy var managedObjectContext: NSManagedObjectContext = {
-        let container = self.persistentContainer
-        return container.viewContext
-    }()
-
-    // NSPersistentContainer: Container that encapsulates the CoreData stack in your app.
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "MapMemo")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
 }
 
-extension NSManagedObjectContext {
-    func saveChanges() {
-        if self.hasChanges {
-            do {
-                try save()
-            } catch {
-                fatalError("Error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func fetchReminder(with locationName: String, context: NSManagedObjectContext) -> Reminder? {
-        
-        let request = NSFetchRequest<Reminder>(entityName: "Reminder")
-        request.predicate = NSPredicate(format: "locationName == %@", locationName)
-        
-        do {
-            let reminders = try context.fetch(request)
-            return reminders.first
-        } catch {
-            // Handled at callsite
-            print("Could not fetch reminder by location name, error: \(error.localizedDescription)")
-            return nil
-        }
-    }
-}
 
 extension AppDelegate: CLLocationManagerDelegate {
     // Called when region is entered

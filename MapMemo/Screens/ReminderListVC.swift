@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class ReminderListVC: UIViewController {
+    
+    enum Section { case main }
+    
+    var dataSource: UITableViewDiffableDataSource<Section, Reminder>!
+    
+    private let remindersTableView = UITableView(frame: .zero)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +23,7 @@ class ReminderListVC: UIViewController {
         view.backgroundColor = .systemYellow
         
         configureNavigationBar()
+        layoutUI()
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -24,15 +32,28 @@ class ReminderListVC: UIViewController {
 //        navigationController?.setNavigationBarHidden(false, animated: true)
 //    }
     
-    private func layoutUI() {
-        
-    }
-    
     private func configureNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
         navigationItem.rightBarButtonItem = addButton
     }
+    
+    private func layoutUI() {
+        
+    }
+    
+    private func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, Reminder>(tableView: remindersTableView, cellProvider: { (tableView, indexPath, reminder) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: MMReminderCell.identifier, for: indexPath) as! MMReminderCell
+            cell.set(reminder: reminder)
+            return cell
+        })
+    }
+    
+    private func updateData(on reminders: [Reminder]) {
+        
+    }
+
 
     @objc private func addButtonTapped() {
         let reminderVC = ReminderVC()
@@ -40,4 +61,16 @@ class ReminderListVC: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
+}
+
+extension ReminderListVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
+    
 }

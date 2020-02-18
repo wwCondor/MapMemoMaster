@@ -259,8 +259,8 @@ class ReminderController: UIViewController {
                 isActiveInfoField.text = ToggleText.isNotActive
             }
             
-            bubbleColorView.backgroundColor = UIColor(named: reminder.bubbleColor)!.withAlphaComponent(0.7)
-            bubbleColorView.layer.borderColor = UIColor(named: reminder.bubbleColor)?.cgColor
+            bubbleColorView.backgroundColor = UIColor(named: reminder.bubbleColor!)!.withAlphaComponent(0.7)
+            bubbleColorView.layer.borderColor = UIColor(named: reminder.bubbleColor!)?.cgColor
             bubbleRadiusInfoField.text = "\(reminder.bubbleRadius.clean)m"
         } else {
             presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
@@ -316,7 +316,7 @@ class ReminderController: UIViewController {
                 saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
         } else if modeSelected == .editReminderMode {
-            updateInfoForSelectedReminder() 
+            updateInfoForSelectedReminder()
             NSLayoutConstraint.activate([
                 backButton.widthAnchor.constraint(equalToConstant: view.bounds.width * (1/2)),
                 deleteButton.widthAnchor.constraint(equalToConstant: view.bounds.width * (1/2)),

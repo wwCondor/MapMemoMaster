@@ -23,6 +23,7 @@ class MMTabBarController: UITabBarController {
         let tabBarAppearance = UITabBar.appearance()
         tabBarAppearance.barTintColor = .systemBackground
         tabBarAppearance.tintColor = .systemPink
+//        tabBarAppearance.isTranslucent = true
 //        tabBarAppearance.layer.shadowColor = UIColor.systemPink.cgColor
 //        tabBarAppearance.layer.shadowRadius = 20
 //        tabBarAppearance.layer.shadowOpacity = 0.5

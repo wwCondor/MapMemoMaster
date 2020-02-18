@@ -7,24 +7,29 @@
 //
 
 import UIKit
+import MapKit
 
 class MapVC: UIViewController {
+    
+    private let mapView = MMMapView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemGreen
+        view.backgroundColor = .systemYellow
+        
+//        mapView.delegate = self
+        layoutUI()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func  viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
-    */
-
+    
+    private func layoutUI() {
+        view.addSubviews(mapView)
+        mapView.pinToEdges(of: view)
+        
+    }
 }

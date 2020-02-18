@@ -203,7 +203,7 @@ class ReminderController: UIViewController {
         
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
-        self.hideKeyboardOnBackgroundTap()
+        createDismissKeyboardTapGesture()
         
         titleInputField.delegate = self
         messageInputField.delegate = self

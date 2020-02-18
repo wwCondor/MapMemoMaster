@@ -13,18 +13,29 @@ class ReminderVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemOrange
+        view.backgroundColor = .systemYellow
+
+        configureNavigationBar()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func configureNavigationBar() {
+        let backButtton = UIBarButtonItem(image: SFSymbols.back, style: .done, target: self, action: #selector(backButtonTapped))
+        navigationItem.leftBarButtonItem = backButtton
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItem = saveButton
+//        navigationItem.title = "Add Reminder"
     }
-    */
-
+    
+    @objc private func backButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func saveButtonTapped() {
+        saveReminder()
+        dismiss(animated: true)
+    }
+    
+    private func saveReminder() {
+        print("saving reminder")
+    }
 }

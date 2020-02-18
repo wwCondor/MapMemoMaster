@@ -28,6 +28,7 @@
 		0B73EDA123FBF3D3005E503F /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDA023FBF3D3005E503F /* MapVC.swift */; };
 		0B73EDA323FBF3E7005E503F /* ReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDA223FBF3E7005E503F /* ReminderVC.swift */; };
 		0B73EDA523FBF661005E503F /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDA423FBF661005E503F /* SFSymbols.swift */; };
+		0B73EDA823FC1B04005E503F /* MMMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDA723FC1B04005E503F /* MMMapView.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF06239E501700ACB8E3 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF05239E501700ACB8E3 /* MainController.swift */; };
@@ -68,6 +69,7 @@
 		0B73EDA023FBF3D3005E503F /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		0B73EDA223FBF3E7005E503F /* ReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderVC.swift; sourceTree = "<group>"; };
 		0B73EDA423FBF661005E503F /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
+		0B73EDA723FC1B04005E503F /* MMMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMMapView.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +169,14 @@
 			path = old;
 			sourceTree = "<group>";
 		};
+		0B73EDA623FC1ACB005E503F /* MMMapView */ = {
+			isa = PBXGroup;
+			children = (
+				0B73EDA723FC1B04005E503F /* MMMapView.swift */,
+			);
+			path = MMMapView;
+			sourceTree = "<group>";
+		};
 		0BA9CEF5239E501600ACB8E3 = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +226,7 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0B73EDA623FC1ACB005E503F /* MMMapView */,
 				0B73ED9823FBF2D2005E503F /* UITabBarController */,
 				0B73ED9123FBED6B005E503F /* UITableViewCell */,
 				0B73ED8B23FBE7E9005E503F /* UIButton */,
@@ -343,6 +354,7 @@
 				0B73EDA523FBF661005E503F /* SFSymbols.swift in Sources */,
 				0B73EDA323FBF3E7005E503F /* ReminderVC.swift in Sources */,
 				0BA9CF22239E6E9800ACB8E3 /* Icon.swift in Sources */,
+				0B73EDA823FC1B04005E503F /* MMMapView.swift in Sources */,
 				0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */,
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
 				0BC7488723A80B6C00AFB3B5 /* ReminderCell.swift in Sources */,

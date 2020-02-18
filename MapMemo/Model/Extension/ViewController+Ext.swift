@@ -37,13 +37,18 @@ extension UIViewController {
         viewController.present(actionSheet, animated: true, completion: nil)
     }
     
-    func hideKeyboardOnBackgroundTap() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
+    func createDismissKeyboardTapGesture() {
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
-
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
+    
+//    func hideKeyboardOnBackgroundTap() {
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+//        tap.cancelsTouchesInView = false
+//        view.addGestureRecognizer(tap)
+//    }
+//
+//    @objc func dismissKeyboard() {
+//        view.endEditing(true)
+//    }
 }

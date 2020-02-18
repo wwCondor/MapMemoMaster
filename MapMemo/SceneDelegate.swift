@@ -22,19 +22,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         configureNavigationBar()
-        
     }
     
     private func configureNavigationBar() {
-        //        let navigationBarAppearance = UINavigationBar.appearance()
-        //        navigationBarAppearance.barTintColor = UIColor(named: .objectColor) // Bar background color
-        //        navigationBarAppearance.tintColor = UIColor(named: .tintColor) // Tintcolor text and icons
-        //        navigationBarAppearance.isTranslucent = false
+//        navigationController?.navigationBar.barTintColor = .systemBackground
+
         let navigationBarAppearance = UINavigationBar.appearance()
-        navigationBarAppearance.barTintColor = .systemYellow
-        navigationBarAppearance.isTranslucent = false
+        navigationBarAppearance.barTintColor = .systemBackground
+//        navigationBarAppearance.barTintColor = .systemYellow
+//        navigationBarAppearance.isTranslucent = false
         navigationBarAppearance.tintColor = .systemPink
     }
+    
+//    private func configureTapBarAppearance() {
+//        let tapBarAppearance = UITabBar.appearance()
+//        tapBarAppearance.
+//    }
 
     func sceneDidDisconnect(_ scene: UIScene) { }
 

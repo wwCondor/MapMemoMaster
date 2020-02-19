@@ -27,7 +27,7 @@
 //            reminders = try managedObjectContext.fetch(NSFetchRequest(entityName: "Reminder"))
 //        } catch {
 //            presentAlert(description: ReminderError.unableToFetchActiveReminders.localizedDescription, viewController: self)
-//        } 
+//        }
 //        print(reminders)
 //    }
 //    
@@ -216,14 +216,14 @@
 //    
 //    private func setupM() {
 ////        view.addSubview(mView)
-////        
+////
 ////        NSLayoutConstraint.activate([
 ////            mView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 ////            mView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 ////            mView.widthAnchor.constraint(equalToConstant: view.frame.size.width),
 ////            mView.heightAnchor.constraint(equalToConstant: view.frame.size.width),
 ////        ])
-////        
+////
 //    }
 //    
 //    private func setupView() {

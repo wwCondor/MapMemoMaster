@@ -15,7 +15,10 @@ class ReminderListVC: UIViewController {
     
     var dataSource: UITableViewDiffableDataSource<Section, Reminder>!
     
-    private let remindersTableView = UITableView(frame: .zero)
+    private let remindersTableView = RemindersTableView(frame: .zero)
+    
+//    let fetchedResultsController = CoreDataManager.shared.fetchedResultsController
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,17 @@ class ReminderListVC: UIViewController {
         configureNavigationBar()
         configureTableView()
         layoutUI()
+        fetchReminders()
+    }
+    
+    private func fetchReminders() {
+        print("Fetching Reminders")
+//        fetchedResultsController.delegate = self
+//        do {
+//            try fetchedResultsController.performFetch()
+//        } catch {
+//            presentAlert(description: ReminderError.fetchReminder.localizedDescription, viewController: self)
+//        }
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +54,14 @@ class ReminderListVC: UIViewController {
     }
     
     private func configureTableView() {
-        remindersTableView.backgroundColor = .systemBackground
+//        remindersTableView.backgroundColor = .systemOrange
+//        remindersTableView.separatorStyle = .none
+//
+//        remindersTableView.translatesAutoresizingMaskIntoConstraints = false
+//        remindersTableView.register(MMReminderCell.self, forCellReuseIdentifier: MMReminderCell.identifier)
+//
+        remindersTableView.dataSource = self
+        remindersTableView.delegate = self
     }
     
     private func layoutUI() {
@@ -66,15 +87,64 @@ class ReminderListVC: UIViewController {
 
 
     @objc private func addButtonTapped() {
-        let reminderVC = ReminderVC()
+        let reminderVC = ReminderVC(mode: .new)
         let navigationController = UINavigationController(rootViewController: reminderVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
 }
 
-extension ReminderListVC: UITableViewDelegate {
+extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+//        guard let section = fetchedResultsController.sections?[section] else { return 0 }
+//        return section.numberOfObjects
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let reminder = fetchedResultsController.object(at: indexPath)
+        let cell = remindersTableView.dequeueReusableCell(withIdentifier: MMReminderCell.identifier, for: indexPath) as! MMReminderCell
+        cell.selectionStyle = .none
+//        cell.set(reminder: reminder)
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+}
+
+extension ReminderListVC: NSFetchedResultsControllerDelegate {
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        remindersTableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+            
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            remindersTableView.insertRows(at: [newIndexPath], with: .automatic)
+            
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            remindersTableView.deleteRows(at: [indexPath], with: .automatic)
+            
+        case .move, .update:
+            guard let newIndexPath = newIndexPath else { return }
+            remindersTableView.reloadRows(at: [newIndexPath], with: .automatic)
+            
+        @unknown default:
+            return
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        remindersTableView.endUpdates()
     }
 }

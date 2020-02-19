@@ -1,5 +1,5 @@
 //
-//  MMSlider.swift
+//  MMLabel.swift
 //  MapMemo
 //
 //  Created by Wouter Willebrands on 19/02/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MMSlider: UISlider {
+class MMTitleLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,14 +19,17 @@ class MMSlider: UISlider {
         fatalError("init(coder:) has not been implemented")
     }
     
+    convenience init(alignment: NSTextAlignment, text: String) {
+        self.init()
+        self.textAlignment = alignment
+        self.text = text
+    }
+    
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.clear
-        minimumTrackTintColor = .red
-        maximumTrackTintColor = .systemGray4
-        thumbTintColor = .systemPink
-        minimumValue = 0
-        maximumValue = 6
-        setValue(2, animated: true)
+        textColor       = .systemPink
+//        textAlignment   = .center
+        font            = UIFont.systemFont(ofSize: 18.0, weight: .medium)
+//        text            = "Trigger bubble Radius: 0m"
     }
 }

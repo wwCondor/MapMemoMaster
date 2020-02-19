@@ -1,5 +1,5 @@
 //
-//  MMSlider.swift
+//  MMSwitch.swift
 //  MapMemo
 //
 //  Created by Wouter Willebrands on 19/02/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MMSlider: UISlider {
+class MMSwitch: UISwitch {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,12 +21,7 @@ class MMSlider: UISlider {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.clear
-        minimumTrackTintColor = .red
-        maximumTrackTintColor = .systemGray4
+        onTintColor = UIColor.systemPink.withAlphaComponent(0.25)
         thumbTintColor = .systemPink
-        minimumValue = 0
-        maximumValue = 6
-        setValue(2, animated: true)
     }
 }

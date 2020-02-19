@@ -8,11 +8,10 @@
         <attribute name="locationName" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="message" attributeType="String" maxValueString="40"/>
-        <attribute name="pinColor" attributeType="String"/>
         <attribute name="title" attributeType="String" maxValueString="20"/>
         <attribute name="triggerWhenEntering" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Reminder" positionX="-54" positionY="-9" width="128" height="193"/>
+        <element name="Reminder" positionX="-54" positionY="-9" width="128" height="178"/>
     </elements>
 </model>

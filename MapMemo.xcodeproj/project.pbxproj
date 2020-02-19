@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B11C07923A12D5400E81DAA /* ModeSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B11C07823A12D5400E81DAA /* ModeSelected.swift */; };
 		0B11C07B23A26A4100E81DAA /* TextInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B11C07A23A26A4100E81DAA /* TextInputField.swift */; };
 		0B11C07F23A39B1E00E81DAA /* TapToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B11C07E23A39B1E00E81DAA /* TapToggleView.swift */; };
 		0B11C08523A509DB00E81DAA /* FetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B11C08423A509DB00E81DAA /* FetchedResultsController.swift */; };
@@ -38,7 +37,10 @@
 		0B73EDC523FD209A005E503F /* PlaceholderText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDC423FD209A005E503F /* PlaceholderText.swift */; };
 		0B73EDC723FD20BE005E503F /* ToggleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDC623FD20BE005E503F /* ToggleText.swift */; };
 		0B73EDCC23FD25E3005E503F /* MMSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDCB23FD25E3005E503F /* MMSlider.swift */; };
-		0B73EDD123FD2761005E503F /* MMLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD023FD2761005E503F /* MMLabel.swift */; };
+		0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD023FD2761005E503F /* MMTitleLabel.swift */; };
+		0B73EDD423FD50F7005E503F /* MMSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD323FD50F7005E503F /* MMSwitch.swift */; };
+		0B73EDD623FD5C6E005E503F /* MMImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD523FD5C6E005E503F /* MMImageView.swift */; };
+		0B73EDD823FD67C3005E503F /* MMBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD723FD67C3005E503F /* MMBodyLabel.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF06239E501700ACB8E3 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF05239E501700ACB8E3 /* MainController.swift */; };
@@ -58,7 +60,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B11C07823A12D5400E81DAA /* ModeSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelected.swift; sourceTree = "<group>"; };
 		0B11C07A23A26A4100E81DAA /* TextInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
 		0B11C07E23A39B1E00E81DAA /* TapToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToggleView.swift; sourceTree = "<group>"; };
 		0B11C08423A509DB00E81DAA /* FetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsController.swift; sourceTree = "<group>"; };
@@ -89,7 +90,10 @@
 		0B73EDC423FD209A005E503F /* PlaceholderText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderText.swift; sourceTree = "<group>"; };
 		0B73EDC623FD20BE005E503F /* ToggleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleText.swift; sourceTree = "<group>"; };
 		0B73EDCB23FD25E3005E503F /* MMSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMSlider.swift; sourceTree = "<group>"; };
-		0B73EDD023FD2761005E503F /* MMLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLabel.swift; sourceTree = "<group>"; };
+		0B73EDD023FD2761005E503F /* MMTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTitleLabel.swift; sourceTree = "<group>"; };
+		0B73EDD323FD50F7005E503F /* MMSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMSwitch.swift; sourceTree = "<group>"; };
+		0B73EDD523FD5C6E005E503F /* MMImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMImageView.swift; sourceTree = "<group>"; };
+		0B73EDD723FD67C3005E503F /* MMBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMBodyLabel.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				0BA9CF21239E6E9800ACB8E3 /* Icon.swift */,
-				0B11C07823A12D5400E81DAA /* ModeSelected.swift */,
 				0B73EDA423FBF661005E503F /* SFSymbols.swift */,
 				0B73EDAC23FC353A005E503F /* Configuration.swift */,
 				0B73EDC423FD209A005E503F /* PlaceholderText.swift */,
@@ -206,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				0B73EDAA23FC3334005E503F /* MMCompassImageView.swift */,
+				0B73EDD523FD5C6E005E503F /* MMImageView.swift */,
 			);
 			path = UIImageView;
 			sourceTree = "<group>";
@@ -254,9 +258,18 @@
 		0B73EDCD23FD272F005E503F /* UILabel */ = {
 			isa = PBXGroup;
 			children = (
-				0B73EDD023FD2761005E503F /* MMLabel.swift */,
+				0B73EDD023FD2761005E503F /* MMTitleLabel.swift */,
+				0B73EDD723FD67C3005E503F /* MMBodyLabel.swift */,
 			);
 			path = UILabel;
+			sourceTree = "<group>";
+		};
+		0B73EDD223FD50CF005E503F /* UISwitch */ = {
+			isa = PBXGroup;
+			children = (
+				0B73EDD323FD50F7005E503F /* MMSwitch.swift */,
+			);
+			path = UISwitch;
 			sourceTree = "<group>";
 		};
 		0BA9CEF5239E501600ACB8E3 = {
@@ -305,6 +318,7 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0B73EDD223FD50CF005E503F /* UISwitch */,
 				0B73EDCD23FD272F005E503F /* UILabel */,
 				0B73EDC823FD25AC005E503F /* UISlider */,
 				0B73EDBB23FC681A005E503F /* UITextField */,
@@ -434,6 +448,7 @@
 				0B73ED9A23FBF305005E503F /* MMTabBarController.swift in Sources */,
 				0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */,
 				0B73ED9323FBED8D005E503F /* MMReminderCell.swift in Sources */,
+				0B73EDD623FD5C6E005E503F /* MMImageView.swift in Sources */,
 				0BA9CF28239E71BE00ACB8E3 /* ActiveRemindersController.swift in Sources */,
 				0B73ED9F23FBF3C1005E503F /* ReminderListVC.swift in Sources */,
 				0BA9CF2E239E754B00ACB8E3 /* Constant.swift in Sources */,
@@ -445,10 +460,12 @@
 				0B73EDC123FC69B3005E503F /* MMTextField.swift in Sources */,
 				0B73EDAB23FC3334005E503F /* MMCompassImageView.swift in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
-				0B73EDD123FD2761005E503F /* MMLabel.swift in Sources */,
+				0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */,
 				0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */,
 				0B73EDA523FBF661005E503F /* SFSymbols.swift in Sources */,
+				0B73EDD423FD50F7005E503F /* MMSwitch.swift in Sources */,
 				0B73EDA323FBF3E7005E503F /* ReminderVC.swift in Sources */,
+				0B73EDD823FD67C3005E503F /* MMBodyLabel.swift in Sources */,
 				0BA9CF22239E6E9800ACB8E3 /* Icon.swift in Sources */,
 				0B73EDA823FC1B04005E503F /* MMMapView.swift in Sources */,
 				0B73EDC723FD20BE005E503F /* ToggleText.swift in Sources */,
@@ -456,7 +473,6 @@
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
 				0BC7488723A80B6C00AFB3B5 /* ReminderCell.swift in Sources */,
 				0B73EDA123FBF3D3005E503F /* MapVC.swift in Sources */,
-				0B11C07923A12D5400E81DAA /* ModeSelected.swift in Sources */,
 				0B73EDAF23FC3B62005E503F /* CoreDataManager.swift in Sources */,
 				0BC7488523A7CD4700AFB3B5 /* Reachability.swift in Sources */,
 				0B11C08523A509DB00E81DAA /* FetchedResultsController.swift in Sources */,

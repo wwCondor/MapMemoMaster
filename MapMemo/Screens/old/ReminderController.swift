@@ -17,7 +17,7 @@ class ReminderController: UIViewController {
     
     let cellId = "searchResultsId"
     
-    var modeSelected: ModeSelected = .addReminderMode
+    var modeSelected: ReminderMode = .new
     var managedObjectContext: NSManagedObjectContext!
     var reminder: Reminder?
     
@@ -210,9 +210,9 @@ class ReminderController: UIViewController {
 //        locationSearchBar.delegate = self
 //        searchCompleter.delegate = self
         
-        if modeSelected == .addReminderMode {
+        if modeSelected == .new {
             setupNavigationBarForAddMode()
-        } else if modeSelected == .editReminderMode {
+        } else if modeSelected == .edit {
             setupNavigationBarForEditMode()
         }
         setupView()
@@ -259,8 +259,8 @@ class ReminderController: UIViewController {
                 isActiveInfoField.text = ToggleText.isNotActive
             }
             
-            bubbleColorView.backgroundColor = UIColor(named: reminder.pinColor!)!.withAlphaComponent(0.7)
-            bubbleColorView.layer.borderColor = UIColor(named: reminder.pinColor!)?.cgColor
+//            bubbleColorView.backgroundColor = UIColor(named: reminder.pinColor!)!.withAlphaComponent(0.7)
+//            bubbleColorView.layer.borderColor = UIColor(named: reminder.pinColor!)?.cgColor
             bubbleRadiusInfoField.text = "\(reminder.bubbleRadius.clean)m"
         } else {
             presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
@@ -310,13 +310,13 @@ class ReminderController: UIViewController {
         view.addSubview(sliderBackground)
         view.addSubview(bubbleRadiusSlider)
         
-        if modeSelected == .addReminderMode {
+        if modeSelected == .new {
             NSLayoutConstraint.activate([
                 saveButton.heightAnchor.constraint(equalToConstant: Constant.buttonBarHeight),
                 saveButton.widthAnchor.constraint(equalToConstant: view.bounds.width),
                 saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
-        } else if modeSelected == .editReminderMode {
+        } else if modeSelected == .edit {
             updateInfoForSelectedReminder()
             NSLayoutConstraint.activate([
                 backButton.widthAnchor.constraint(equalToConstant: view.bounds.width * (1/2)),
@@ -490,7 +490,7 @@ class ReminderController: UIViewController {
     
     // MARK: Save method
     @objc private func saveReminder(sender: UIButton!) {
-        if modeSelected == .addReminderMode {
+        if modeSelected == .new {
             guard let title = titleInputField.text, !title.isEmpty, title != PlaceHolderText.title else {
                 presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
                 return
@@ -522,14 +522,14 @@ class ReminderController: UIViewController {
             reminder.triggerWhenEntering = triggerToggle.isOn
             reminder.isRepeating = repeatToggle.isOn
             reminder.isActive = isActiveToggle.isOn
-            reminder.pinColor = bubbleColors[colorSelected]
+//            reminder.pinColor = bubbleColors[colorSelected]
             reminder.bubbleRadius = Double(radiusInMeters)
             
             reminder.managedObjectContext?.saveChanges()
             NotificationCenter.default.post(name: updateRemindersNotificationKey, object: nil)
             
             print("Reminder Saved: \(reminder.title), is active: \(reminder.isActive)")
-        } else if modeSelected == .editReminderMode {
+        } else if modeSelected == .edit {
             if let reminder = reminder, let newTitle = titleInputField.text, let newMessage = messageInputField.text, let newLatitude = latitudeInputField.text, let newLongitude = longitudeInputField.text, let newLocationName = locationSearchBar.text {
                 reminder.title = newTitle
                 reminder.message = newMessage
@@ -540,7 +540,7 @@ class ReminderController: UIViewController {
                 reminder.triggerWhenEntering = triggerToggle.isOn
                 reminder.isRepeating = repeatToggle.isOn
                 reminder.isActive = isActiveToggle.isOn
-                reminder.pinColor = bubbleColors[colorSelected]
+//                reminder.pinColor = bubbleColors[colorSelected]
                 reminder.bubbleRadius = Double(radiusInMeters)
                 
                 reminder.managedObjectContext?.saveChanges()
@@ -687,4 +687,6 @@ extension ReminderController: UITableViewDataSource, UITableViewDelegate {
             self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
         }
     }
+    
+
 }

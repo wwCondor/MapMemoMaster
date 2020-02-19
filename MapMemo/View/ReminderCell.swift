@@ -9,6 +9,9 @@
 import UIKit
 
 class ReminderCell: UITableViewCell {
+    
+    static let identifier = "ThisId"
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()

@@ -19,15 +19,16 @@ class MMContentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(backgroundColor: UIColor, cornerRadius: CGFloat) {
+    convenience init(borderColor: UIColor, cornerRadius: CGFloat) {
         self.init()
-        self.backgroundColor = backgroundColor
+        self.layer.borderColor = borderColor.cgColor
         self.layer.cornerRadius = cornerRadius
     }
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .systemBackground
+        layer.borderWidth = 2
         layer.masksToBounds = true
     }
-
 }

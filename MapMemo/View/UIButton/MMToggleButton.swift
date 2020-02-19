@@ -26,10 +26,10 @@ class MMToggleButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(buttonType: Button) {
+    convenience init(buttonType: Button, title: String) {
         self.init(frame: .zero)
         setTitleForButton(buttonType: buttonType)
-//        self.setTitle(title, for: .normal)
+        self.setTitle(title, for: .normal)
     }
     
     private func setTitleForButton(buttonType: Button) {
@@ -45,9 +45,10 @@ class MMToggleButton: UIButton {
         layer.borderColor = UIColor.systemPink.cgColor
         layer.borderWidth = 2
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-//        setTitleColor(.white, for: .normal)
-//        backgroundColor = .systemPink
+        setTitleColor(.white, for: .normal)
+        backgroundColor = .systemPink
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+//        setTitle(ToggleText.leavingTrigger, for: .normal)
     }
     
     @objc private func buttonTapped() {
@@ -57,13 +58,13 @@ class MMToggleButton: UIButton {
     private func toggleButton(bool: Bool) {
         isOn = bool
         
-        let buttonColor: UIColor = bool ? .yellow : .white
+//        let buttonColor: UIColor = bool ? .yellow : .white
         let buttonTitle: String = bool ? toggleTitles[0] : toggleTitles[1]
-        let titleColor: UIColor = bool ? .red : .blue
+//        let titleColor: UIColor = bool ? .red : .blue
         
-        backgroundColor = buttonColor
+//        backgroundColor = buttonColor
         setTitle(buttonTitle, for: .normal)
-        setTitleColor(titleColor, for: .normal)
+//        setTitleColor(titleColor, for: .normal)
     }
 }
 

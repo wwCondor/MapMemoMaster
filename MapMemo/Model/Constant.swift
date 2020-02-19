@@ -27,25 +27,6 @@ struct Constant {
     static let arrowOffset: CGFloat                 = 13
 }
 
-struct PlaceHolderText {
-    static let title: String              = "Enter Reminder Title"
-    static let message: String            = "Enter short message for your Reminder"
-    static let latitude: String           = "Latitude"
-    static let longitude: String          = "Longitude"
-    static let location: String           = "Search Location"
-    static let bubbleColor: String        = "Pin Color"
-    static let defaultRadius: String      = "Bubble radius: 50m"
-}
-
-struct ToggleText {
-    static let leavingTrigger: String   = "Trigger when leaving Bubble"
-    static let enteringTrigger: String  = "Trigger when entering Bubble"
-    static let isRepeating: String      = "Repeat"
-    static let isNotRepeating: String   = "Use Once"
-    static let isActive: String         = "Reminder Activated"
-    static let isNotActive: String      = "Reminder Disabled"
-}
-
 struct Key {
     static let updateReminderNotification = "updateReminders"
 }

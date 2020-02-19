@@ -41,7 +41,7 @@ class MMTextField: UITextField {
         textAlignment           = .center
         
         layer.masksToBounds     = true
-        layer.cornerRadius      = 8
+        layer.cornerRadius      = 5
         layer.borderWidth       = 2
         layer.borderColor       = UIColor.systemPink.cgColor
     

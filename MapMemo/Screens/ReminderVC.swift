@@ -16,6 +16,8 @@ class ReminderVC: UIViewController {
     private let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     
+//    var searchResultsTableViewHeight: NSLayoutConstraint = 0
+    
     private let locationSearchBar = MMLocationSearchBar()
     
     private let titleTextField = MMTextField(placeholder: PlaceHolderText.title)
@@ -31,8 +33,11 @@ class ReminderVC: UIViewController {
         return searchResultsTableView
     }()
     
-    private let triggerToggleButton = MMToggleButton(buttonType: .triggerButton)
-    private let repeatToggleButton = MMToggleButton(buttonType: .repeatButtton)
+    private let triggerToggleButton = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
+    private let repeatToggleButton = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
+    
+    private let radiusSlider = MMSlider()
+    private let radiusLabel = MMLabel()
     
 
     override func viewDidLoad() {
@@ -56,9 +61,10 @@ class ReminderVC: UIViewController {
     }
     
     private func layoutUI() {
-        view.addSubviews(locationSearchBar, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton)
+        view.addSubviews(locationSearchBar, searchResultsTableView, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
         
         let padding: CGFloat = 10
+        let sliderPadding: CGFloat = 25
         
         NSLayoutConstraint.activate([
             locationSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -66,7 +72,12 @@ class ReminderVC: UIViewController {
             locationSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             locationSearchBar.heightAnchor.constraint(equalToConstant: 60),
             
-            titleTextField.topAnchor.constraint(equalTo: locationSearchBar.bottomAnchor, constant: padding),
+            searchResultsTableView.topAnchor.constraint(equalTo: locationSearchBar.bottomAnchor, constant: padding),
+            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            searchResultsTableView.heightAnchor.constraint(equalToConstant: 200),
+            
+            titleTextField.topAnchor.constraint(equalTo: searchResultsTableView.bottomAnchor, constant: padding),
             titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             titleTextField.heightAnchor.constraint(equalToConstant: 48),
@@ -85,11 +96,22 @@ class ReminderVC: UIViewController {
             repeatToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             repeatToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             repeatToggleButton.heightAnchor.constraint(equalToConstant: 48),
+            
+            radiusSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sliderPadding),
+            radiusSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sliderPadding),
+            radiusSlider.heightAnchor.constraint(equalToConstant: 48),
+            radiusSlider.bottomAnchor.constraint(equalTo: radiusLabel.topAnchor),
+            
+            radiusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sliderPadding),
+            radiusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sliderPadding),
+            radiusLabel.heightAnchor.constraint(equalToConstant: 48),
+            radiusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     
     private func setDelegates() {
         locationSearchBar.delegate = self
+        searchCompleter.delegate = self
     }
     
     @objc private func backButtonTapped() {
@@ -115,6 +137,7 @@ extension ReminderVC: UISearchBarDelegate {
 extension ReminderVC: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchResults = completer.results
+        searchResultsTableView.reloadDataOnMainThread()
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
@@ -134,9 +157,9 @@ extension ReminderVC: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.textLabel?.text = searchResult.title
         cell.detailTextLabel?.text = searchResult.subtitle
-        cell.textLabel?.textColor = UIColor(named: .tintColor)
-        cell.detailTextLabel?.textColor = UIColor(named: .tintColor)
-        cell.backgroundColor = UIColor(named: .appBackgroundColor)
+        cell.textLabel?.textColor = .systemPink
+        cell.detailTextLabel?.textColor = .systemPink
+        cell.backgroundColor = .systemBackground
         return cell
     }
     

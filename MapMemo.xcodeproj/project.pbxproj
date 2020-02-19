@@ -35,6 +35,10 @@
 		0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDB923FC6099005E503F /* MMLocationSearchBar.swift */; };
 		0B73EDC123FC69B3005E503F /* MMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDC023FC69B3005E503F /* MMTextField.swift */; };
 		0B73EDC323FC6D69005E503F /* MMToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDC223FC6D69005E503F /* MMToggleButton.swift */; };
+		0B73EDC523FD209A005E503F /* PlaceholderText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDC423FD209A005E503F /* PlaceholderText.swift */; };
+		0B73EDC723FD20BE005E503F /* ToggleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDC623FD20BE005E503F /* ToggleText.swift */; };
+		0B73EDCC23FD25E3005E503F /* MMSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDCB23FD25E3005E503F /* MMSlider.swift */; };
+		0B73EDD123FD2761005E503F /* MMLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD023FD2761005E503F /* MMLabel.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF06239E501700ACB8E3 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF05239E501700ACB8E3 /* MainController.swift */; };
@@ -82,6 +86,10 @@
 		0B73EDB923FC6099005E503F /* MMLocationSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLocationSearchBar.swift; sourceTree = "<group>"; };
 		0B73EDC023FC69B3005E503F /* MMTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTextField.swift; sourceTree = "<group>"; };
 		0B73EDC223FC6D69005E503F /* MMToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMToggleButton.swift; sourceTree = "<group>"; };
+		0B73EDC423FD209A005E503F /* PlaceholderText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderText.swift; sourceTree = "<group>"; };
+		0B73EDC623FD20BE005E503F /* ToggleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleText.swift; sourceTree = "<group>"; };
+		0B73EDCB23FD25E3005E503F /* MMSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMSlider.swift; sourceTree = "<group>"; };
+		0B73EDD023FD2761005E503F /* MMLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLabel.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +152,8 @@
 				0B11C07823A12D5400E81DAA /* ModeSelected.swift */,
 				0B73EDA423FBF661005E503F /* SFSymbols.swift */,
 				0B73EDAC23FC353A005E503F /* Configuration.swift */,
+				0B73EDC423FD209A005E503F /* PlaceholderText.swift */,
+				0B73EDC623FD20BE005E503F /* ToggleText.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -233,6 +243,22 @@
 			path = UITextField;
 			sourceTree = "<group>";
 		};
+		0B73EDC823FD25AC005E503F /* UISlider */ = {
+			isa = PBXGroup;
+			children = (
+				0B73EDCB23FD25E3005E503F /* MMSlider.swift */,
+			);
+			path = UISlider;
+			sourceTree = "<group>";
+		};
+		0B73EDCD23FD272F005E503F /* UILabel */ = {
+			isa = PBXGroup;
+			children = (
+				0B73EDD023FD2761005E503F /* MMLabel.swift */,
+			);
+			path = UILabel;
+			sourceTree = "<group>";
+		};
 		0BA9CEF5239E501600ACB8E3 = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +305,8 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0B73EDCD23FD272F005E503F /* UILabel */,
+				0B73EDC823FD25AC005E503F /* UISlider */,
 				0B73EDBB23FC681A005E503F /* UITextField */,
 				0B73EDB823FC607D005E503F /* UISearchBar */,
 				0B73EDB123FC401D005E503F /* UITableView */,
@@ -391,12 +419,14 @@
 				0BA9CF2C239E738100ACB8E3 /* CustomButton.swift in Sources */,
 				0B73ED9523FBEF27005E503F /* UIView+Ext.swift in Sources */,
 				0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */,
+				0B73EDC523FD209A005E503F /* PlaceholderText.swift in Sources */,
 				0BA9CF0C239E501700ACB8E3 /* MapMemo.xcdatamodeld in Sources */,
 				0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */,
 				0BA9CF26239E719B00ACB8E3 /* ReminderController.swift in Sources */,
 				0B73ED8823FBE6D8005E503F /* LosslessStringConvertible+Ext.swift in Sources */,
 				0BA9CF06239E501700ACB8E3 /* MainController.swift in Sources */,
 				0B73EDC323FC6D69005E503F /* MMToggleButton.swift in Sources */,
+				0B73EDCC23FD25E3005E503F /* MMSlider.swift in Sources */,
 				0B73ED7E23FBE596005E503F /* ViewController+Ext.swift in Sources */,
 				0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */,
 				0B11C07B23A26A4100E81DAA /* TextInputField.swift in Sources */,
@@ -415,11 +445,13 @@
 				0B73EDC123FC69B3005E503F /* MMTextField.swift in Sources */,
 				0B73EDAB23FC3334005E503F /* MMCompassImageView.swift in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
+				0B73EDD123FD2761005E503F /* MMLabel.swift in Sources */,
 				0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */,
 				0B73EDA523FBF661005E503F /* SFSymbols.swift in Sources */,
 				0B73EDA323FBF3E7005E503F /* ReminderVC.swift in Sources */,
 				0BA9CF22239E6E9800ACB8E3 /* Icon.swift in Sources */,
 				0B73EDA823FC1B04005E503F /* MMMapView.swift in Sources */,
+				0B73EDC723FD20BE005E503F /* ToggleText.swift in Sources */,
 				0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */,
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
 				0BC7488723A80B6C00AFB3B5 /* ReminderCell.swift in Sources */,

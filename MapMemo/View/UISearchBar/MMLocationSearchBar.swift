@@ -21,11 +21,14 @@ class MMLocationSearchBar: UISearchBar {
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
-        addBorders(edges: [.top, .bottom])
-        placeholder                 = "Search location"
+        backgroundImage             = UIImage()
         barTintColor                = .systemBackground
         tintColor                   = .systemPink
+        
+        placeholder                 = "Search location"
         searchTextField.textColor   = .systemPink
         searchTextField.font        = UIFont.systemFont(ofSize: 18.0, weight: .medium)
+        
+        addBorders(edges: [.top])
     }
 }

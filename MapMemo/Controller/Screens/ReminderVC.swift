@@ -13,40 +13,27 @@ enum ReminderMode { case new, edit }
 
 class ReminderVC: UIViewController {
     
-    let managedObjectContext = CoreDataManager.shared.managedObjectContext
-    
-    let cellId = "searchResultsId"
-    
-    var modeSelected: ReminderMode = .new
-    var radiusInMeters: Double = 50
+//    var reminder: Reminder?
+
     var reminderLatitude: Double?
     var reminderLongitude: Double?
     
-    private let searchCompleter = MKLocalSearchCompleter()
-    var searchResults = [MKLocalSearchCompletion]()
+    var radiusInMeters: Double      = 50
+    var modeSelected: ReminderMode  = .new
+    var searchResults               = [MKLocalSearchCompletion]()
+
+//    let managedObjectContext        = CoreDataManager.shared.managedObjectContext
+    let cellId                      = "searchResultsId"
     
-//    var searchResultsTableViewHeight: NSLayoutConstraint = 0
-    
-    private let locationSearchBar = MMLocationSearchBar()
-    
-    private let titleTextField = MMTextField(placeholder: PlaceHolderText.title)
-    private let messageTextField = MMTextField(placeholder: PlaceHolderText.message)
-    
-    lazy var searchResultsTableView: UITableView = {
-        let searchResultsTableView = UITableView()
-        searchResultsTableView.backgroundColor = UIColor.clear
-        searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-        searchResultsTableView.dataSource = self
-        searchResultsTableView.delegate = self
-        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
-        return searchResultsTableView
-    }()
-    
-    private let triggerToggleButton = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
-    private let repeatToggleButton = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
-    
-    private let radiusSlider = MMSlider()
-    private let radiusLabel = MMTitleLabel(alignment: .center, text: "Trigger radius: 0m")
+    private let searchCompleter         = MKLocalSearchCompleter()
+    private let locationSearchBar       = MMLocationSearchBar()
+    private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
+    private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
+    private let searchResultsTableView  = UITableView()
+    private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
+    private let repeatToggleButton      = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
+    private let radiusSlider            = MMSlider()
+    private let radiusLabel             = MMTitleLabel(alignment: .center, text: "Trigger radius: 0m")
     
 
     override func viewDidLoad() {
@@ -59,14 +46,10 @@ class ReminderVC: UIViewController {
         configureNavigationBar()
         layoutUI()
         configureTargets()
+        configureSearchResultsTableView()
         setDelegates()
     }
-    
-    private func configureTargets() {
-        radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
-    }
-    
-    
+
     init(mode: ReminderMode) {
         super.init(nibName: nil, bundle: nil)
         modeSelected = mode
@@ -92,7 +75,19 @@ class ReminderVC: UIViewController {
 //        navigationItem.title = "Add Reminder"
     }
     
-    @objc func sliderMoved(sender: UISlider) { // thumb size = 30x30
+    private func configureSearchResultsTableView() {
+        searchResultsTableView.backgroundColor = UIColor.clear
+        searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        searchResultsTableView.dataSource = self
+        searchResultsTableView.delegate = self
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func configureTargets() {
+        radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
+    }
+    
+    @objc func sliderMoved(sender: UISlider) {
 //        view.endEditing(true)
         sender.value = roundf(sender.value) // this allows thumb to snap between values
         let radiiInMeters: [Double] = [10, 25, 50, 100, 500, 1000, 5000]
@@ -100,8 +95,6 @@ class ReminderVC: UIViewController {
         radiusInMeters = radiusSelected
         radiusLabel.text = "Bubble radius: \(radiusSelected.clean)m"
     }
-    
-
     
     private func layoutUI() {
         view.addSubviews(locationSearchBar, searchResultsTableView, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
@@ -174,48 +167,85 @@ class ReminderVC: UIViewController {
     }
     
     private func saveNewReminder() {
-        guard let title = titleTextField.text, !title.isEmpty, title != PlaceHolderText.title else {
-            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
-            return
-        }
-        guard let message = messageTextField.text, !message.isEmpty, message != PlaceHolderText.message else {
-            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
-            return
-        }
-        guard let locationName = locationSearchBar.text, !locationName.isEmpty else {
-            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
-            return
-        }
-        
-        guard let latitude = reminderLatitude, reminderLatitude != nil else {
-            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
-            return
-            
-        }
-        guard let longitude = reminderLongitude, reminderLatitude != nil else {
-            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
-            return
-        }
-        
-        let reminder = Reminder(context: managedObjectContext)
-        
-        reminder.title = title
-        reminder.message = message
-        reminder.latitude = latitude
-        reminder.longitude = longitude
-        reminder.locationName = locationName
-        reminder.triggerWhenEntering = triggerToggleButton.isOn
-        reminder.isRepeating = repeatToggleButton.isOn
-        reminder.isActive = true
-//        reminder.pinColor = bubbleColors[colorSelected]
-        reminder.bubbleRadius = radiusInMeters
-        
-        reminder.managedObjectContext?.saveChanges()
-        print("saving new reminder")
+//        guard let title = titleTextField.text, !title.isEmpty, title != PlaceHolderText.title else {
+//            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
+//            return
+//        }
+//        guard let message = messageTextField.text, !message.isEmpty, message != PlaceHolderText.message else {
+//            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
+//            return
+//        }
+//        guard let locationName = locationSearchBar.text, !locationName.isEmpty else {
+//            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
+//            return
+//        }
+//        
+//        guard let latitude = reminderLatitude, reminderLatitude != nil else {
+//            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
+//            return
+//            
+//        }
+//        guard let longitude = reminderLongitude, reminderLatitude != nil else {
+//            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
+//            return
+//        }
+//        
+//        let reminder = Reminder(context: managedObjectContext)
+//        
+//        reminder.title               = title
+//        reminder.message             = message
+//        reminder.latitude            = latitude
+//        reminder.longitude           = longitude
+//        reminder.locationName        = locationName
+//        reminder.triggerOnEntry = triggerToggleButton.isOn
+//        reminder.isRepeating         = repeatToggleButton.isOn
+//        reminder.isActive            = true
+//        reminder.bubbleRadius        = radiusInMeters
+//        
+//        reminder.managedObjectContext?.saveChanges()
+//        print("saving new reminder")
     }
     
     private func saveReminderChanges() {
-        print("saving reminder changes")
+//        print("saving reminder changes")
+//        
+//        guard let reminder = reminder else {
+//            presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
+//            return
+//        }
+//        
+//        guard let newTitle = titleTextField.text else {
+//            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
+//            return
+//        }
+//        
+//        guard let newMessage = messageTextField.text else {
+//            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
+//            return
+//        }
+//        guard let newLatitude = reminderLatitude else {
+//            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
+//            return
+//        }
+//            
+//        guard let newLongitude = reminderLongitude else {
+//            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
+//            return
+//        }
+//        
+//        guard let newLocationName = locationSearchBar.text else {
+//            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
+//            return
+//        }
+//        
+//        reminder.title = newTitle
+//        reminder.message = newMessage
+//        reminder.latitude = newLatitude
+//        reminder.longitude = newLongitude
+//        reminder.locationName = newLocationName
+//        reminder.bubbleRadius = Double(radiusInMeters)
+//        
+//        reminder.managedObjectContext?.saveChanges()
     }
 }
 

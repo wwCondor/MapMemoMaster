@@ -13,38 +13,38 @@ class ReminderListVC: UIViewController {
     
     enum Section { case main }
     
-    var dataSource: UITableViewDiffableDataSource<Section, Reminder>!
+//    let coreDataManager = CoreDataManager.shared
+//    let fetchedResultsController = CoreDataManager.shared.fetchedResultsController
     
-    private let remindersTableView = RemindersTableView(frame: .zero)
+//    var dataSource: UITableViewDiffableDataSource<Section, Reminder>!
+    
+    private let remindersTableView = MMRemindersTableView(frame: .zero)
     
 //    let fetchedResultsController = CoreDataManager.shared.fetchedResultsController
+    
+
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .systemYellow
         
         configureNavigationBar()
         configureTableView()
         layoutUI()
-        fetchReminders()
+        
+
+//        fetchReminders()
     }
     
-    private func fetchReminders() {
-        print("Fetching Reminders")
+//    private func fetchReminders() {
 //        fetchedResultsController.delegate = self
 //        do {
 //            try fetchedResultsController.performFetch()
 //        } catch {
 //            presentAlert(description: ReminderError.fetchReminder.localizedDescription, viewController: self)
 //        }
-    }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.navigationBar.barTintColor = .systemBackground
-//        navigationController?.setNavigationBarHidden(false, animated: true)
 //    }
     
     private func configureNavigationBar() {
@@ -54,12 +54,6 @@ class ReminderListVC: UIViewController {
     }
     
     private func configureTableView() {
-//        remindersTableView.backgroundColor = .systemOrange
-//        remindersTableView.separatorStyle = .none
-//
-//        remindersTableView.translatesAutoresizingMaskIntoConstraints = false
-//        remindersTableView.register(MMReminderCell.self, forCellReuseIdentifier: MMReminderCell.identifier)
-//
         remindersTableView.dataSource = self
         remindersTableView.delegate = self
     }
@@ -69,21 +63,21 @@ class ReminderListVC: UIViewController {
         remindersTableView.pinToEdges(of: view)
     }
     
-    private func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Reminder>(tableView: remindersTableView, cellProvider: { (tableView, indexPath, reminder) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: MMReminderCell.identifier, for: indexPath) as! MMReminderCell
-            cell.set(reminder: reminder)
-            return cell
-        })
-    }
+//    private func configureDataSource() {
+//        dataSource = UITableViewDiffableDataSource<Section, Reminder>(tableView: remindersTableView, cellProvider: { (tableView, indexPath, reminder) -> UITableViewCell? in
+//            let cell = tableView.dequeueReusableCell(withIdentifier: MMReminderCell.identifier, for: indexPath) as! MMReminderCell
+//            cell.set(reminder: reminder)
+//            return cell
+//        })
+//    }
     
-    private func updateData(on reminders: [Reminder]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Reminder>()
-        snapshot.deleteAllItems()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(reminders)
-        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
-    }
+//    private func updateData(on reminders: [Reminder]) {
+//        var snapshot = NSDiffableDataSourceSnapshot<Section, Reminder>()
+//        snapshot.deleteAllItems()
+//        snapshot.appendSections([.main])
+//        snapshot.appendItems(reminders)
+//        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
+//    }
 
 
     @objc private func addButtonTapped() {
@@ -96,9 +90,9 @@ class ReminderListVC: UIViewController {
 
 extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
 //        guard let section = fetchedResultsController.sections?[section] else { return 0 }
 //        return section.numberOfObjects
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,27 +117,27 @@ extension ReminderListVC: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         remindersTableView.beginUpdates()
     }
-    
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
-            
+
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
             remindersTableView.insertRows(at: [newIndexPath], with: .automatic)
-            
+
         case .delete:
             guard let indexPath = indexPath else { return }
             remindersTableView.deleteRows(at: [indexPath], with: .automatic)
-            
+
         case .move, .update:
             guard let newIndexPath = newIndexPath else { return }
             remindersTableView.reloadRows(at: [newIndexPath], with: .automatic)
-            
+
         @unknown default:
             return
         }
     }
-    
+
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         remindersTableView.endUpdates()
     }

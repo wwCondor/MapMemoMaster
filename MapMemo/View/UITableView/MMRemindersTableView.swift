@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RemindersTableView: UITableView {
+class MMRemindersTableView: UITableView {
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MapKit
 
 enum ReminderMode { case new, edit }
 
@@ -20,20 +19,16 @@ class ReminderVC: UIViewController {
     
     var radiusInMeters: Double      = 50
     var modeSelected: ReminderMode  = .new
-    var searchResults               = [MKLocalSearchCompletion]()
 
-//    let managedObjectContext        = CoreDataManager.shared.managedObjectContext
-    let cellId                      = "searchResultsId"
+    let managedObjectContext        = CoreDataManager.shared.managedObjectContext
     
-    private let searchCompleter         = MKLocalSearchCompleter()
-    private let locationSearchBar       = MMLocationSearchBar()
+    private let locationButton          = MMButton(title: PlaceHolderText.location)
     private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
     private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
-    private let searchResultsTableView  = UITableView()
     private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
     private let repeatToggleButton      = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
     private let radiusSlider            = MMSlider()
-    private let radiusLabel             = MMTitleLabel(alignment: .center, text: "Trigger radius: 0m")
+    private let radiusLabel             = MMTitleLabel(alignment: .center, text: PlaceHolderText.defaultRadius)
     
 
     override func viewDidLoad() {
@@ -46,8 +41,6 @@ class ReminderVC: UIViewController {
         configureNavigationBar()
         layoutUI()
         configureTargets()
-        configureSearchResultsTableView()
-        setDelegates()
     }
 
     init(mode: ReminderMode) {
@@ -72,24 +65,15 @@ class ReminderVC: UIViewController {
         navigationItem.leftBarButtonItem = backButtton
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
         navigationItem.rightBarButtonItem = saveButton
-//        navigationItem.title = "Add Reminder"
-    }
-    
-    private func configureSearchResultsTableView() {
-        searchResultsTableView.backgroundColor = UIColor.clear
-        searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-        searchResultsTableView.dataSource = self
-        searchResultsTableView.delegate = self
-        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func configureTargets() {
         radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
+        locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
     @objc func sliderMoved(sender: UISlider) {
-//        view.endEditing(true)
-        sender.value = roundf(sender.value) // this allows thumb to snap between values
+        sender.value = roundf(sender.value)
         let radiiInMeters: [Double] = [10, 25, 50, 100, 500, 1000, 5000]
         let radiusSelected = Double(radiiInMeters[Int(roundf(sender.value))])
         radiusInMeters = radiusSelected
@@ -97,57 +81,47 @@ class ReminderVC: UIViewController {
     }
     
     private func layoutUI() {
-        view.addSubviews(locationSearchBar, searchResultsTableView, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
+        view.addSubviews(locationButton, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
         
-        let padding: CGFloat = 10
-        let sliderPadding: CGFloat = 25
+        let padding: CGFloat = 20
+        let height: CGFloat = 60
         
         NSLayoutConstraint.activate([
-            locationSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            locationSearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            locationSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            locationSearchBar.heightAnchor.constraint(equalToConstant: 60),
+            locationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            locationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            locationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            locationButton.heightAnchor.constraint(equalToConstant: height),
             
-            searchResultsTableView.topAnchor.constraint(equalTo: locationSearchBar.bottomAnchor, constant: padding),
-            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            searchResultsTableView.heightAnchor.constraint(equalToConstant: 200),
-            
-            titleTextField.topAnchor.constraint(equalTo: searchResultsTableView.bottomAnchor, constant: padding),
+            titleTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
             titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            titleTextField.heightAnchor.constraint(equalToConstant: 48),
+            titleTextField.heightAnchor.constraint(equalToConstant: height),
             
             messageTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: padding),
             messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             messageTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            messageTextField.heightAnchor.constraint(equalToConstant: 48),
+            messageTextField.heightAnchor.constraint(equalToConstant: height),
             
             triggerToggleButton.topAnchor.constraint(equalTo: messageTextField.bottomAnchor, constant: padding),
             triggerToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             triggerToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            triggerToggleButton.heightAnchor.constraint(equalToConstant: 48),
+            triggerToggleButton.heightAnchor.constraint(equalToConstant: height),
             
             repeatToggleButton.topAnchor.constraint(equalTo: triggerToggleButton.bottomAnchor, constant: padding),
             repeatToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             repeatToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            repeatToggleButton.heightAnchor.constraint(equalToConstant: 48),
+            repeatToggleButton.heightAnchor.constraint(equalToConstant: height),
             
-            radiusSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sliderPadding),
-            radiusSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sliderPadding),
-            radiusSlider.heightAnchor.constraint(equalToConstant: 48),
-            radiusSlider.bottomAnchor.constraint(equalTo: radiusLabel.topAnchor),
+            radiusSlider.topAnchor.constraint(equalTo: repeatToggleButton.bottomAnchor, constant: padding),
+            radiusSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            radiusSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            radiusSlider.heightAnchor.constraint(equalToConstant: height),
             
-            radiusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sliderPadding),
-            radiusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sliderPadding),
-            radiusLabel.heightAnchor.constraint(equalToConstant: 48),
-            radiusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            radiusLabel.topAnchor.constraint(equalTo: radiusSlider.bottomAnchor),
+            radiusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            radiusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            radiusLabel.heightAnchor.constraint(equalToConstant: height),
         ])
-    }
-    
-    private func setDelegates() {
-        locationSearchBar.delegate = self
-        searchCompleter.delegate = self
     }
     
     @objc private func backButtonTapped() {
@@ -157,6 +131,14 @@ class ReminderVC: UIViewController {
     @objc private func saveButtonTapped() {
         saveReminder()
         dismiss(animated: true)
+    }
+    
+    @objc private func locationButtonTapped() {
+        let locationVC = LocationVC()
+        locationVC.delegate = self
+        let navigationController = UINavigationController(rootViewController: locationVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
     private func saveReminder() {
@@ -249,54 +231,80 @@ class ReminderVC: UIViewController {
     }
 }
 
-extension ReminderVC: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchCompleter.queryFragment = searchText
-    }
-}
+extension ReminderVC: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxCharactersIntitle = 20
+        let maxCharactersInMessage = 40
 
-extension ReminderVC: MKLocalSearchCompleterDelegate {
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-        searchResultsTableView.reloadDataOnMainThread()
-    }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        print(error)
-        #warning("Change to alert")
-    }
-}
-
-extension ReminderVC: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let searchResult = searchResults[indexPath.row]
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.selectionStyle = .none
-        cell.textLabel?.text = searchResult.title
-        cell.detailTextLabel?.text = searchResult.subtitle
-        cell.textLabel?.textColor = .systemPink
-        cell.detailTextLabel?.textColor = .systemPink
-        cell.backgroundColor = .systemBackground
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let completion = searchResults[indexPath.row]
-        
-        let searchRequest = MKLocalSearch.Request(completion: completion)
-        let search = MKLocalSearch(request: searchRequest)
-        search.start { (result, error) in
-            let coordinate = result?.mapItems.last?.placemark.coordinate
-            print("Coordinate latitude \(String(describing: coordinate?.latitude.toString)) longitude \(String(describing: coordinate?.longitude.toString))")
-            self.reminderLatitude = coordinate?.latitude
-            self.reminderLongitude = coordinate?.longitude
-//            self.latitudeInputField.text = coordinate?.latitude.toString
-//            self.longitudeInputField.text = coordinate?.longitude.toString
-            self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
+        switch textField {
+        case titleTextField:
+            let currentString = titleTextField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxCharactersIntitle
+        case messageTextField:
+            let currentString = messageTextField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxCharactersInMessage
+        default:
+            return true // Allows backspace
         }
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+//        // If current text is placeholder text, reset it to ""
+//        guard let text = textField.text else { return }
+//
+//        switch textField {
+//        case titleTextField:
+//            if text == PlaceHolderText.title {
+//                textField.text = ""
+//            }
+//        case messageTextField:
+//            if text == PlaceHolderText.message {
+//                textField.text = ""
+//            }
+//        default: break
+//        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.resignFirstResponder()
+        guard let input = textField.text else { return }
+        
+        switch textField {
+        case titleTextField: guard input.isEmpty else {
+            titleTextField.text = PlaceHolderText.title
+            return
+            }
+            
+            //            if input.isEmpty {
+            //                titleTextField.text = PlaceHolderText.title
+        //            }
+        case messageTextField: guard input.isEmpty else {
+            messageTextField.text = PlaceHolderText.message
+            return
+            }
+        default:
+            break
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
+
+extension ReminderVC: LocationDelegate {
+    func locationSelected(name: String, latitude: Double, longitude: Double) {
+        locationButton.setTitle(name, for: .normal)
+        reminderLatitude = latitude
+        reminderLongitude = longitude
+        print("\(name) with coordinates: \(latitude), \(longitude) obtained.")
+    }
+}
+
+
+

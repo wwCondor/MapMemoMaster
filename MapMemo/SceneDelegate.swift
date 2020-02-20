@@ -35,6 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        navigationBarAppearance.barTintColor = .systemYellow
 //        navigationBarAppearance.isTranslucent = false
         navigationBarAppearance.tintColor = .systemPink
+//        navigationBarAppearance.addBorders(edges: [.bottom])
     }
     
 //    private func configureTapBarAppearance() {

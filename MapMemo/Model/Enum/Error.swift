@@ -8,6 +8,20 @@
 
 import Foundation
 
+enum MMError: Error {
+    case noLocation
+    case noResults
+}
+
+extension MMError: LocalizedError {
+    public var localizedDescription: String {
+        switch self {
+        case .noLocation: return "An error occured finding the coordinates for the selected location, please try again."
+        case .noResults: return "Unable to find search results"
+        }
+    }
+}
+
 enum AuthorizationError: Error {
     case notificationAuthorizationDenied
     case locationAuthorizationDenied

@@ -9,8 +9,8 @@
 import Foundation
 
 enum PlaceHolderText {
-    static let title: String              = "Enter Reminder title"
-    static let message: String            = "Enter short message for reminder"
+    static let title: String              = "Enter Title"
+    static let message: String            = "Enter Message"
     static let latitude: String           = "Latitude"
     static let longitude: String          = "Longitude"
     static let location: String           = "Search location"

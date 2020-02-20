@@ -85,14 +85,14 @@ class MMReminderCell: UITableViewCell {
         print("Toggled")
     }
     
-//    func set(reminder: Reminder) {
-//        titleLabel.text               = reminder.title
-//        messageLabel.text             = reminder.message
-//        locationLabel.text            = reminder.locationName
-//        repeatStatusImageView.image   = reminder.isRepeating ? SFSymbols.notificationOn : SFSymbols.notificationOff
-//        triggerStatusImageView.image  = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
-//        activationSwitch.isOn         = reminder.isActive ? true : false
-//    }
+    func set(reminder: Reminder) {
+        titleLabel.text               = reminder.title
+        messageLabel.text             = reminder.message
+        locationLabel.text            = reminder.locationName
+        repeatStatusImageView.image   = reminder.isRepeating ? SFSymbols.notificationOn : SFSymbols.notificationOff
+        triggerStatusImageView.image  = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
+        activationSwitch.isOn         = reminder.isActive ? true : false
+    }
     
 
 //    override func setSelected(_ selected: Bool, animated: Bool) {

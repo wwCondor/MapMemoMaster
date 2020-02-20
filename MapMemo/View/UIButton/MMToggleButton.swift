@@ -42,8 +42,8 @@ class MMToggleButton: UIButton {
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 5//frame.size.height/2
-        layer.borderColor = UIColor.systemPink.cgColor
-        layer.borderWidth = 2
+//        layer.borderColor = UIColor.systemPink.cgColor
+//        layer.borderWidth = 2
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         setTitleColor(.white, for: .normal)
         backgroundColor = .systemPink

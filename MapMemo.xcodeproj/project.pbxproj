@@ -37,6 +37,10 @@
 		0B73EDD423FD50F7005E503F /* MMSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD323FD50F7005E503F /* MMSwitch.swift */; };
 		0B73EDD623FD5C6E005E503F /* MMImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD523FD5C6E005E503F /* MMImageView.swift */; };
 		0B73EDD823FD67C3005E503F /* MMBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDD723FD67C3005E503F /* MMBodyLabel.swift */; };
+		0B73EDE323FEAFA9005E503F /* MapMemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE123FEAFA9005E503F /* MapMemo.xcdatamodeld */; };
+		0B73EDE523FEB0DF005E503F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE423FEB0DF005E503F /* CoreDataManager.swift */; };
+		0B73EDE723FEB501005E503F /* MMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE623FEB501005E503F /* MMButton.swift */; };
+		0B73EDE923FEB5D4005E503F /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE823FEB5D4005E503F /* LocationVC.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
@@ -77,6 +81,10 @@
 		0B73EDD323FD50F7005E503F /* MMSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMSwitch.swift; sourceTree = "<group>"; };
 		0B73EDD523FD5C6E005E503F /* MMImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMImageView.swift; sourceTree = "<group>"; };
 		0B73EDD723FD67C3005E503F /* MMBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMBodyLabel.swift; sourceTree = "<group>"; };
+		0B73EDE223FEAFA9005E503F /* MapMemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapMemo.xcdatamodel; sourceTree = "<group>"; };
+		0B73EDE423FEB0DF005E503F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		0B73EDE623FEB501005E503F /* MMButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMButton.swift; sourceTree = "<group>"; };
+		0B73EDE823FEB5D4005E503F /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +134,7 @@
 		0B73ED7C23FBE578005E503F /* Enum */ = {
 			isa = PBXGroup;
 			children = (
+				0BA9CF34239FBCA900ACB8E3 /* Error.swift */,
 				0BA9CF21239E6E9800ACB8E3 /* Icon.swift */,
 				0B73EDA423FBF661005E503F /* SFSymbols.swift */,
 				0B73EDAC23FC353A005E503F /* Configuration.swift */,
@@ -138,6 +147,7 @@
 		0B73ED8B23FBE7E9005E503F /* UIButton */ = {
 			isa = PBXGroup;
 			children = (
+				0B73EDE623FEB501005E503F /* MMButton.swift */,
 				0B73EDC223FC6D69005E503F /* MMToggleButton.swift */,
 			);
 			path = UIButton;
@@ -179,6 +189,8 @@
 		0B73EDB023FC3BDF005E503F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				0B73EDE423FEB0DF005E503F /* CoreDataManager.swift */,
+				0B73EDE123FEAFA9005E503F /* MapMemo.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -238,6 +250,7 @@
 				0B73EDA023FBF3D3005E503F /* MapVC.swift */,
 				0B73ED9E23FBF3C1005E503F /* ReminderListVC.swift */,
 				0B73EDA223FBF3E7005E503F /* ReminderVC.swift */,
+				0B73EDE823FEB5D4005E503F /* LocationVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -307,7 +320,6 @@
 				0B73EDB023FC3BDF005E503F /* CoreData */,
 				0B73ED7C23FBE578005E503F /* Enum */,
 				0B73ED7A23FBE4E6005E503F /* Extension */,
-				0BA9CF34239FBCA900ACB8E3 /* Error.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -401,6 +413,7 @@
 				0B73ED7E23FBE596005E503F /* ViewController+Ext.swift in Sources */,
 				0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */,
 				0B73ED9A23FBF305005E503F /* MMTabBarController.swift in Sources */,
+				0B73EDE723FEB501005E503F /* MMButton.swift in Sources */,
 				0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */,
 				0B73ED9323FBED8D005E503F /* MMReminderCell.swift in Sources */,
 				0B73EDD623FD5C6E005E503F /* MMImageView.swift in Sources */,
@@ -410,15 +423,18 @@
 				0B73EDB523FC408B005E503F /* MMRemindersTableView.swift in Sources */,
 				0B73EDC123FC69B3005E503F /* MMTextField.swift in Sources */,
 				0B73EDAB23FC3334005E503F /* MMCompassImageView.swift in Sources */,
+				0B73EDE323FEAFA9005E503F /* MapMemo.xcdatamodeld in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
 				0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */,
 				0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */,
 				0B73EDA523FBF661005E503F /* SFSymbols.swift in Sources */,
 				0B73EDD423FD50F7005E503F /* MMSwitch.swift in Sources */,
+				0B73EDE523FEB0DF005E503F /* CoreDataManager.swift in Sources */,
 				0B73EDA323FBF3E7005E503F /* ReminderVC.swift in Sources */,
 				0B73EDD823FD67C3005E503F /* MMBodyLabel.swift in Sources */,
 				0BA9CF22239E6E9800ACB8E3 /* Icon.swift in Sources */,
 				0B73EDA823FC1B04005E503F /* MMMapView.swift in Sources */,
+				0B73EDE923FEB5D4005E503F /* LocationVC.swift in Sources */,
 				0B73EDC723FD20BE005E503F /* ToggleText.swift in Sources */,
 				0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */,
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
@@ -614,6 +630,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0B73EDE123FEAFA9005E503F /* MapMemo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0B73EDE223FEAFA9005E503F /* MapMemo.xcdatamodel */,
+			);
+			currentVersion = 0B73EDE223FEAFA9005E503F /* MapMemo.xcdatamodel */;
+			path = MapMemo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0BA9CEF6239E501600ACB8E3 /* Project object */;
 }

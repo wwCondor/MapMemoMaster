@@ -10,13 +10,18 @@
 import Foundation
 
 extension String {
-    // Convert String to Float
+    /// Convert String to Float
     var floatValue: Float {
         return (self as NSString).floatValue
     }
     
-    // String to Double
+    /// String to Double
     var doubleValue: Double {
         return (self as NSString).doubleValue
+    }
+    
+    /// Bool indicating  whether a string contains any characters
+    public var isNotEmpty: Bool {
+        return !self.isEmpty
     }
 }

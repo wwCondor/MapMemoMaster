@@ -11,10 +11,10 @@ import CoreData
 
 class ReminderListVC: UIViewController {
     
-    enum Section { case main }
+//    enum Section { case main }
     
-//    let coreDataManager = CoreDataManager.shared
-//    let fetchedResultsController = CoreDataManager.shared.fetchedResultsController
+    let coreDataManager = CoreDataManager.shared
+    let fetchedResultsController = CoreDataManager.shared.fetchedResultsController
     
 //    var dataSource: UITableViewDiffableDataSource<Section, Reminder>!
     
@@ -34,18 +34,17 @@ class ReminderListVC: UIViewController {
         configureTableView()
         layoutUI()
         
-
-//        fetchReminders()
+        fetchReminders()
     }
     
-//    private func fetchReminders() {
-//        fetchedResultsController.delegate = self
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch {
-//            presentAlert(description: ReminderError.fetchReminder.localizedDescription, viewController: self)
-//        }
-//    }
+    private func fetchReminders() {
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            presentAlert(description: ReminderError.fetchReminder.localizedDescription, viewController: self)
+        }
+    }
     
     private func configureNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -90,16 +89,15 @@ class ReminderListVC: UIViewController {
 
 extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        guard let section = fetchedResultsController.sections?[section] else { return 0 }
-//        return section.numberOfObjects
-        return 1
+        guard let section = fetchedResultsController.sections?[section] else { return 0 }
+        return section.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let reminder = fetchedResultsController.object(at: indexPath)
+        let reminder = fetchedResultsController.object(at: indexPath)
         let cell = remindersTableView.dequeueReusableCell(withIdentifier: MMReminderCell.identifier, for: indexPath) as! MMReminderCell
         cell.selectionStyle = .none
-//        cell.set(reminder: reminder)
+        cell.set(reminder: reminder)
         return cell
     }
     

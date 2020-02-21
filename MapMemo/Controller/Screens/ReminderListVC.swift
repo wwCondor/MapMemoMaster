@@ -123,18 +123,43 @@ extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let reminder = fetchedResultsController.object(at: indexPath)
         
-        let deleteHandler: UIContextualAction.Handler = { action, view, callback in
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             reminder.managedObjectContext?.delete(reminder)
             reminder.managedObjectContext?.saveChanges()
             tableView.reloadData()
-            callback(true)
+            completion(true)
+        }
+
+        action.backgroundColor = .systemPink
+        action.image = SFSymbols.delete
+        
+//        let deleteHandler: UIContextualAction.Handler = { action, view, completion in
+//            reminder.managedObjectContext?.delete(reminder)
+//            reminder.managedObjectContext?.saveChanges()
+//            tableView.reloadData()
+//            completion(true)
+//        }
+//
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: deleteHandler)
+//        deleteAction.backgroundColor = .systemPink
+        
+        let swipeAction = UISwipeActionsConfiguration(actions: [action])
+        
+        return swipeAction
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let reminder = fetchedResultsController.object(at: indexPath)
+        
+        let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
+            self.presentReminderVC(mode: .edit, reminder: reminder)
+            completion(true)
         }
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: deleteHandler)
-        deleteAction.backgroundColor = .systemPink
+        action.backgroundColor = .systemPink
+        action.image = SFSymbols.edit
         
-        let swipeAction = UISwipeActionsConfiguration(actions: [deleteAction])
-        
+        let swipeAction = UISwipeActionsConfiguration(actions: [action])
         return swipeAction
     }
     

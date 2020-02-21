@@ -57,12 +57,12 @@ class MMReminderCell: UITableViewCell {
             titleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -5),
             titleLabel.heightAnchor.constraint(equalToConstant: labelHeight),
             
-            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),//, constant: -5),
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
             messageLabel.heightAnchor.constraint(equalToConstant: labelHeight),
             
-            locationLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),//, constant: -5),
+            locationLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
             locationLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
             locationLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
             locationLabel.heightAnchor.constraint(equalToConstant: labelHeight),
@@ -72,17 +72,17 @@ class MMReminderCell: UITableViewCell {
             reminderStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
             reminderStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
             
-            repeatStatusImageView.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
-            repeatStatusImageView.trailingAnchor.constraint(equalTo: reminderStatusImageView.leadingAnchor, constant: -10),
-            repeatStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
-            repeatStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
+            repeatStatusImageView.centerYAnchor.constraint(equalTo: reminderStatusImageView.centerYAnchor),
+            repeatStatusImageView.trailingAnchor.constraint(equalTo: reminderStatusImageView.leadingAnchor, constant: -5),
+            repeatStatusImageView.heightAnchor.constraint(equalToConstant: 22),
+            repeatStatusImageView.widthAnchor.constraint(equalToConstant: 22),
             
             triggerStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
             triggerStatusImageView.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
             triggerStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
             triggerStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
             
-            activationSwitch.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
+            activationSwitch.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -12),
             activationSwitch.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
         ])
     }

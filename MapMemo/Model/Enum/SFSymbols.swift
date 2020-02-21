@@ -22,4 +22,7 @@ enum SFSymbols {
     static let exitTrigger       = UIImage(systemName: "square.and.arrow.up.fill")
     
     static let isRepeating       = UIImage(systemName: "repeat")
+    
+    static let delete            = UIImage(systemName: "trash")
+    static let edit              = UIImage(systemName: "pencil")
 }

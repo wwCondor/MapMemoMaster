@@ -80,7 +80,11 @@ class ReminderListVC: UIViewController {
 
 
     @objc private func addButtonTapped() {
-        let reminderVC = ReminderVC(mode: .new)
+        presentReminderVC(mode: .new, reminder: nil)
+    }
+    
+    private func presentReminderVC(mode: ReminderMode, reminder: Reminder?) {
+        let reminderVC = ReminderVC(mode: mode, reminder: reminder)
         let navigationController = UINavigationController(rootViewController: reminderVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
@@ -102,7 +106,8 @@ extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let reminder = fetchedResultsController.object(at: indexPath)
+        presentReminderVC(mode: .edit, reminder: reminder)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -110,6 +115,10 @@ extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+
+
+
+#warning("Move FRC -> CDM or as Ext")
 extension ReminderListVC: NSFetchedResultsControllerDelegate {
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

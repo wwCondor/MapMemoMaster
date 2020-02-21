@@ -12,7 +12,7 @@ enum ReminderMode { case new, edit }
 
 class ReminderVC: UIViewController {
     
-//    var reminder: Reminder?
+    var reminder: Reminder?
 
     var reminderLatitude: Double?
     var reminderLongitude: Double?
@@ -43,22 +43,42 @@ class ReminderVC: UIViewController {
         configureTargets()
     }
 
-    init(mode: ReminderMode) {
+    init(mode: ReminderMode, reminder: Reminder?) {
         super.init(nibName: nil, bundle: nil)
+        self.reminder = reminder
         modeSelected = mode
-        configureUI(for: mode)
+        configureUI(for: mode, with: reminder)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureUI(for mode: ReminderMode) {
+    private func configureUI(for mode: ReminderMode, with reminder: Reminder?) {
         switch mode {
         case .new: print("New")
-        case .edit: print("Edit")
+        case .edit:
+            guard let selectedReminder = reminder else { return }
+            updateLabels(for: selectedReminder)
+            print("Edit")
         }
     }
+    
+    private func updateLabels(for reminder: Reminder) {
+        DispatchQueue.main.async {
+            self.locationButton.setTitle(reminder.locationName, for: .normal)
+            self.titleTextField.text = reminder.title
+            self.messageTextField.text = reminder.message
+            self.triggerToggleButton.isOn = reminder.triggerOnEntry
+            self.repeatToggleButton.isOn = reminder.isRepeating
+            self.radiusSlider.setValue(Float(reminder.bubbleRadius), animated: true)
+            self.radiusInMeters = reminder.bubbleRadius
+            self.radiusLabel.text = "Bubble radius: \(reminder.bubbleRadius.clean)m"
+            self.reminderLatitude = reminder.latitude
+            self.reminderLongitude = reminder.longitude
+        }
+    }
+    
     
     private func configureNavigationBar() {
         let backButtton = UIBarButtonItem(image: SFSymbols.back, style: .done, target: self, action: #selector(backButtonTapped))
@@ -149,85 +169,88 @@ class ReminderVC: UIViewController {
     }
     
     private func saveNewReminder() {
-//        guard let title = titleTextField.text, !title.isEmpty, title != PlaceHolderText.title else {
-//            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
-//            return
-//        }
-//        guard let message = messageTextField.text, !message.isEmpty, message != PlaceHolderText.message else {
-//            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
-//            return
-//        }
-//        guard let locationName = locationSearchBar.text, !locationName.isEmpty else {
-//            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
-//            return
-//        }
-//        
-//        guard let latitude = reminderLatitude, reminderLatitude != nil else {
-//            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
-//            return
-//            
-//        }
-//        guard let longitude = reminderLongitude, reminderLatitude != nil else {
-//            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
-//            return
-//        }
-//        
-//        let reminder = Reminder(context: managedObjectContext)
-//        
-//        reminder.title               = title
-//        reminder.message             = message
-//        reminder.latitude            = latitude
-//        reminder.longitude           = longitude
-//        reminder.locationName        = locationName
-//        reminder.triggerOnEntry = triggerToggleButton.isOn
-//        reminder.isRepeating         = repeatToggleButton.isOn
-//        reminder.isActive            = true
-//        reminder.bubbleRadius        = radiusInMeters
-//        
-//        reminder.managedObjectContext?.saveChanges()
-//        print("saving new reminder")
+        guard let title = titleTextField.text, title.isNotEmpty, title != PlaceHolderText.title else {
+            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let message = messageTextField.text, message.isNotEmpty, message != PlaceHolderText.message else {
+            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let locationName = locationButton.currentTitle, locationName.isNotEmpty, locationName != PlaceHolderText.location else {
+            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let latitude = reminderLatitude, reminderLatitude != nil else {
+            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
+            return
+            
+        }
+        guard let longitude = reminderLongitude, reminderLatitude != nil else {
+            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
+            return
+        }
+        
+        let reminder = Reminder(context: managedObjectContext)
+        
+        reminder.title               = title
+        reminder.message             = message
+        reminder.latitude            = latitude
+        reminder.longitude           = longitude
+        reminder.locationName        = locationName
+        reminder.triggerOnEntry      = triggerToggleButton.isOn
+        reminder.isRepeating         = repeatToggleButton.isOn
+        reminder.isActive            = true
+        reminder.bubbleRadius        = radiusInMeters
+        
+        reminder.managedObjectContext?.saveChanges()
+        print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
     
     private func saveReminderChanges() {
-//        print("saving reminder changes")
-//        
-//        guard let reminder = reminder else {
-//            presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
-//            return
-//        }
-//        
-//        guard let newTitle = titleTextField.text else {
-//            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
-//            return
-//        }
-//        
-//        guard let newMessage = messageTextField.text else {
-//            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
-//            return
-//        }
-//        guard let newLatitude = reminderLatitude else {
-//            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
-//            return
-//        }
-//            
-//        guard let newLongitude = reminderLongitude else {
-//            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
-//            return
-//        }
-//        
-//        guard let newLocationName = locationSearchBar.text else {
-//            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
-//            return
-//        }
-//        
-//        reminder.title = newTitle
-//        reminder.message = newMessage
-//        reminder.latitude = newLatitude
-//        reminder.longitude = newLongitude
-//        reminder.locationName = newLocationName
-//        reminder.bubbleRadius = Double(radiusInMeters)
-//        
-//        reminder.managedObjectContext?.saveChanges()
+        print("saving reminder changes")
+        
+        guard let reminder = reminder else {
+            presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let newTitle = titleTextField.text else {
+            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let newMessage = messageTextField.text else {
+            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let newLocationName = locationButton.currentTitle, newLocationName.isNotEmpty, newLocationName != PlaceHolderText.location else {
+            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
+            return
+        }
+        
+        guard let newLatitude = reminderLatitude else {
+            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
+            return
+        }
+            
+        guard let newLongitude = reminderLongitude else {
+            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
+            return
+        }
+        
+        reminder.title = newTitle
+        reminder.message = newMessage
+        reminder.latitude = newLatitude
+        reminder.longitude = newLongitude
+        reminder.locationName = newLocationName
+        reminder.bubbleRadius = Double(radiusInMeters)
+        
+        reminder.managedObjectContext?.saveChanges()
     }
 }
 
@@ -274,15 +297,11 @@ extension ReminderVC: UITextFieldDelegate {
         guard let input = textField.text else { return }
         
         switch textField {
-        case titleTextField: guard input.isEmpty else {
+        case titleTextField: guard input.isNotEmpty else {
             titleTextField.text = PlaceHolderText.title
             return
             }
-            
-            //            if input.isEmpty {
-            //                titleTextField.text = PlaceHolderText.title
-        //            }
-        case messageTextField: guard input.isEmpty else {
+        case messageTextField: guard input.isNotEmpty else {
             messageTextField.text = PlaceHolderText.message
             return
             }

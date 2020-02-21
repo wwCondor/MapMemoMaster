@@ -30,7 +30,9 @@ class ReminderVC: UIViewController {
     private let radiusSlider            = MMSlider()
     private let radiusLabel             = MMTitleLabel(alignment: .center, text: PlaceHolderText.defaultRadius)
     
+    private let radiiInMeters: [Double] = [10, 25, 50, 100, 500, 1000, 5000]
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,18 +69,31 @@ class ReminderVC: UIViewController {
     private func updateLabels(for reminder: Reminder) {
         DispatchQueue.main.async {
             self.locationButton.setTitle(reminder.locationName, for: .normal)
-            self.titleTextField.text = reminder.title
-            self.messageTextField.text = reminder.message
-            self.triggerToggleButton.isOn = reminder.triggerOnEntry
-            self.repeatToggleButton.isOn = reminder.isRepeating
-            self.radiusSlider.setValue(Float(reminder.bubbleRadius), animated: true)
-            self.radiusInMeters = reminder.bubbleRadius
-            self.radiusLabel.text = "Bubble radius: \(reminder.bubbleRadius.clean)m"
-            self.reminderLatitude = reminder.latitude
-            self.reminderLongitude = reminder.longitude
+            
+            self.titleTextField.text        = reminder.title
+            self.messageTextField.text      = reminder.message
+            self.triggerToggleButton.isOn   = reminder.triggerOnEntry
+            self.repeatToggleButton.isOn    = reminder.isRepeating
+            self.radiusInMeters             = reminder.bubbleRadius
+            self.radiusLabel.text           = "Bubble radius: \(reminder.bubbleRadius.clean)m"
+            self.reminderLatitude           = reminder.latitude
+            self.reminderLongitude          = reminder.longitude
+            
+            self.updateSlider(for: reminder.bubbleRadius)
         }
     }
     
+    private func updateSlider(for radius: Double) {
+        var index: Float = 0
+
+        for radiusInMeters in radiiInMeters {
+            if radiusInMeters == radius {
+                radiusSlider.setValue(index, animated: true)
+            } else {
+                index += 1
+            }
+        }
+    }
     
     private func configureNavigationBar() {
         let backButtton = UIBarButtonItem(image: SFSymbols.back, style: .done, target: self, action: #selector(backButtonTapped))
@@ -94,7 +109,6 @@ class ReminderVC: UIViewController {
     
     @objc func sliderMoved(sender: UISlider) {
         sender.value = roundf(sender.value)
-        let radiiInMeters: [Double] = [10, 25, 50, 100, 500, 1000, 5000]
         let radiusSelected = Double(radiiInMeters[Int(roundf(sender.value))])
         radiusInMeters = radiusSelected
         radiusLabel.text = "Bubble radius: \(radiusSelected.clean)m"

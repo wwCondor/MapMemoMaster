@@ -20,4 +20,6 @@ enum SFSymbols {
      
     static let enterTrigger      = UIImage(systemName: "square.and.arrow.down.fill")
     static let exitTrigger       = UIImage(systemName: "square.and.arrow.up.fill")
+    
+    static let isRepeating       = UIImage(systemName: "repeat")
 }

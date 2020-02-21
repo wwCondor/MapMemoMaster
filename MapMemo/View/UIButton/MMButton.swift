@@ -26,11 +26,9 @@ class MMButton: UIButton {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        titleLabel?.font    = UIFont.preferredFont(forTextStyle: .headline)
+        titleLabel?.font    = UIFont.systemFont(ofSize: 18.0, weight: .medium)
         layer.cornerRadius  = 5
         backgroundColor     = .systemPink
         setTitleColor(.white, for: .normal)
-
     }
-    
 }

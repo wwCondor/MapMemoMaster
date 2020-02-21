@@ -89,6 +89,19 @@ class ReminderListVC: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
+    
+    @objc func switchToggled(sender: UISwitch) {
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        let isStatusActive: Bool = sender.isOn ? true : false
+        changeReminderStatus(at: indexPath, to: isStatusActive)
+    }
+    
+    private func changeReminderStatus(at indexPath: IndexPath, to status: Bool) {
+        let reminder = fetchedResultsController.object(at: indexPath)
+        reminder.isActive = status
+        print("Reminder at index: \(indexPath) is now active:\(reminder.isActive)")
+        reminder.managedObjectContext?.saveChanges()
+    }
 }
 
 extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
@@ -101,8 +114,28 @@ extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
         let reminder = fetchedResultsController.object(at: indexPath)
         let cell = remindersTableView.dequeueReusableCell(withIdentifier: MMReminderCell.identifier, for: indexPath) as! MMReminderCell
         cell.selectionStyle = .none
+        cell.activationSwitch.tag = indexPath.row
+        cell.activationSwitch.addTarget(self, action: #selector(switchToggled), for: .valueChanged)
         cell.set(reminder: reminder)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let reminder = fetchedResultsController.object(at: indexPath)
+        
+        let deleteHandler: UIContextualAction.Handler = { action, view, callback in
+            reminder.managedObjectContext?.delete(reminder)
+            reminder.managedObjectContext?.saveChanges()
+            tableView.reloadData()
+            callback(true)
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: deleteHandler)
+        deleteAction.backgroundColor = .systemPink
+        
+        let swipeAction = UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        return swipeAction
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -114,9 +147,6 @@ extension ReminderListVC: UITableViewDelegate, UITableViewDataSource {
         return 140
     }
 }
-
-
-
 
 #warning("Move FRC -> CDM or as Ext")
 extension ReminderListVC: NSFetchedResultsControllerDelegate {

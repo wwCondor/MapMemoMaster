@@ -44,7 +44,7 @@ class MMToggleButton: UIButton {
         layer.cornerRadius = 5//frame.size.height/2
 //        layer.borderColor = UIColor.systemPink.cgColor
 //        layer.borderWidth = 2
-        titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: .medium)
         setTitleColor(.white, for: .normal)
         backgroundColor = .systemPink
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)

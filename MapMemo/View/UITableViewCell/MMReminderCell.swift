@@ -11,15 +11,16 @@ import UIKit
 class MMReminderCell: UITableViewCell {
     
     static let identifier = "reminderCellId"
-
-    private let activationSwitch        = MMSwitch()
-    private let contentBackgroundView   = MMContentView(borderColor: .systemPink, cornerRadius: 5)
-    private let triggerStatusImageView  = MMImageView(image: SFSymbols.enterTrigger!)
-    private let repeatStatusImageView   = MMImageView(image: SFSymbols.notificationOn!)
     
-    let titleLabel      = MMTitleLabel(alignment: .left, text: "Reminder title")
-    let locationLabel   = MMTitleLabel(alignment: .left, text: "Location")
-    let messageLabel    = MMTitleLabel(alignment: .left, text: "A short message")
+    private let contentBackgroundView     = MMContentView(borderColor: .systemPink, cornerRadius: 5)
+    private let triggerStatusImageView    = MMImageView(image: SFSymbols.enterTrigger!)
+    private let reminderStatusImageView   = MMImageView(image: SFSymbols.notificationOn!)
+    private let repeatStatusImageView     = MMImageView(image: SFSymbols.isRepeating!)
+    
+    let titleLabel        = MMTitleLabel(alignment: .left, text: "Reminder title")
+    let locationLabel     = MMTitleLabel(alignment: .left, text: "Location")
+    let messageLabel      = MMTitleLabel(alignment: .left, text: "A short message")
+    let activationSwitch  = MMSwitch()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,7 +37,7 @@ class MMReminderCell: UITableViewCell {
     }
     
     private func configureCellContent() {
-        addSubviews(contentBackgroundView, triggerStatusImageView, repeatStatusImageView, activationSwitch)
+        addSubviews(contentBackgroundView, triggerStatusImageView, reminderStatusImageView, repeatStatusImageView, activationSwitch)
         addSubviews(titleLabel, locationLabel, messageLabel)
         
         triggerStatusImageView.transform = CGAffineTransform(rotationAngle: -.pi/2)
@@ -66,8 +67,13 @@ class MMReminderCell: UITableViewCell {
             locationLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
             locationLabel.heightAnchor.constraint(equalToConstant: labelHeight),
             
+            reminderStatusImageView.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
+            reminderStatusImageView.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
+            reminderStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
+            reminderStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
+            
             repeatStatusImageView.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
-            repeatStatusImageView.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
+            repeatStatusImageView.trailingAnchor.constraint(equalTo: reminderStatusImageView.leadingAnchor, constant: -10),
             repeatStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
             repeatStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
             
@@ -81,24 +87,16 @@ class MMReminderCell: UITableViewCell {
         ])
     }
     
-    @objc private func switchToggled() {
-        print("Toggled")
-    }
-    
     func set(reminder: Reminder) {
-        titleLabel.text               = reminder.title
-        messageLabel.text             = reminder.message
-        locationLabel.text            = reminder.locationName
-        repeatStatusImageView.image   = reminder.isRepeating ? SFSymbols.notificationOn : SFSymbols.notificationOff
-        triggerStatusImageView.image  = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
-        activationSwitch.isOn         = reminder.isActive ? true : false
+        titleLabel.text                  = reminder.title
+        messageLabel.text                = reminder.message
+        locationLabel.text               = reminder.locationName
+        
+        reminderStatusImageView.image    = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
+        triggerStatusImageView.image     = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
+        repeatStatusImageView.isHidden   = reminder.isRepeating ? false : true
+        
+        let switchStatus: Bool = reminder.isActive ? true : false
+        self.activationSwitch.setOn(switchStatus, animated: false)
     }
-    
-
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//
-//    }
-
 }

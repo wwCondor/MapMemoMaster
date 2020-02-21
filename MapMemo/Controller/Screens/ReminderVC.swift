@@ -43,6 +43,9 @@ class ReminderVC: UIViewController {
         configureNavigationBar()
         layoutUI()
         configureTargets()
+        
+        titleTextField.delegate = self
+        messageTextField.delegate = self
     }
 
     init(mode: ReminderMode, reminder: Reminder?) {
@@ -56,62 +59,11 @@ class ReminderVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureUI(for mode: ReminderMode, with reminder: Reminder?) {
-        switch mode {
-        case .new: print("New")
-        case .edit:
-            guard let selectedReminder = reminder else { return }
-            updateLabels(for: selectedReminder)
-            print("Edit")
-        }
-    }
-    
-    private func updateLabels(for reminder: Reminder) {
-        DispatchQueue.main.async {
-            self.locationButton.setTitle(reminder.locationName, for: .normal)
-            
-            self.titleTextField.text        = reminder.title
-            self.messageTextField.text      = reminder.message
-            self.triggerToggleButton.isOn   = reminder.triggerOnEntry
-            self.repeatToggleButton.isOn    = reminder.isRepeating
-            self.radiusInMeters             = reminder.bubbleRadius
-            self.radiusLabel.text           = "Bubble radius: \(reminder.bubbleRadius.clean)m"
-            self.reminderLatitude           = reminder.latitude
-            self.reminderLongitude          = reminder.longitude
-            
-            self.updateSlider(for: reminder.bubbleRadius)
-        }
-    }
-    
-    private func updateSlider(for radius: Double) {
-        var index: Float = 0
-
-        for radiusInMeters in radiiInMeters {
-            if radiusInMeters == radius {
-                radiusSlider.setValue(index, animated: true)
-            } else {
-                index += 1
-            }
-        }
-    }
-    
     private func configureNavigationBar() {
         let backButtton = UIBarButtonItem(image: SFSymbols.back, style: .done, target: self, action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem = backButtton
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
         navigationItem.rightBarButtonItem = saveButton
-    }
-
-    private func configureTargets() {
-        radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
-        locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc func sliderMoved(sender: UISlider) {
-        sender.value = roundf(sender.value)
-        let radiusSelected = Double(radiiInMeters[Int(roundf(sender.value))])
-        radiusInMeters = radiusSelected
-        radiusLabel.text = "Bubble radius: \(radiusSelected.clean)m"
     }
     
     private func layoutUI() {
@@ -158,6 +110,33 @@ class ReminderVC: UIViewController {
         ])
     }
     
+    private func configureUI(for mode: ReminderMode, with reminder: Reminder?) {
+        switch mode {
+        case .new: print("New")
+        case .edit:
+            guard let selectedReminder = reminder else { return }
+            updateLabels(for: selectedReminder)
+            print("Edit")
+        }
+    }
+    
+    private func updateSlider(for radius: Double) {
+        var index: Float = 0
+
+        for radiusInMeters in radiiInMeters {
+            if radiusInMeters == radius {
+                radiusSlider.setValue(index, animated: true)
+            } else {
+                index += 1
+            }
+        }
+    }
+
+    private func configureTargets() {
+        radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
+        locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+    }
+    
     @objc private func backButtonTapped() {
         dismiss(animated: true)
     }
@@ -173,6 +152,37 @@ class ReminderVC: UIViewController {
         let navigationController = UINavigationController(rootViewController: locationVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
+    }
+    
+    private func updateLabels(for reminder: Reminder) {
+        DispatchQueue.main.async {
+            self.locationButton.setTitle(reminder.locationName, for: .normal)
+            
+            self.titleTextField.text        = reminder.title
+            self.messageTextField.text      = reminder.message
+
+            self.triggerToggleButton.isOn   = reminder.triggerOnEntry
+            let triggerButtonTitle = reminder.triggerOnEntry ? ToggleText.enteringTrigger : ToggleText.leavingTrigger
+            self.triggerToggleButton.setTitle(triggerButtonTitle , for: .normal)
+            
+            self.repeatToggleButton.isOn    = reminder.isRepeating
+            let repeatButtonTitle = reminder.isRepeating ? ToggleText.isRepeating : ToggleText.isNotRepeating
+            self.repeatToggleButton.setTitle(repeatButtonTitle, for: .normal)
+            
+            self.radiusInMeters             = reminder.bubbleRadius
+            self.radiusLabel.text           = "Bubble radius: \(reminder.bubbleRadius.clean)m"
+            self.reminderLatitude           = reminder.latitude
+            self.reminderLongitude          = reminder.longitude
+            
+            self.updateSlider(for: reminder.bubbleRadius)
+        }
+    }
+
+    @objc func sliderMoved(sender: UISlider) {
+        sender.value = roundf(sender.value)
+        let radiusSelected = Double(radiiInMeters[Int(roundf(sender.value))])
+        radiusInMeters = radiusSelected
+        radiusLabel.text = "Bubble radius: \(radiusSelected.clean)m"
     }
     
     private func saveReminder() {
@@ -210,23 +220,21 @@ class ReminderVC: UIViewController {
         
         let reminder = Reminder(context: managedObjectContext)
         
-        reminder.title               = title
-        reminder.message             = message
-        reminder.latitude            = latitude
-        reminder.longitude           = longitude
-        reminder.locationName        = locationName
-        reminder.triggerOnEntry      = triggerToggleButton.isOn
-        reminder.isRepeating         = repeatToggleButton.isOn
-        reminder.isActive            = true
-        reminder.bubbleRadius        = radiusInMeters
+        reminder.title           = title
+        reminder.message         = message
+        reminder.latitude        = latitude
+        reminder.longitude       = longitude
+        reminder.locationName    = locationName
+        reminder.triggerOnEntry  = triggerToggleButton.isOn
+        reminder.isRepeating     = repeatToggleButton.isOn
+        reminder.isActive        = true
+        reminder.bubbleRadius    = radiusInMeters
         
         reminder.managedObjectContext?.saveChanges()
         print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
     
     private func saveReminderChanges() {
-        print("saving reminder changes")
-        
         guard let reminder = reminder else {
             presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
             return
@@ -257,32 +265,31 @@ class ReminderVC: UIViewController {
             return
         }
         
-        reminder.title = newTitle
-        reminder.message = newMessage
-        reminder.latitude = newLatitude
-        reminder.longitude = newLongitude
-        reminder.locationName = newLocationName
-        reminder.bubbleRadius = Double(radiusInMeters)
+        reminder.title            = newTitle
+        reminder.message          = newMessage
+        reminder.latitude         = newLatitude
+        reminder.longitude        = newLongitude
+        reminder.locationName     = newLocationName
+        reminder.triggerOnEntry   = triggerToggleButton.isOn
+        reminder.isRepeating      = repeatToggleButton.isOn
+//        reminder.isActive         = true
+        reminder.bubbleRadius     = Double(radiusInMeters)
         
         reminder.managedObjectContext?.saveChanges()
+        print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
 }
 
 extension ReminderVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxCharactersIntitle = 20
-        let maxCharactersInMessage = 40
+        let maxCharacters = 24
 
         switch textField {
-        case titleTextField:
-            let currentString = titleTextField.text! as NSString
+        case titleTextField, messageTextField:
+            let currentString = textField.text! as NSString
             let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-            return newString.length <= maxCharactersIntitle
-        case messageTextField:
-            let currentString = messageTextField.text! as NSString
-            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-            return newString.length <= maxCharactersInMessage
+            return newString.length <= maxCharacters
         default:
             return true // Allows backspace
         }
@@ -290,20 +297,6 @@ extension ReminderVC: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder()
-//        // If current text is placeholder text, reset it to ""
-//        guard let text = textField.text else { return }
-//
-//        switch textField {
-//        case titleTextField:
-//            if text == PlaceHolderText.title {
-//                textField.text = ""
-//            }
-//        case messageTextField:
-//            if text == PlaceHolderText.message {
-//                textField.text = ""
-//            }
-//        default: break
-//        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -311,12 +304,14 @@ extension ReminderVC: UITextFieldDelegate {
         guard let input = textField.text else { return }
         
         switch textField {
-        case titleTextField: guard input.isNotEmpty else {
-            titleTextField.text = PlaceHolderText.title
+        case titleTextField:
+            guard input.isNotEmpty else {
+            titleTextField.placeholder = PlaceHolderText.title
             return
             }
-        case messageTextField: guard input.isNotEmpty else {
-            messageTextField.text = PlaceHolderText.message
+        case messageTextField:
+            guard input.isNotEmpty else {
+            messageTextField.placeholder = PlaceHolderText.message
             return
             }
         default:

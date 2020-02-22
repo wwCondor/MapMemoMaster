@@ -10,7 +10,13 @@ import UIKit
 
 enum ReminderMode { case new, edit }
 
+protocol ReminderVCDelegate: class {
+    func didEdit(reminder: Reminder)
+}
+
 class ReminderVC: UIViewController {
+    
+    weak var delegate: ReminderVCDelegate!
     
     var reminder: Reminder?
 

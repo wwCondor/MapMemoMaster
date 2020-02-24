@@ -7,16 +7,16 @@
 //
 
 import UIKit
-import CoreData
+//import CoreData
 import UserNotifications
-import CoreLocation
+//import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //    var window: UIWindow?
 //    var locationManager: CLLocationManager?
-//    var notificationCenter: UNUserNotificationCenter!
+    var notificationCenter: UNUserNotificationCenter!
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -24,9 +24,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ////        locationManager!.delegate = self
 //        notificationCenter = UNUserNotificationCenter.current()
 //        notificationCenter.delegate = self
+        
+        configureNotificationCenter()
 //
-//        let notificationsManager = NotificationManager.shared
-//        notificationsManager.requestNotificationAuthorization()
+        let notificationsManager = NotificationAuthorizationManager.shared
+        notificationsManager.requestAuthorization()
 //
 //
 //
@@ -35,6 +37,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.rootViewController = UINavigationController(rootViewController: MainController())
         
         return true
+    }
+    
+    private func configureNotificationCenter() {
+        notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
     }
     
 //    func handleNotification(for region: CLRegion) {
@@ -75,8 +82,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) { }
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert])
+    }
+}
 
-extension AppDelegate: CLLocationManagerDelegate {
+
+//extension AppDelegate: CLLocationManagerDelegate {
     // Called when region is entered
 //    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 //        handleNotification(for: region)
@@ -86,10 +100,10 @@ extension AppDelegate: CLLocationManagerDelegate {
 //    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
 //        handleNotification(for: region)
 //    }
-}
+//}
 
 // MARK: Notification Center Delegate
-extension AppDelegate: UNUserNotificationCenterDelegate {
+//extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // Enables notifications even if application is in foreground
 //    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -116,7 +130,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //
 //        completionHandler()
 //    }
-}
+//}
 
 //extension AppDelegate {
 //    func presentAlert(description: String) {

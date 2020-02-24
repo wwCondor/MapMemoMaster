@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import UserNotifications
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var notificationCenter: UNUserNotificationCenter!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -22,8 +24,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         configureNavigationBar()
+//        configureNotificationCenter()
+        
+//        let notificationsAuthorizationManager = NotificationAuthorizationManager.shared
+//        NotificationAuthorizationManager.requestAuthorization()
 //        configureKeyboard()
     }
+    
+//    private func configureNotificationCenter() {
+//        notificationCenter = UNUserNotificationCenter.current()
+//        notificationCenter.delegate = self
+//    }
     
     private func configureNavigationBar() {
 //        navigationController?.navigationBar.barTintColor = .systemBackground
@@ -63,4 +74,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) { }
 }
+
 

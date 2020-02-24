@@ -46,4 +46,19 @@ extension NSManagedObjectContext {
             }
         }
     }
+    
+    func fetchReminder(with locationName: String, context: NSManagedObjectContext) -> Reminder? {
+        
+        let request = NSFetchRequest<Reminder>(entityName: "Reminder")
+        request.predicate = NSPredicate(format: "locationName == %@", locationName)
+        
+        do {
+            let reminders = try context.fetch(request)
+            return reminders.first
+        } catch {
+            // Handled at callsite
+            print("Could not fetch reminder by location name, error: \(error.localizedDescription)")
+            return nil
+        }
+    }
 }

@@ -27,7 +27,7 @@ class MMContentView: UIView {
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
+        backgroundColor = .systemPink
         layer.borderWidth = 2
         layer.masksToBounds = true
     }

@@ -21,7 +21,7 @@ class MMSwitch: UISwitch {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        onTintColor = UIColor.systemPink.withAlphaComponent(0.25)
-        thumbTintColor = .systemPink
+        onTintColor = UIColor.secondaryLabel.withAlphaComponent(0.25)
+        thumbTintColor = .white
     }
 }

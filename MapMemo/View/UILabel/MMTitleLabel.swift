@@ -27,7 +27,8 @@ class MMTitleLabel: UILabel {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        textColor       = .systemPink
+        backgroundColor = .clear
+        textColor       = .white
 //        textAlignment   = .center
         font            = UIFont.systemFont(ofSize: 18.0, weight: .medium)
 //        text            = "Trigger bubble Radius: 0m"

@@ -33,7 +33,7 @@ class MMReminderCell: UITableViewCell {
     }
     
     private func configureCell() {
-        backgroundColor = .systemBackground
+        backgroundColor = .clear
     }
     
     private func configureCellContent() {

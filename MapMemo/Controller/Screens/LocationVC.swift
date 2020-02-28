@@ -29,13 +29,13 @@ class LocationVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        configureView()
+        layoutUI()
         configureNavigationBar()
         configureSearchResultsTableView()
         setDelegates()
     }
     
-    private func configureView() {
+    private func layoutUI() {
         view.addSubviews(locationSearchBar, searchResultsTableView)
         
         let padding: CGFloat = 5

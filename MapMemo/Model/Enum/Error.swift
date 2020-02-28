@@ -9,15 +9,34 @@
 import Foundation
 
 enum MMError: Error {
+    case noConnection
     case noLocation
     case noResults
+    case failedFetch
 }
 
 extension MMError: LocalizedError {
     public var localizedDescription: String {
         switch self {
+            
+        case .noConnection: return "There is no internet connection."
         case .noLocation: return "An error occured finding the coordinates for the selected location, please try again."
         case .noResults: return "Unable to find search results"
+        case .failedFetch: return "Unable to fetch active reminders"
+        }
+    }
+}
+
+enum NotificationError: Error {
+    case alertSettingNotEnabled
+    case unableToAddNotificationRequest
+}
+
+extension NotificationError: LocalizedError {
+    public var localizedDescription: String {
+        switch self {
+        case .alertSettingNotEnabled:           return "Notification alerts disabled. This can be changed in phone settings"
+        case .unableToAddNotificationRequest:   return "Unable to add the notification request"
         }
     }
 }
@@ -70,28 +89,4 @@ extension ReminderError: LocalizedError {
     }
 }
 
-enum NotificationError: Error {
-    case alertSettingNotEnabled
-    case unableToAddNotificationRequest
-}
 
-extension NotificationError: LocalizedError {
-    public var localizedDescription: String {
-        switch self {
-        case .alertSettingNotEnabled:           return "Notification alerts disabled. This can be changed in phone settings"
-        case .unableToAddNotificationRequest:   return "Unable to add the notification request"
-        }
-    }
-}
-
-enum NetworkingError: Error {
-    case noConnection
-}
-
-extension NetworkingError: LocalizedError {
-    public var localizedDescription: String {
-        switch self {
-        case .noConnection:                 return "There is no internet connection."
-        }
-    }
-}

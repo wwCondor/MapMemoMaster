@@ -284,6 +284,14 @@
 			path = CoreLocation;
 			sourceTree = "<group>";
 		};
+		0B73EE1E24090F77005E503F /* UIContextualAction */ = {
+			isa = PBXGroup;
+			children = (
+				0B73EE0E2401AB27005E503F /* MMContextualAction.swift */,
+			);
+			path = UIContextualAction;
+			sourceTree = "<group>";
+		};
 		0BA9CEF5239E501600ACB8E3 = {
 			isa = PBXGroup;
 			children = (
@@ -327,7 +335,7 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0B73EE0E2401AB27005E503F /* MMContextualAction.swift */,
+				0B73EE1E24090F77005E503F /* UIContextualAction */,
 				0B73EDD223FD50CF005E503F /* UISwitch */,
 				0B73EDCD23FD272F005E503F /* UILabel */,
 				0B73EDC823FD25AC005E503F /* UISlider */,

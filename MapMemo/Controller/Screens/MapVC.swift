@@ -13,31 +13,27 @@ import CoreLocation
 import UserNotifications
 
 class MapVC: UIViewController {
-
-    private var lastLocation: CLLocation?
     
+    private var lastLocation: CLLocation?
     private var reminders: [Reminder] = []
     private var locationAuthorized: Bool = false
     
-    private let notificationCenter = UNUserNotificationCenter.current()
-    private let managedObjectContext = CoreDataManager.shared.managedObjectContext
-    private let locationManager = CLLocationManager()
-    private let regionInMeters: Double = 2500
+    private let updateRemindersKey      = Notification.Name(rawValue: Key.updateReminders)
+    private let notificationCenter      = UNUserNotificationCenter.current()
+    private let managedObjectContext    = CoreDataManager.shared.managedObjectContext
+    private let locationManager         = CLLocationManager()
+    private let regionInMeters: Double  = 2500
     
-    private let mapView = MMMapView()
-    private let compassBackgroundView = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
-    private let compass = MMCompassImageView(frame: .zero)
+    private let mapView                 = MMMapView()
+    private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
+    private let compass                 = MMCompassImageView(frame: .zero)
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemYellow
-        
-        getActiveReminders()
-        
-        mapView.delegate = self
         layoutUI()
+        addObserver()
+        configureMapView()
+        getActiveReminders()
         checkLocationServices()
     }
     
@@ -65,6 +61,14 @@ class MapVC: UIViewController {
         ])
     }
     
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateRemindersOnMap), name: updateRemindersKey, object: nil)
+    }
+    
+    private func configureMapView() {
+        mapView.delegate = self
+    }
+
     private func getActiveReminders() {
         do {
             reminders = try managedObjectContext.fetch(NSFetchRequest(entityName: "Reminder"))
@@ -106,7 +110,7 @@ class MapVC: UIViewController {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
             locationAuthorized = true
-            mapView.showsUserLocation = true // Handled in class declaration
+            mapView.showsUserLocation = true // Handle in class declaration?
             centerMapOnUser()
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading()
@@ -131,6 +135,7 @@ class MapVC: UIViewController {
         }
     }
     
+    // MARK: Add Reminders
     private func addRemindersToMap(reminders: [Reminder]) {
         guard !reminders.isEmpty else { return }
         
@@ -190,10 +195,24 @@ class MapVC: UIViewController {
                 if UIApplication.shared.applicationState == .active {
                     self.presentAlert(description: NotificationError.unableToAddNotificationRequest.localizedDescription, viewController: self)
                 }
-                
             }
         }
-        
+    }
+    
+    // MARK: Update Reminders
+    @objc private func updateRemindersOnMap(sender: NotificationCenter) {
+        print("Updating reminders")
+        removeReminders()
+        getActiveReminders()
+        addRemindersToMap(reminders: reminders)
+    }
+    
+    private func removeReminders() {
+        reminders.removeAll()
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        let regions = locationManager.monitoredRegions
+        for region in regions { locationManager.stopMonitoring(for: region) }
     }
     
     deinit {
@@ -224,6 +243,7 @@ extension MapVC: CLLocationManagerDelegate {
 
 
 extension MapVC: MKMapViewDelegate {
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
         
@@ -231,11 +251,11 @@ extension MapVC: MKMapViewDelegate {
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
         
-        if annotationView == nil { // This means we have no annotations we can recycle
+        if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.isEnabled = true
             annotationView?.canShowCallout = true
-        } else { // This means we can recycle an annotation
+        } else { 
             annotationView?.annotation = annotation
         }
         if let annotation = annotation as? CustomPointAnnotation {

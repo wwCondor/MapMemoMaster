@@ -16,6 +16,8 @@ protocol ReminderVCDelegate: class {
 
 class ReminderVC: UIViewController {
     
+    private let updateRemindersKey = Notification.Name(rawValue: Key.updateReminders)
+    
     weak var delegate: ReminderVCDelegate!
     
     var reminder: Reminder?
@@ -237,6 +239,7 @@ class ReminderVC: UIViewController {
         reminder.bubbleRadius    = radiusInMeters
         
         reminder.managedObjectContext?.saveChanges()
+        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
     
@@ -282,6 +285,7 @@ class ReminderVC: UIViewController {
         reminder.bubbleRadius     = Double(radiusInMeters)
         
         reminder.managedObjectContext?.saveChanges()
+        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
 }

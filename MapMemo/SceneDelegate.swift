@@ -24,29 +24,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         configureNavigationBar()
-//        configureNotificationCenter()
-        
-//        let notificationsAuthorizationManager = NotificationAuthorizationManager.shared
-//        NotificationAuthorizationManager.requestAuthorization()
+
 //        configureKeyboard()
     }
     
-//    private func configureNotificationCenter() {
-//        notificationCenter = UNUserNotificationCenter.current()
-//        notificationCenter.delegate = self
-//    }
-    
     private func configureNavigationBar() {
-//        navigationController?.navigationBar.barTintColor = .systemBackground
-
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.barTintColor = .systemBackground
-//        navigationBarAppearance.shadowImage = UIImage()
-//        navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
-//        navigationBarAppearance.barTintColor = .systemYellow
-//        navigationBarAppearance.isTranslucent = false
         navigationBarAppearance.tintColor = .systemPink
-//        navigationBarAppearance.addBorders(edges: [.bottom])
     }
     
 //    private func configureTapBarAppearance() {

@@ -46,6 +46,7 @@
 		0B73EE112401BC74005E503F /* ReminderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE102401BC74005E503F /* ReminderDataSource.swift */; };
 		0B73EE192403EF35005E503F /* NotificationAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE182403EF35005E503F /* NotificationAuthorizationManager.swift */; };
 		0B73EE1B2403F492005E503F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE1A2403F492005E503F /* LocationManager.swift */; };
+		0B73EE2124094028005E503F /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE2024094028005E503F /* Key.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
@@ -95,6 +96,7 @@
 		0B73EE102401BC74005E503F /* ReminderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDataSource.swift; sourceTree = "<group>"; };
 		0B73EE182403EF35005E503F /* NotificationAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAuthorizationManager.swift; sourceTree = "<group>"; };
 		0B73EE1A2403F492005E503F /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		0B73EE2024094028005E503F /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				0B73EDAC23FC353A005E503F /* Configuration.swift */,
 				0B73EDC423FD209A005E503F /* PlaceholderText.swift */,
 				0B73EDC623FD20BE005E503F /* ToggleText.swift */,
+				0B73EE2024094028005E503F /* Key.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				0B73ED7E23FBE596005E503F /* ViewController+Ext.swift in Sources */,
 				0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */,
 				0B73ED9A23FBF305005E503F /* MMTabBarController.swift in Sources */,
+				0B73EE2124094028005E503F /* Key.swift in Sources */,
 				0B73EDE723FEB501005E503F /* MMButton.swift in Sources */,
 				0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */,
 				0B73ED9323FBED8D005E503F /* MMReminderCell.swift in Sources */,

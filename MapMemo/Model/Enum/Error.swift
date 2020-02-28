@@ -13,53 +13,43 @@ enum MMError: Error {
     case noLocation
     case noResults
     case failedFetch
-}
-
-extension MMError: LocalizedError {
-    public var localizedDescription: String {
-        switch self {
-            
-        case .noConnection: return "There is no internet connection."
-        case .noLocation: return "An error occured finding the coordinates for the selected location, please try again."
-        case .noResults: return "Unable to find search results"
-        case .failedFetch: return "Unable to fetch active reminders"
-        }
-    }
-}
-
-enum NotificationError: Error {
-    case alertSettingNotEnabled
-    case unableToAddNotificationRequest
-}
-
-extension NotificationError: LocalizedError {
-    public var localizedDescription: String {
-        switch self {
-        case .alertSettingNotEnabled:           return "Notification alerts disabled. This can be changed in phone settings"
-        case .unableToAddNotificationRequest:   return "Unable to add the notification request"
-        }
-    }
-}
-
-enum AuthorizationError: Error {
+    case addNotificationFailed
+    
     case notificationAuthorizationDenied
     case locationAuthorizationDenied
     case locationServicesDisabled
 }
 
-extension AuthorizationError: LocalizedError {
+extension MMError: LocalizedError {
     public var localizedDescription: String {
         switch self {
+        case .noConnection: return "There is no internet connection."
+        case .noLocation: return "An error occured finding the coordinates for the selected location, please try again."
+        case .noResults: return "Unable to find search results"
+        case .failedFetch: return "Unable to retrieve reminders from memory"
+        case .addNotificationFailed: return "An error occured creating the notification request"
+            
         case .notificationAuthorizationDenied: return "Notification Authorization denied. You can change authorization preferences in settings."
         case .locationAuthorizationDenied:     return "Location Authorization denied or restrricted. You can change authorization preferences in settings."
         case .locationServicesDisabled:        return "Woops! It seems location services are disabled. You can switch on location services in your phone settings under Privacy. Would you like to go to settings to enable location services?"
+            
         }
-    } 
+    }
 }
 
-enum ReminderError: Error {
-    case fetchReminder
-    case unableToFetchActiveReminders
+//enum NotificationError: Error {
+//    case alertSettingNotEnabled
+//}
+//
+//extension NotificationError: LocalizedError {
+//    public var localizedDescription: String {
+//        switch self {
+//        case .alertSettingNotEnabled:           return "Notification alerts disabled. This can be changed in phone settings"
+//        }
+//    }
+//}
+
+enum MMReminderError: Error {
     case reminderNil
     case missingTitle
     case missingMessage 
@@ -71,12 +61,10 @@ enum ReminderError: Error {
     case titleIsDuplicate
 }
 
-extension ReminderError: LocalizedError {
+extension MMReminderError: LocalizedError {
     public var localizedDescription: String {
         switch self {
-        case .fetchReminder:                return "Unable to fetch reminder by location name"
-        case .unableToFetchActiveReminders: return "Unable to retrieve active reminders from memory"
-        case .reminderNil:                  return "It seems reminder is nil"
+        case .reminderNil:                  return "An error occured retrieving the reminder"
         case .missingTitle:                 return "Woops! You forgot to add a title to your reminder"
         case .missingMessage:               return "Woops! You forgot to add a message to your reminder"
         case .missingLatitude:              return "Woops! You forgot to enter a value for the latitude"

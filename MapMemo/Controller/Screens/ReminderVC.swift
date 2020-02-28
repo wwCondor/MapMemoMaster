@@ -202,27 +202,27 @@ class ReminderVC: UIViewController {
     
     private func saveNewReminder() {
         guard let title = titleTextField.text, title.isNotEmpty, title != PlaceHolderText.title else {
-            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Title", message: MMReminderError.missingTitle.localizedDescription, buttonTitle: "OK")
             return
         }
         
         guard let message = messageTextField.text, message.isNotEmpty, message != PlaceHolderText.message else {
-            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Message", message: MMReminderError.missingMessage.localizedDescription, buttonTitle: "OK")
             return
         }
         
         guard let locationName = locationButton.currentTitle, locationName.isNotEmpty, locationName != PlaceHolderText.location else {
-            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
             return
         }
         
         guard let latitude = reminderLatitude, reminderLatitude != nil else {
-            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Latitude", message: MMReminderError.missingLatitude.localizedDescription, buttonTitle: "OK")
             return
             
         }
         guard let longitude = reminderLongitude, reminderLatitude != nil else {
-            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Longitude", message: MMReminderError.missingLongitude.localizedDescription, buttonTitle: "OK")
             return
         }
         
@@ -245,32 +245,32 @@ class ReminderVC: UIViewController {
     
     private func saveReminderChanges() {
         guard let reminder = reminder else {
-            presentAlert(description: ReminderError.reminderNil.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "No Reminder", message: MMReminderError.reminderNil.localizedDescription, buttonTitle: "OK")
             return
         }
         
         guard let newTitle = titleTextField.text else {
-            presentAlert(description: ReminderError.missingTitle.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Title", message: MMReminderError.missingTitle.localizedDescription, buttonTitle: "OK")
             return
         }
         
         guard let newMessage = messageTextField.text else {
-            presentAlert(description: ReminderError.missingMessage.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Message", message: MMReminderError.missingMessage.localizedDescription, buttonTitle: "OK")
             return
         }
         
         guard let newLocationName = locationButton.currentTitle, newLocationName.isNotEmpty, newLocationName != PlaceHolderText.location else {
-            presentAlert(description: ReminderError.missingLocationName.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
             return
         }
         
         guard let newLatitude = reminderLatitude else {
-            presentAlert(description: ReminderError.missingLatitude.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Latitude", message: MMReminderError.missingLatitude.localizedDescription, buttonTitle: "OK")
             return
         }
             
         guard let newLongitude = reminderLongitude else {
-            presentAlert(description: ReminderError.missingLongitude.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Missing Longitude", message: MMReminderError.missingLongitude.localizedDescription, buttonTitle: "OK")
             return
         }
         

@@ -89,7 +89,7 @@ extension LocationVC: MKLocalSearchCompleterDelegate {
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        presentAlert(description: MMError.noResults.localizedDescription, viewController: self)
+//        presentMMAlertOnMainThread(title: "No Results", message: MMError.noResults.localizedDescription, buttonTitle: "OK")
     }
 }
 
@@ -117,7 +117,7 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
         let search = MKLocalSearch(request: searchRequest)
         search.start { (result, error) in
             guard let coordinate = result?.mapItems.last?.placemark.coordinate else {
-                self.presentAlert(description: MMError.noLocation.localizedDescription, viewController: self)
+                self.presentMMAlertOnMainThread(title: "Location Error", message: MMError.noLocation.localizedDescription, buttonTitle: "OK")
                 return
             }
             let locationLatitude = coordinate.latitude as Double

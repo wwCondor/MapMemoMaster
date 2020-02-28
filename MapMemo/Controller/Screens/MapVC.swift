@@ -74,14 +74,14 @@ class MapVC: UIViewController {
             reminders = try managedObjectContext.fetch(NSFetchRequest(entityName: "Reminder"))
             print("Active reminders: \(reminders.count)")
         } catch {
-            presentAlert(description: MMError.failedFetch.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription, buttonTitle: "OK")
         }
     }
     
     private func checkLocationServices() {
         guard CLLocationManager.locationServicesEnabled() else {
             print("Location Services are Disabled")
-            presentFailedPermissionActionSheet(description: AuthorizationError.locationServicesDisabled.localizedDescription , viewController: self)
+            presentFailedPermissionActionSheet(description: MMError.locationServicesDisabled.localizedDescription , viewController: self)
             return
         }
         
@@ -106,7 +106,7 @@ class MapVC: UIViewController {
         case .restricted, .denied:
             print("Authorization restricted or denied")
             locationAuthorized = false
-            presentFailedPermissionActionSheet(description: AuthorizationError.locationAuthorizationDenied.localizedDescription , viewController: self)
+            presentFailedPermissionActionSheet(description: MMError.locationAuthorizationDenied.localizedDescription , viewController: self)
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
             locationAuthorized = true
@@ -148,6 +148,7 @@ class MapVC: UIViewController {
         }
     }
     
+    #warning("pinTintColor UIColor.white will never be used")
     private func createAnnotation(for reminder: Reminder) {
         let annotation = CustomPointAnnotation()
         annotation.title = reminder.title
@@ -193,7 +194,7 @@ class MapVC: UIViewController {
         notificationCenter.add(request) { (error) in
             if error != nil {
                 if UIApplication.shared.applicationState == .active {
-                    self.presentAlert(description: NotificationError.unableToAddNotificationRequest.localizedDescription, viewController: self)
+                    self.presentMMAlertOnMainThread(title: "Notifcation Error", message: MMError.addNotificationFailed.localizedDescription, buttonTitle: "OK")
                 }
             }
         }

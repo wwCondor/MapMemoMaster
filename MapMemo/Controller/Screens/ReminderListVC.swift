@@ -55,7 +55,7 @@ class ReminderListVC: UIViewController {
             try fetchedResultsController.performFetch()
             updateData()
         } catch {
-            presentAlert(description: ReminderError.fetchReminder.localizedDescription, viewController: self)
+            presentMMAlertOnMainThread(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription, buttonTitle: "OK")
         }
     }
     
@@ -104,6 +104,7 @@ class ReminderListVC: UIViewController {
         reminder.isActive = status
         print("Reminder at index: \(indexPath) is now active:\(reminder.isActive)")
         reminder.managedObjectContext?.saveChanges()
+        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         updateData()
     }
 }

@@ -1,8 +1,8 @@
 //
-//  ViewController+Ext.swift
+//  UIViewController+Ext.swift
 //  MapMemo
 //
-//  Created by Wouter Willebrands on 18/02/2020.
+//  Created by Wouter Willebrands on 28/02/2020.
 //  Copyright © 2020 Studio Willebrands. All rights reserved.
 //
 
@@ -10,15 +10,13 @@ import UIKit
 
 extension UIViewController {
     
-    func presentAlert(description: String, viewController: UIViewController) {
-        let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert)
-        
-        let confirmation = UIAlertAction(title: "OK", style: .default) {
-            (action) in alert.dismiss(animated: true, completion: nil)
+    func presentMMAlertOnMainThread(title: String, message: String, buttonTitle: String) {
+        DispatchQueue.main.async {
+            let alertViewController = MMAlertVC(title: title, message: message, buttonTitle: buttonTitle)
+            alertViewController.modalPresentationStyle = .overFullScreen
+            alertViewController.modalTransitionStyle = .crossDissolve
+            self.present(alertViewController, animated: true)
         }
-        
-        alert.addAction(confirmation)
-        viewController.present(alert, animated: true, completion: nil)
     }
     
     func presentFailedPermissionActionSheet(description: String, viewController: UIViewController) {
@@ -41,14 +39,5 @@ extension UIViewController {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
-    
-//    func hideKeyboardOnBackgroundTap() {
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-//        tap.cancelsTouchesInView = false
-//        view.addGestureRecognizer(tap)
-//    }
-//
-//    @objc func dismissKeyboard() {
-//        view.endEditing(true)
-//    }
+
 }

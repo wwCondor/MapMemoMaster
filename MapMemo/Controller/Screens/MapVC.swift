@@ -28,6 +28,8 @@ class MapVC: UIViewController {
     private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
     private let compass                 = MMCompassImageView(frame: .zero)
     
+    private let testButton              = MMButton(title: "Test Alert Button") // MARK: Delete
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutUI()
@@ -35,6 +37,8 @@ class MapVC: UIViewController {
         configureMapView()
         getActiveReminders()
         checkLocationServices()
+        
+        configureTestButton() // MARK: Delete
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,9 +46,19 @@ class MapVC: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
+    private func configureTestButton() { // MARK: Delete
+        testButton.addTarget(self, action: #selector(testButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func testButtonTapped(sender: MMButton) { // MARK: Delete
+        presentMMAlertOnMainThread(title: "Test", message: "This is the test content", buttonTitle: "Ok")
+    }
+    
     private func layoutUI() {
         view.addSubviews(mapView, compassBackgroundView, compass)
         mapView.pinToEdges(of: view)
+        
+        view.addSubview(testButton) // MARK: Delete
         
         let padding: CGFloat = 30
         
@@ -58,6 +72,11 @@ class MapVC: UIViewController {
             compass.centerYAnchor.constraint(equalTo: compassBackgroundView.centerYAnchor),
             compass.widthAnchor.constraint(equalToConstant: Configuration.compassSize),
             compass.heightAnchor.constraint(equalToConstant: Configuration.compassSize),
+            
+            testButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            testButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            testButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            testButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     

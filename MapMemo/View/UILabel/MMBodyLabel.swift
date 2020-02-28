@@ -27,10 +27,16 @@ class MMBodyLabel: UILabel {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .clear
-        textColor       = .white
+        backgroundColor                     = .clear
+        textColor                           = .secondaryLabel
         //        textAlignment   = .center
-        font            = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+//        font            = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+        font                                = UIFont.preferredFont(forTextStyle: .body)
+        adjustsFontForContentSizeCategory   = true
+        adjustsFontSizeToFitWidth           = true
+        minimumScaleFactor                  = 0.75
+        lineBreakMode                       = .byWordWrapping
+
         //        text            = "Trigger bubble Radius: 0m"
     }
 

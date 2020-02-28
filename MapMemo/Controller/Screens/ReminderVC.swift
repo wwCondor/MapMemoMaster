@@ -151,7 +151,7 @@ class ReminderVC: UIViewController {
     
     @objc private func saveButtonTapped() {
         saveReminder()
-        dismiss(animated: true)
+//        dismiss(animated: true)
     }
     
     @objc private func locationButtonTapped() {
@@ -240,6 +240,7 @@ class ReminderVC: UIViewController {
         
         reminder.managedObjectContext?.saveChanges()
         NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+        dismiss(animated: true)
         print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
     
@@ -281,11 +282,11 @@ class ReminderVC: UIViewController {
         reminder.locationName     = newLocationName
         reminder.triggerOnEntry   = triggerToggleButton.isOn
         reminder.isRepeating      = repeatToggleButton.isOn
-//        reminder.isActive         = true
         reminder.bubbleRadius     = Double(radiusInMeters)
         
         reminder.managedObjectContext?.saveChanges()
         NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+        dismiss(animated: true)
         print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
     }
 }

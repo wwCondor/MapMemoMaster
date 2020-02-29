@@ -25,7 +25,7 @@ class NotificationManager: NSObject {
         
         notificationsCenter.requestAuthorization(options: options) { (authorizationGranted, error) in
             switch authorizationGranted {
-            case true: self.hasAuthorization = true
+            case true:  self.hasAuthorization = true
             case false: self.hasAuthorization = false
             }
         }

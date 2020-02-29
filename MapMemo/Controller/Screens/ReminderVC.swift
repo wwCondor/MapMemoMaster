@@ -353,8 +353,8 @@ extension ReminderVC: UITextFieldDelegate {
 extension ReminderVC: LocationDelegate {
     func locationSelected(title: String, subtitle: String, latitude: Double, longitude: Double) {
         locationButton.setSplitTitle(title: title, subtitle: subtitle)
-        locationName     = title
-        locationAddress  = subtitle
+        locationName      = title
+        locationAddress   = subtitle
         reminderLatitude  = latitude
         reminderLongitude = longitude
         print("\(title) with coordinates: \(latitude), \(longitude) obtained.")

@@ -21,12 +21,12 @@ class MMSlider: UISlider {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.clear
-        minimumTrackTintColor = .red
-        maximumTrackTintColor = .systemGray4
-        thumbTintColor = .systemPink
-        minimumValue = 0
-        maximumValue = 6
+        backgroundColor        = UIColor.clear
+        minimumTrackTintColor  = .red
+        maximumTrackTintColor  = .systemGray4
+        thumbTintColor         = .systemPink
+        minimumValue           = 0
+        maximumValue           = 6
         setValue(2, animated: true)
     }
 }

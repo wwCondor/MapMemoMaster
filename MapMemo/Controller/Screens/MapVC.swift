@@ -135,7 +135,7 @@ class MapVC: UIViewController {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
             locationAuthorized = true
-            mapView.showsUserLocation = true // Handle in class declaration?
+//            mapView.showsUserLocation = true // Handle in class declaration?
             centerMapOnUser()
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading()

@@ -26,7 +26,6 @@ class MMImageView: UIImageView {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-//        image               = SFSymbols.compass
         tintColor           = .white
         backgroundColor     = .clear
     }

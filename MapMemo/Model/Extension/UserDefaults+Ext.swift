@@ -8,10 +8,6 @@
 
 import UIKit
 
-//enum PersistenceManager {
-//    static private let defaults = UserDefaults.standard
-//}
-
 extension UserDefaults {
     
     func color(forKey key: String) -> UIColor? {

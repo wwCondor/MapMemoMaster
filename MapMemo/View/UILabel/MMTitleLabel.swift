@@ -22,7 +22,7 @@ class MMTitleLabel: UILabel {
     convenience init(alignment: NSTextAlignment, text: String) {
         self.init()
         self.textAlignment = alignment
-        self.text = text
+        self.text          = text
     }
     
     private func configure() {

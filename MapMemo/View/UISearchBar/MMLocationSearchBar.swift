@@ -28,7 +28,5 @@ class MMLocationSearchBar: UISearchBar {
         placeholder                 = PlaceHolderText.location
         searchTextField.textColor   = .systemPink
         searchTextField.font        = UIFont.systemFont(ofSize: 18.0, weight: .medium)
-        
-//        addBorders(edges: [.top])
     }
 }

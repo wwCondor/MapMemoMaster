@@ -21,17 +21,16 @@ class MMBackgroundView: UIView {
     
     convenience init(backgroundColor: UIColor, cornerRadius: CGFloat) {
         self.init()
-        self.backgroundColor = backgroundColor
+        self.backgroundColor    = backgroundColor
         self.layer.cornerRadius = cornerRadius
     }
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
         layer.masksToBounds = true
-        
-        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor   = UIColor.black.cgColor
         layer.shadowOpacity = 0.5
-        layer.shadowOffset = .zero
-        layer.shadowRadius = 5
+        layer.shadowOffset  = .zero
+        layer.shadowRadius  = 5
     }
 }

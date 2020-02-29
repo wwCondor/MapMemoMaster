@@ -14,7 +14,7 @@ extension UITableView {
         tableFooterView = UIView(frame: .zero)
     }
     
-    /// (Not used atm) This can be used to update erload the data on the main thread directly if there is no other action required
+    /// This can be used to update erload the data on the main thread directly if there is no other action required
     func reloadDataOnMainThread() {
         DispatchQueue.main.async { self.reloadData() }
     }

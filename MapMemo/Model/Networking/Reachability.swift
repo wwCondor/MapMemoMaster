@@ -33,9 +33,9 @@ struct Reachability {
     }
     
     private static func isNetworkRachable(with flags: SCNetworkReachabilityFlags) -> Bool {
-        let isReachble = flags.contains(.reachable)
-        let needsConnection = flags.contains(.connectionRequired)
-        let canConnectAutomatically = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
+        let isReachble                       = flags.contains(.reachable)
+        let needsConnection                  = flags.contains(.connectionRequired)
+        let canConnectAutomatically          = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
         let canConnectWithoutUserInteraction = canConnectAutomatically && !flags.contains(.interventionRequired)
         return isReachble && (!needsConnection || canConnectWithoutUserInteraction)
     }

@@ -40,7 +40,6 @@
 		0B73EDE723FEB501005E503F /* MMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE623FEB501005E503F /* MMButton.swift */; };
 		0B73EDE923FEB5D4005E503F /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE823FEB5D4005E503F /* LocationVC.swift */; };
 		0B73EE0D2400458F005E503F /* UIContextualAction+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE0C2400458F005E503F /* UIContextualAction+Ext.swift */; };
-		0B73EE0F2401AB27005E503F /* MMContextualAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE0E2401AB27005E503F /* MMContextualAction.swift */; };
 		0B73EE112401BC74005E503F /* ReminderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE102401BC74005E503F /* ReminderDataSource.swift */; };
 		0B73EE192403EF35005E503F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE182403EF35005E503F /* NotificationManager.swift */; };
 		0B73EE2124094028005E503F /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE2024094028005E503F /* Key.swift */; };
@@ -51,7 +50,6 @@
 		0B73EE32240A9DCD005E503F /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE31240A9DCD005E503F /* UIImage+Ext.swift */; };
 		0B73EE34240AA1BF005E503F /* MMSecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE33240AA1BF005E503F /* MMSecondaryTitleLabel.swift */; };
 		0B73EE36240AA595005E503F /* MMLocationTapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE35240AA595005E503F /* MMLocationTapView.swift */; };
-		0B73EE3A240AAB56005E503F /* MMTwoLineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE39240AAB56005E503F /* MMTwoLineButton.swift */; };
 		0B73EE3C240AE5F9005E503F /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
@@ -96,7 +94,6 @@
 		0B73EDE623FEB501005E503F /* MMButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMButton.swift; sourceTree = "<group>"; };
 		0B73EDE823FEB5D4005E503F /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		0B73EE0C2400458F005E503F /* UIContextualAction+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIContextualAction+Ext.swift"; sourceTree = "<group>"; };
-		0B73EE0E2401AB27005E503F /* MMContextualAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMContextualAction.swift; sourceTree = "<group>"; };
 		0B73EE102401BC74005E503F /* ReminderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDataSource.swift; sourceTree = "<group>"; };
 		0B73EE182403EF35005E503F /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		0B73EE2024094028005E503F /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
@@ -107,7 +104,6 @@
 		0B73EE31240A9DCD005E503F /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		0B73EE33240AA1BF005E503F /* MMSecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMSecondaryTitleLabel.swift; sourceTree = "<group>"; };
 		0B73EE35240AA595005E503F /* MMLocationTapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLocationTapView.swift; sourceTree = "<group>"; };
-		0B73EE39240AAB56005E503F /* MMTwoLineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTwoLineButton.swift; sourceTree = "<group>"; };
 		0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -179,7 +175,6 @@
 			children = (
 				0B73EDE623FEB501005E503F /* MMButton.swift */,
 				0B73EDC223FC6D69005E503F /* MMToggleButton.swift */,
-				0B73EE39240AAB56005E503F /* MMTwoLineButton.swift */,
 			);
 			path = UIButton;
 			sourceTree = "<group>";
@@ -295,14 +290,6 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		0B73EE1E24090F77005E503F /* UIContextualAction */ = {
-			isa = PBXGroup;
-			children = (
-				0B73EE0E2401AB27005E503F /* MMContextualAction.swift */,
-			);
-			path = UIContextualAction;
-			sourceTree = "<group>";
-		};
 		0B73EE222409964C005E503F /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,7 +360,6 @@
 			children = (
 				0B73EDA623FC1ACB005E503F /* MKMapView */,
 				0B73ED8B23FBE7E9005E503F /* UIButton */,
-				0B73EE1E24090F77005E503F /* UIContextualAction */,
 				0B73EDA923FC32CF005E503F /* UIImageView */,
 				0B73EDCD23FD272F005E503F /* UILabel */,
 				0B73EDB823FC607D005E503F /* UISearchBar */,
@@ -480,7 +466,6 @@
 			files = (
 				0B73ED9523FBEF27005E503F /* UIView+Ext.swift in Sources */,
 				0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */,
-				0B73EE3A240AAB56005E503F /* MMTwoLineButton.swift in Sources */,
 				0B73EDC523FD209A005E503F /* PlaceholderText.swift in Sources */,
 				0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */,
 				0B73ED8823FBE6D8005E503F /* LosslessStringConvertible+Ext.swift in Sources */,
@@ -496,7 +481,6 @@
 				0B73EE2924099B0B005E503F /* UIViewController+Ext.swift in Sources */,
 				0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */,
 				0B73ED9323FBED8D005E503F /* MMReminderCell.swift in Sources */,
-				0B73EE0F2401AB27005E503F /* MMContextualAction.swift in Sources */,
 				0B73EDD623FD5C6E005E503F /* MMImageView.swift in Sources */,
 				0B73EE3C240AE5F9005E503F /* UIButton+Ext.swift in Sources */,
 				0B73ED9F23FBF3C1005E503F /* ReminderListVC.swift in Sources */,

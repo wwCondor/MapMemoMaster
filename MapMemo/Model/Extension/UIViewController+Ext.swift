@@ -15,7 +15,6 @@ extension UIViewController {
             let alertViewController = MMAlertVC(title: title, message: message, buttonTitle: buttonTitle)
             alertViewController.modalPresentationStyle = .overFullScreen
             alertViewController.modalTransitionStyle = .crossDissolve
-//            navigationController?.pushViewController(alertViewController, animated: true)
             self.present(alertViewController, animated: true)
         }
     }

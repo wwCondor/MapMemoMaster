@@ -23,11 +23,11 @@ enum MMError: Error {
 extension MMError: LocalizedError {
     public var localizedDescription: String {
         switch self {
-        case .noConnection: return "There is no internet connection."
-        case .noLocation: return "An error occured finding the coordinates for the selected location, please try again."
-        case .noResults: return "Unable to find search results"
-        case .failedFetch: return "Unable to retrieve reminders from memory"
-        case .addNotificationFailed: return "An error occured creating the notification request"
+        case .noConnection:                    return "There is no internet connection."
+        case .noLocation:                      return "An error occured finding the coordinates for the selected location, please try again."
+        case .noResults:                       return "Unable to find search results"
+        case .failedFetch:                     return "Unable to retrieve reminders from memory"
+        case .addNotificationFailed:           return "An error occured creating the notification request"
             
         case .notificationAuthorizationDenied: return "Notification Authorization denied. You can change authorization preferences in settings."
         case .locationAuthorizationDenied:     return "Location Authorization denied or restrricted. You can change authorization preferences in settings."
@@ -71,7 +71,7 @@ extension MMReminderError: LocalizedError {
         case .missingLatitude:              return "Woops! It seems you forgot to enter a value for the latitude"
         case .missingLongitude:             return "Woops! It seems you forgot to enter a value for the longitude"
         case .missingLocationName:          return "Woops! It seems no name could be found for the selected location"
-        case .missingLocationAddress:      return "Woops! It seems no address could be found for the selected location"
+        case .missingLocationAddress:       return "Woops! It seems no address could be found for the selected location"
         case .unableToObtainLocation:       return "Unable to obtain a location name for the coordinates you entered"
         case .maxRemindersReached:          return "Maximum active reminders (20) reached. You need to delete a reminder first"
         case .titleIsDuplicate:             return "Unable to save reminder. Reminder title already exists."

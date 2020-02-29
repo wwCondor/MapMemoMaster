@@ -7,28 +7,28 @@
 //
 
 import UIKit
-// not used
+
 class MMContentView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     convenience init(borderColor: UIColor, cornerRadius: CGFloat) {
         self.init()
-        self.layer.borderColor = borderColor.cgColor
+        self.layer.borderColor  = borderColor.cgColor
         self.layer.cornerRadius = cornerRadius
     }
-    
+
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemPink
-        layer.borderWidth = 2
+        backgroundColor     = .systemPink
+        layer.borderWidth   = 2
         layer.masksToBounds = true
     }
 }

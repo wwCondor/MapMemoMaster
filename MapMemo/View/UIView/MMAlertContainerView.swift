@@ -20,10 +20,10 @@ class MMAlertContainerView: UIView {
     }
     
     private func configureView() {
+        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor    = .systemBackground
         layer.cornerRadius = 16
         layer.borderWidth  = 2
         layer.borderColor  = UIColor.white.cgColor
-        translatesAutoresizingMaskIntoConstraints = false
     }
 }

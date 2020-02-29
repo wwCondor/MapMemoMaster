@@ -20,9 +20,9 @@ class MMRemindersTableView: UITableView {
     }
     
     private func configureTableView() {
+        register(MMReminderCell.self, forCellReuseIdentifier: MMReminderCell.identifier)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemBackground
-        separatorStyle = .none
-        register(MMReminderCell.self, forCellReuseIdentifier: MMReminderCell.identifier)
+        separatorStyle  = .none
     }
 }

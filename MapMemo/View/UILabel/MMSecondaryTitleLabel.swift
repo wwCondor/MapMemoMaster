@@ -1,14 +1,14 @@
 //
-//  MMBodyLabel.swift
+//  MMSecondaryTitleLabel.swift
 //  MapMemo
 //
-//  Created by Wouter Willebrands on 19/02/2020.
+//  Created by Wouter Willebrands on 29/02/2020.
 //  Copyright © 2020 Studio Willebrands. All rights reserved.
 //
 
 import UIKit
 
-class MMBodyLabel: UILabel {
+class MMSecondaryTitleLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,12 +27,11 @@ class MMBodyLabel: UILabel {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor                     = .clear
-        textColor                           = .secondaryLabel
-        font                                = UIFont.preferredFont(forTextStyle: .body)
-        adjustsFontForContentSizeCategory   = true
-        adjustsFontSizeToFitWidth           = true
-        minimumScaleFactor                  = 0.75
-        lineBreakMode                       = .byWordWrapping
+        backgroundColor             = .clear
+        textColor                   = .secondaryLabel
+        font                        = UIFont.systemFont(ofSize: 16.0, weight: .medium)
+        adjustsFontSizeToFitWidth   = true
+        minimumScaleFactor          = 0.9
+        lineBreakMode               = .byTruncatingTail
     }
 }

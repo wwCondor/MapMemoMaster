@@ -8,9 +8,7 @@
 
 import UIKit
 
-enum Button {
-    case triggerButton, repeatButtton
-}
+enum Button { case triggerButton, repeatButtton }
 
 class MMToggleButton: UIButton {
     
@@ -41,14 +39,11 @@ class MMToggleButton: UIButton {
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
-        layer.cornerRadius = 5//frame.size.height/2
-//        layer.borderColor = UIColor.systemPink.cgColor
-//        layer.borderWidth = 2
-        titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: .medium)
+        layer.cornerRadius  = 5
+        titleLabel?.font    = UIFont.systemFont(ofSize: 18.0, weight: .medium)
+        backgroundColor     = .systemPink
         setTitleColor(.white, for: .normal)
-        backgroundColor = .systemPink
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-//        setTitle(ToggleText.leavingTrigger, for: .normal)
     }
     
     @objc private func buttonTapped() {
@@ -57,14 +52,9 @@ class MMToggleButton: UIButton {
     
     private func toggleButton(bool: Bool) {
         isOn = bool
-        
-//        let buttonColor: UIColor = bool ? .yellow : .white
+
         let buttonTitle: String = bool ? toggleTitles[0] : toggleTitles[1]
-//        let titleColor: UIColor = bool ? .red : .blue
-        
-//        backgroundColor = buttonColor
+
         setTitle(buttonTitle, for: .normal)
-//        setTitleColor(titleColor, for: .normal)
     }
 }
-

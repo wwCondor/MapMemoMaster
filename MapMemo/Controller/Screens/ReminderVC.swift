@@ -30,7 +30,7 @@ class ReminderVC: UIViewController {
 
     let managedObjectContext        = CoreDataManager.shared.managedObjectContext
     
-    private let locationButton          = MMButton(title: PlaceHolderText.location)
+    private let locationButton          = MMTwoLineButton(title: PlaceHolderText.location, subtitle: "", mode: .single)
     private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
     private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
     private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
@@ -78,43 +78,43 @@ class ReminderVC: UIViewController {
         view.addSubviews(locationButton, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
         
         let padding: CGFloat = 20
-        let height: CGFloat  = 60
+        let itemHeight: CGFloat  = 60
         
         NSLayoutConstraint.activate([
             locationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
             locationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             locationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            locationButton.heightAnchor.constraint(equalToConstant: height),
+            locationButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
             titleTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
             titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            titleTextField.heightAnchor.constraint(equalToConstant: height),
+            titleTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             
             messageTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: padding),
             messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             messageTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            messageTextField.heightAnchor.constraint(equalToConstant: height),
+            messageTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             
             triggerToggleButton.topAnchor.constraint(equalTo: messageTextField.bottomAnchor, constant: padding),
             triggerToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             triggerToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            triggerToggleButton.heightAnchor.constraint(equalToConstant: height),
+            triggerToggleButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
             repeatToggleButton.topAnchor.constraint(equalTo: triggerToggleButton.bottomAnchor, constant: padding),
             repeatToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             repeatToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            repeatToggleButton.heightAnchor.constraint(equalToConstant: height),
+            repeatToggleButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
             radiusSlider.topAnchor.constraint(equalTo: repeatToggleButton.bottomAnchor, constant: padding),
             radiusSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             radiusSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            radiusSlider.heightAnchor.constraint(equalToConstant: height),
+            radiusSlider.heightAnchor.constraint(equalToConstant: itemHeight),
             
             radiusLabel.topAnchor.constraint(equalTo: radiusSlider.bottomAnchor),
             radiusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             radiusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            radiusLabel.heightAnchor.constraint(equalToConstant: height),
+            radiusLabel.heightAnchor.constraint(equalToConstant: itemHeight),
         ])
     }
     
@@ -336,11 +336,11 @@ extension ReminderVC: UITextFieldDelegate {
 }
 
 extension ReminderVC: LocationDelegate {
-    func locationSelected(name: String, latitude: Double, longitude: Double) {
-        locationButton.setTitle(name, for: .normal)
+    func locationSelected(title: String, subtitle: String, latitude: Double, longitude: Double) {
+        locationButton.setSplitTitle(title: title, subtitle: subtitle)
         reminderLatitude  = latitude
         reminderLongitude = longitude
-        print("\(name) with coordinates: \(latitude), \(longitude) obtained.")
+        print("\(title) with coordinates: \(latitude), \(longitude) obtained.")
     }
 }
 

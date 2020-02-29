@@ -29,11 +29,9 @@ class MMTitleLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor             = .clear
         textColor                   = .label
-//        textAlignment   = .center
-        font                        = UIFont.systemFont(ofSize: 18.0, weight: .medium)
+        font                        = UIFont.systemFont(ofSize: 20.0, weight: .bold)
         adjustsFontSizeToFitWidth   = true
         minimumScaleFactor          = 0.9
         lineBreakMode               = .byTruncatingTail
-//        text            = "Trigger bubble Radius: 0m"
     }
 }

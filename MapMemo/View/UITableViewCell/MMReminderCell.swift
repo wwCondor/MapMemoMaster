@@ -18,8 +18,8 @@ class MMReminderCell: UITableViewCell {
     private let repeatStatusImageView     = MMImageView(image: SFSymbols.isRepeating!)
     
     let titleLabel        = MMTitleLabel(alignment: .left, text: "Reminder title")
-    let locationLabel     = MMTitleLabel(alignment: .left, text: "Location")
-    let messageLabel      = MMTitleLabel(alignment: .left, text: "A short message")
+    let locationLabel     = MMSecondaryTitleLabel(alignment: .left, text: "Location")
+    let messageLabel      = MMSecondaryTitleLabel(alignment: .left, text: "A short message")
     let activationSwitch  = MMSwitch()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -45,6 +45,7 @@ class MMReminderCell: UITableViewCell {
         let padding: CGFloat = 10
         let iconSize: CGFloat = 31
         let labelHeight: CGFloat = 24
+        let secondaryLabelHeight: CGFloat = 20
         
         NSLayoutConstraint.activate([
             contentBackgroundView.topAnchor.constraint(equalTo: topAnchor, constant: padding/2),
@@ -60,12 +61,12 @@ class MMReminderCell: UITableViewCell {
             messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
-            messageLabel.heightAnchor.constraint(equalToConstant: labelHeight),
+            messageLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
             locationLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
             locationLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
             locationLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
-            locationLabel.heightAnchor.constraint(equalToConstant: labelHeight),
+            locationLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
             reminderStatusImageView.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
             reminderStatusImageView.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),

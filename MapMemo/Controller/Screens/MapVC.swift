@@ -28,7 +28,7 @@ class MapVC: UIViewController {
     private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
     private let compass                 = MMCompassImageView(frame: .zero)
     
-//    private let testButton              = MMButton(title: "Test Alert Button") // MARK: Delete
+    private let testButton              = MMTwoLineButton(title: "Main", subtitle: "Some subtitle", mode: .split) // MARK: Delete
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,7 @@ class MapVC: UIViewController {
         getActiveReminders()
         checkLocationServices()
         
+        layoutTestObject()
 //        configureTestButton() // MARK: Delete
     }
     
@@ -54,11 +55,21 @@ class MapVC: UIViewController {
 //        presentMMAlertOnMainThread(title: "Test", message: "This is the test content", buttonTitle: "Ok")
 //    }
     
+    private func layoutTestObject() {
+        view.addSubview(testButton) // MARK: Delete
+        
+        NSLayoutConstraint.activate([
+            testButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            testButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            testButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            testButton.heightAnchor.constraint(equalToConstant: 60),
+        ])
+    }
+    
     private func layoutUI() {
         view.addSubviews(mapView, compassBackgroundView, compass)
         mapView.pinToEdges(of: view)
         
-//        view.addSubview(testButton) // MARK: Delete
         
         let padding: CGFloat = 30
         
@@ -72,11 +83,6 @@ class MapVC: UIViewController {
             compass.centerYAnchor.constraint(equalTo: compassBackgroundView.centerYAnchor),
             compass.widthAnchor.constraint(equalToConstant: Configuration.compassSize),
             compass.heightAnchor.constraint(equalToConstant: Configuration.compassSize),
-            
-//            testButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-//            testButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-//            testButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            testButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     

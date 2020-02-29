@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 protocol LocationDelegate: class {
-    func locationSelected(name: String, latitude: Double, longitude: Double)
+    func locationSelected(title: String, subtitle: String, latitude: Double, longitude: Double)
 }
 
 class LocationVC: UIViewController {
@@ -19,7 +19,6 @@ class LocationVC: UIViewController {
     
     private let locationSearchBar       = MMLocationSearchBar()
     private let searchResultsTableView  = UITableView()
-
     private let searchCompleter         = MKLocalSearchCompleter()
     private let cellId                  = "searchResultsId"
 
@@ -100,13 +99,13 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let searchResult = searchResults[indexPath.row]
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.selectionStyle = .none
-        cell.textLabel?.text = searchResult.title
-        cell.detailTextLabel?.text = searchResult.subtitle
-        cell.textLabel?.textColor = .systemPink
+        let cell                        = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        cell.selectionStyle             = .none
+        cell.textLabel?.text            = searchResult.title
+        cell.detailTextLabel?.text      = searchResult.subtitle
+        cell.textLabel?.textColor       = .systemPink
         cell.detailTextLabel?.textColor = .systemPink
-        cell.backgroundColor = .systemBackground
+        cell.backgroundColor            = .systemBackground
         return cell
     }
     
@@ -120,10 +119,12 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
                 self.presentMMAlertOnMainThread(title: "Location Error", message: MMError.noLocation.localizedDescription, buttonTitle: "OK")
                 return
             }
-            let locationLatitude = coordinate.latitude as Double
-            let locationLongitude = coordinate.longitude as Double
+            let locationLatitude    = coordinate.latitude as Double
+            let locationLongitude   = coordinate.longitude as Double
+            let locationTitle       = completion.title
+            let locationSubtitle    = completion.subtitle
             
-            self.delegate.locationSelected(name: completion.title, latitude: locationLatitude, longitude: locationLongitude)
+            self.delegate.locationSelected(title: locationTitle, subtitle: locationSubtitle, latitude: locationLatitude, longitude: locationLongitude)
             self.dismiss(animated: true, completion: nil)
         }
     }

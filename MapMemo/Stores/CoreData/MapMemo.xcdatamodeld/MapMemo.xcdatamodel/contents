@@ -5,6 +5,7 @@
         <attribute name="isActive" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isRepeating" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="latitude" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="locationAddress" attributeType="String"/>
         <attribute name="locationName" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="message" attributeType="String"/>
@@ -12,6 +13,6 @@
         <attribute name="triggerOnEntry" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="193"/>
     </elements>
 </model>

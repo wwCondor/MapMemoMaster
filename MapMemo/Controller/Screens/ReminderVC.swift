@@ -21,6 +21,8 @@ class ReminderVC: UIViewController {
     weak var delegate: ReminderVCDelegate!
     
     var reminder: Reminder?
+    var locationName: String?
+    var locationAddress: String?
 
     var reminderLatitude: Double?
     var reminderLongitude: Double?
@@ -30,7 +32,8 @@ class ReminderVC: UIViewController {
 
     let managedObjectContext        = CoreDataManager.shared.managedObjectContext
     
-    private let locationButton          = MMTwoLineButton(title: PlaceHolderText.location, subtitle: "", mode: .single)
+//    private let locationButton          = MMTwoLineButton(title: PlaceHolderText.location, subtitle: "", mode: .single)
+    private let locationButton          = MMButton(title: PlaceHolderText.location)
     private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
     private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
     private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
@@ -210,8 +213,13 @@ class ReminderVC: UIViewController {
             return
         }
         
-        guard let locationName = locationButton.currentTitle, locationName.isNotEmpty, locationName != PlaceHolderText.location else {
-            presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
+        guard let locationName = locationName, locationName.isNotEmpty else {
+            presentMMAlertOnMainThread(title: "Missing Location Name", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
+            return
+        }
+        
+        guard let locationAddress = locationAddress, locationAddress.isNotEmpty else {
+            presentMMAlertOnMainThread(title: "Missing Location Name", message: MMReminderError.missingLocationAddress.localizedDescription, buttonTitle: "Ok")
             return
         }
         
@@ -232,6 +240,7 @@ class ReminderVC: UIViewController {
         reminder.latitude        = latitude
         reminder.longitude       = longitude
         reminder.locationName    = locationName
+        reminder.locationAddress = locationAddress
         reminder.triggerOnEntry  = triggerToggleButton.isOn
         reminder.isRepeating     = repeatToggleButton.isOn
         reminder.isActive        = true
@@ -259,8 +268,13 @@ class ReminderVC: UIViewController {
             return
         }
         
-        guard let newLocationName = locationButton.currentTitle, newLocationName.isNotEmpty, newLocationName != PlaceHolderText.location else {
+        guard let newLocationName = locationName, newLocationName.isNotEmpty else {
             presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
+            return
+        }
+        
+        guard let newLocationAddress = locationAddress, newLocationAddress.isNotEmpty else {
+            presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.missingLocationAddress.localizedDescription, buttonTitle: "Ok")
             return
         }
         
@@ -279,6 +293,7 @@ class ReminderVC: UIViewController {
         reminder.latitude         = newLatitude
         reminder.longitude        = newLongitude
         reminder.locationName     = newLocationName
+        reminder.locationAddress  = newLocationAddress
         reminder.triggerOnEntry   = triggerToggleButton.isOn
         reminder.isRepeating      = repeatToggleButton.isOn
         reminder.bubbleRadius     = Double(radiusInMeters)
@@ -338,6 +353,8 @@ extension ReminderVC: UITextFieldDelegate {
 extension ReminderVC: LocationDelegate {
     func locationSelected(title: String, subtitle: String, latitude: Double, longitude: Double) {
         locationButton.setSplitTitle(title: title, subtitle: subtitle)
+        locationName     = title
+        locationAddress  = subtitle
         reminderLatitude  = latitude
         reminderLongitude = longitude
         print("\(title) with coordinates: \(latitude), \(longitude) obtained.")

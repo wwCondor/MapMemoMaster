@@ -28,10 +28,10 @@ class MMSecondaryTitleLabel: UILabel {
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor             = .clear
-        textColor                   = .secondaryLabel
+        textColor                   = .white
         font                        = UIFont.systemFont(ofSize: 16.0, weight: .medium)
         adjustsFontSizeToFitWidth   = true
-        minimumScaleFactor          = 0.9
+        minimumScaleFactor          = 0.75
         lineBreakMode               = .byTruncatingTail
     }
 }

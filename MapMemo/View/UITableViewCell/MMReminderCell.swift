@@ -18,7 +18,8 @@ class MMReminderCell: UITableViewCell {
     private let repeatStatusImageView     = MMImageView(image: SFSymbols.isRepeating!)
     
     let titleLabel        = MMTitleLabel(alignment: .left, text: "Reminder title")
-    let locationLabel     = MMSecondaryTitleLabel(alignment: .left, text: "Location")
+//    let locationLabel     = MMSecondaryTitleLabel(alignment: .left, text: "Location Name")
+    let addressLabel      = MMSecondaryTitleLabel(alignment: .left, text: "Address")
     let messageLabel      = MMSecondaryTitleLabel(alignment: .left, text: "A short message")
     let activationSwitch  = MMSwitch()
     
@@ -38,13 +39,14 @@ class MMReminderCell: UITableViewCell {
     
     private func configureCellContent() {
         addSubviews(contentBackgroundView, triggerStatusImageView, reminderStatusImageView, repeatStatusImageView, activationSwitch)
-        addSubviews(titleLabel, locationLabel, messageLabel)
+        addSubviews(titleLabel, addressLabel, messageLabel)
         
-        triggerStatusImageView.transform = CGAffineTransform(rotationAngle: -.pi/2)
+        triggerStatusImageView.transform  = CGAffineTransform(rotationAngle: -.pi/2)
         
-        let padding: CGFloat = 10
-        let iconSize: CGFloat = 31
-        let labelHeight: CGFloat = 24
+        let padding: CGFloat              = 10
+        let largePadding: CGFloat         = 20
+        let iconSize: CGFloat             = 25
+        let labelHeight: CGFloat          = 24
         let secondaryLabelHeight: CGFloat = 20
         
         NSLayoutConstraint.activate([
@@ -54,44 +56,65 @@ class MMReminderCell: UITableViewCell {
             contentBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding/2),
             
             titleLabel.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
-            titleLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -5),
+            titleLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
+            titleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: labelHeight),
+//            titleLabel.bottomAnchor.constraint(equalTo: addressLabel.topAnchor, constant: -padding),
             
-            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
+            messageLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
             messageLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
             messageLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
-            locationLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
-            locationLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
-            locationLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
-            locationLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
+            addressLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
+//            addressLabel.centerYAnchor.constraint(equalTo: contentBackgroundView.centerYAnchor),
+            addressLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
+            addressLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
+            addressLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
-            reminderStatusImageView.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
-            reminderStatusImageView.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
+//            reminderStatusImageView.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
+//            reminderStatusImageView.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
+//            reminderStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
+//            reminderStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
+            
+//            repeatStatusImageView.centerYAnchor.constraint(equalTo: reminderStatusImageView.centerYAnchor),
+//            repeatStatusImageView.trailingAnchor.constraint(equalTo: reminderStatusImageView.leadingAnchor, constant: -5),
+//            repeatStatusImageView.heightAnchor.constraint(equalToConstant: 22),
+//            repeatStatusImageView.widthAnchor.constraint(equalToConstant: 22),
+            
+            triggerStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
+            triggerStatusImageView.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
+            triggerStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
+            triggerStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
+            
+            reminderStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
+            reminderStatusImageView.leadingAnchor.constraint(equalTo: triggerStatusImageView.trailingAnchor, constant: padding),
             reminderStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
             reminderStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
             
             repeatStatusImageView.centerYAnchor.constraint(equalTo: reminderStatusImageView.centerYAnchor),
-            repeatStatusImageView.trailingAnchor.constraint(equalTo: reminderStatusImageView.leadingAnchor, constant: -5),
-            repeatStatusImageView.heightAnchor.constraint(equalToConstant: 22),
-            repeatStatusImageView.widthAnchor.constraint(equalToConstant: 22),
+            repeatStatusImageView.leadingAnchor.constraint(equalTo: reminderStatusImageView.trailingAnchor, constant: padding),
+            repeatStatusImageView.heightAnchor.constraint(equalToConstant: 18),
+            repeatStatusImageView.widthAnchor.constraint(equalToConstant: 18),
             
-            triggerStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
-            triggerStatusImageView.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: 20),
-            triggerStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
-            triggerStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
+//            messageLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: padding),
+//            messageLabel.leadingAnchor.constraint(equalTo: triggerStatusImageView.trailingAnchor),
+//            messageLabel.trailingAnchor.constraint(equalTo: activationSwitch.leadingAnchor),
+//            messageLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
-            activationSwitch.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -12),
+            activationSwitch.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: 15),
             activationSwitch.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
         ])
     }
     
     func set(reminder: Reminder) {
+//        guard let title = reminder.title, let locationName = reminder.locationName else { return }
+        guard let locationName = reminder.locationName, let address = reminder.locationAddress else { return }
+        
+//        titleLabel.text                  = "\(title) @ \(locationName)"
         titleLabel.text                  = reminder.title
+        addressLabel.text                = "\(locationName) \(address)"   //reminder.locationAddress
         messageLabel.text                = reminder.message
-        locationLabel.text               = reminder.locationName
         
         reminderStatusImageView.image    = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
         triggerStatusImageView.image     = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger

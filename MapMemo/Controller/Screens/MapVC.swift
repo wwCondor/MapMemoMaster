@@ -28,7 +28,7 @@ class MapVC: UIViewController {
     private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
     private let compass                 = MMCompassImageView(frame: .zero)
     
-    private let testButton              = MMButton(title: "Test Alert Button") // MARK: Delete
+//    private let testButton              = MMButton(title: "Test Alert Button") // MARK: Delete
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +38,7 @@ class MapVC: UIViewController {
         getActiveReminders()
         checkLocationServices()
         
-        configureTestButton() // MARK: Delete
+//        configureTestButton() // MARK: Delete
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,19 +46,19 @@ class MapVC: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
-    private func configureTestButton() { // MARK: Delete
-        testButton.addTarget(self, action: #selector(testButtonTapped), for: .touchUpInside)
-    }
+//    private func configureTestButton() { // MARK: Delete
+//        testButton.addTarget(self, action: #selector(testButtonTapped), for: .touchUpInside)
+//    }
     
-    @objc private func testButtonTapped(sender: MMButton) { // MARK: Delete
-        presentMMAlertOnMainThread(title: "Test", message: "This is the test content", buttonTitle: "Ok")
-    }
+//    @objc private func testButtonTapped(sender: MMButton) { // MARK: Delete
+//        presentMMAlertOnMainThread(title: "Test", message: "This is the test content", buttonTitle: "Ok")
+//    }
     
     private func layoutUI() {
         view.addSubviews(mapView, compassBackgroundView, compass)
         mapView.pinToEdges(of: view)
         
-        view.addSubview(testButton) // MARK: Delete
+//        view.addSubview(testButton) // MARK: Delete
         
         let padding: CGFloat = 30
         
@@ -73,10 +73,10 @@ class MapVC: UIViewController {
             compass.widthAnchor.constraint(equalToConstant: Configuration.compassSize),
             compass.heightAnchor.constraint(equalToConstant: Configuration.compassSize),
             
-            testButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            testButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            testButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            testButton.heightAnchor.constraint(equalToConstant: 60),
+//            testButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+//            testButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+//            testButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            testButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     
@@ -169,11 +169,11 @@ class MapVC: UIViewController {
     
     #warning("pinTintColor UIColor.white will never be used")
     private func createAnnotation(for reminder: Reminder) {
-        let annotation = CustomPointAnnotation()
-        annotation.title = reminder.title
-        annotation.subtitle = reminder.message
+        let annotation          = CustomPointAnnotation()
+        annotation.title        = reminder.title
+        annotation.subtitle     = reminder.message
         annotation.pinTintColor = reminder.isActive ? UIColor.systemPink : UIColor.white
-        annotation.coordinate = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+        annotation.coordinate   = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
         mapView.addAnnotation(annotation)
     }
     
@@ -184,28 +184,28 @@ class MapVC: UIViewController {
     }
     
     private func createNotification(for reminder: Reminder) {
-        guard let identifier = reminder.locationName else { return }
+        guard let identifier        = reminder.locationName else { return }
         guard let notificationTitle = reminder.title else { return }
-        guard let message = reminder.message else { return }
+        guard let message           = reminder.message else { return }
         
         let region = CLCircularRegion.init(center: CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude), radius: reminder.bubbleRadius, identifier: identifier)
         
         switch reminder.triggerOnEntry {
         case true:
-            region.notifyOnEntry = true
-            region.notifyOnExit = false
+//            region.notifyOnEntry = true // Should be enough to set false only since true is default - Test
+            region.notifyOnExit  = false
         case false:
             region.notifyOnEntry = false
-            region.notifyOnExit = true
+//            region.notifyOnExit  = true
         }
         
         locationManager.startMonitoring(for: region)
         
-        let content = UNMutableNotificationContent()
-        let messagePrefix = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
-        content.title = notificationTitle
-        content.body = "\(messagePrefix) \(identifier): \(message)"
-        content.sound = UNNotificationSound.default
+        let content         = UNMutableNotificationContent()
+        let messagePrefix   = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
+        content.title       = notificationTitle
+        content.body        = "\(messagePrefix) \(identifier): \(message)"
+        content.sound       = UNNotificationSound.default
         
         let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: reminder.isRepeating)
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: locationTrigger)
@@ -287,9 +287,9 @@ extension MapVC: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let bubble = MKCircleRenderer(overlay: overlay)
-        bubble.strokeColor = UIColor.systemPink
-        bubble.fillColor = UIColor.systemPink.withAlphaComponent(0.2)
-        bubble.lineWidth = 2
+        bubble.strokeColor  = UIColor.systemPink
+        bubble.fillColor    = UIColor.systemPink.withAlphaComponent(0.2)
+        bubble.lineWidth    = 2
         return bubble
     }
 }

@@ -78,7 +78,7 @@ class ReminderVC: UIViewController {
         view.addSubviews(locationButton, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
         
         let padding: CGFloat = 20
-        let height: CGFloat = 60
+        let height: CGFloat  = 60
         
         NSLayoutConstraint.activate([
             locationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
@@ -151,7 +151,6 @@ class ReminderVC: UIViewController {
     
     @objc private func saveButtonTapped() {
         saveReminder()
-//        dismiss(animated: true)
     }
     
     @objc private func locationButtonTapped() {
@@ -170,11 +169,11 @@ class ReminderVC: UIViewController {
             self.messageTextField.text      = reminder.message
 
             self.triggerToggleButton.isOn   = reminder.triggerOnEntry
-            let triggerButtonTitle = reminder.triggerOnEntry ? ToggleText.enteringTrigger : ToggleText.leavingTrigger
+            let triggerButtonTitle          = reminder.triggerOnEntry ? ToggleText.enteringTrigger : ToggleText.leavingTrigger
             self.triggerToggleButton.setTitle(triggerButtonTitle , for: .normal)
             
             self.repeatToggleButton.isOn    = reminder.isRepeating
-            let repeatButtonTitle = reminder.isRepeating ? ToggleText.isRepeating : ToggleText.isNotRepeating
+            let repeatButtonTitle           = reminder.isRepeating ? ToggleText.isRepeating : ToggleText.isNotRepeating
             self.repeatToggleButton.setTitle(repeatButtonTitle, for: .normal)
             
             self.radiusInMeters             = reminder.bubbleRadius
@@ -339,7 +338,7 @@ extension ReminderVC: UITextFieldDelegate {
 extension ReminderVC: LocationDelegate {
     func locationSelected(name: String, latitude: Double, longitude: Double) {
         locationButton.setTitle(name, for: .normal)
-        reminderLatitude = latitude
+        reminderLatitude  = latitude
         reminderLongitude = longitude
         print("\(name) with coordinates: \(latitude), \(longitude) obtained.")
     }

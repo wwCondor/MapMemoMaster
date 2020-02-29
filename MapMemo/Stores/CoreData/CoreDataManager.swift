@@ -29,11 +29,10 @@ class CoreDataManager {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Reminder> = {
         let fetchRequest: NSFetchRequest<Reminder> = Reminder.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isActive", ascending: false), NSSortDescriptor(key: "title", ascending: true)]
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         return fetchResultsController
     }()
-    
 }
 
 extension NSManagedObjectContext {

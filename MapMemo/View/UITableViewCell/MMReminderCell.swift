@@ -96,6 +96,8 @@ class MMReminderCell: UITableViewCell {
         triggerStatusImageView.image     = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
         repeatStatusImageView.isHidden   = reminder.isRepeating ? false : true
         
+        contentBackgroundView.backgroundColor = reminder.isActive ? .systemPink : .systemGray4
+        
         let switchStatus: Bool = reminder.isActive ? true : false
         self.activationSwitch.setOn(switchStatus, animated: false)
     }

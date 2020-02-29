@@ -65,11 +65,11 @@ extension MMReminderError: LocalizedError {
     public var localizedDescription: String {
         switch self {
         case .reminderNil:                  return "An error occured retrieving the reminder"
-        case .missingTitle:                 return "Woops! You forgot to add a title to your reminder"
-        case .missingMessage:               return "Woops! You forgot to add a message to your reminder"
-        case .missingLatitude:              return "Woops! You forgot to enter a value for the latitude"
-        case .missingLongitude:             return "Woops! You forgot to enter a value for the longitude"
-        case .missingLocationName:          return "Woops! The location you entered has no location name"
+        case .missingTitle:                 return "Woops! It seems you forgot to add a title to your reminder"
+        case .missingMessage:               return "Woops! It seems you forgot to add a message to your reminder"
+        case .missingLatitude:              return "Woops! It seems you forgot to enter a value for the latitude"
+        case .missingLongitude:             return "Woops! It seems you forgot to enter a value for the longitude"
+        case .missingLocationName:          return "Woops! It seems there is no location selected for your reminder"
         case .unableToObtainLocation:       return "Unable to obtain a location name for the coordinates you entered"
         case .maxRemindersReached:          return "Maximum active reminders (20) reached. You need to delete a reminder first"
         case .titleIsDuplicate:             return "Unable to save reminder. Reminder title already exists."

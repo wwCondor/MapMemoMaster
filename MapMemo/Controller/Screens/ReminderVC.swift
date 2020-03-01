@@ -360,6 +360,3 @@ extension ReminderVC: LocationDelegate {
         print("\(title) with coordinates: \(latitude), \(longitude) obtained.")
     }
 }
-
-
-

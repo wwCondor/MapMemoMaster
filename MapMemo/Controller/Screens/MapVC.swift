@@ -241,9 +241,7 @@ class MapVC: UIViewController {
         for region in regions { locationManager.stopMonitoring(for: region) }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+    deinit { NotificationCenter.default.removeObserver(self) }
 }
 
 extension MapVC: CLLocationManagerDelegate {

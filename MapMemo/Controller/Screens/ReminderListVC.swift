@@ -25,9 +25,9 @@ class ReminderListVC: UIViewController {
         layoutUI()
         configureNavigationBar()
         configureTableView()
-        addObserver()
         fetchReminders()
         configureDataSource()
+        addObserver()
     }
     
     private func layoutUI() {
@@ -107,6 +107,8 @@ class ReminderListVC: UIViewController {
         NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         updateData()
     }
+    
+    deinit { NotificationCenter.default.removeObserver(self) }
 }
 
 extension ReminderListVC: UITableViewDelegate {

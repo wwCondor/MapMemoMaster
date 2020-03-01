@@ -32,6 +32,8 @@ class LocationVC: UIViewController {
         configureNavigationBar()
         configureSearchResultsTableView()
         setDelegates()
+        
+        locationSearchBar.becomeFirstResponder()
     }
     
     private func layoutUI() {

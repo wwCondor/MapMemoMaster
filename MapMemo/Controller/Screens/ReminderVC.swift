@@ -39,7 +39,7 @@ class ReminderVC: UIViewController {
     private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
     private let repeatToggleButton      = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
     private let radiusSlider            = MMSlider()
-    private let radiusLabel             = MMTitleLabel(alignment: .center, text: PlaceHolderText.defaultRadius)
+    private let radiusLabel             = MMPinkLabel(text: PlaceHolderText.defaultRadius)
     
     private let radiiInMeters: [Double] = [10, 25, 50, 100, 500, 1000, 5000]
 
@@ -117,7 +117,7 @@ class ReminderVC: UIViewController {
             radiusLabel.topAnchor.constraint(equalTo: radiusSlider.bottomAnchor),
             radiusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             radiusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            radiusLabel.heightAnchor.constraint(equalToConstant: itemHeight),
+            radiusLabel.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
     
@@ -166,7 +166,9 @@ class ReminderVC: UIViewController {
     
     private func updateLabels(for reminder: Reminder) {
         DispatchQueue.main.async {
-            self.locationButton.setTitle(reminder.locationName, for: .normal)
+            guard let locationName = reminder.locationName, let locationAddress = reminder.locationAddress else { return }
+            
+            self.locationButton.setSplitTitle(title: locationName, subtitle: locationAddress)  //setTitle(reminder.locationName, for: .normal)
             
             self.titleTextField.text        = reminder.title
             self.messageTextField.text      = reminder.message

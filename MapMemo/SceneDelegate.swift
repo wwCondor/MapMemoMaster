@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
+        window?.windowScene        = windowScene
         window?.rootViewController = MMTabBarController()
         window?.makeKeyAndVisible()
         
@@ -26,9 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func configureNavigationBar() {
-        let navigationBarAppearance = UINavigationBar.appearance()
+        let navigationBarAppearance          = UINavigationBar.appearance()
         navigationBarAppearance.barTintColor = .systemBackground
-        navigationBarAppearance.tintColor = .systemPink
+        navigationBarAppearance.tintColor    = .systemPink
     }
     
 //    private func configureTapBarAppearance() {

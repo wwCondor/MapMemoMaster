@@ -51,11 +51,11 @@
 		0B73EE34240AA1BF005E503F /* MMSecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE33240AA1BF005E503F /* MMSecondaryTitleLabel.swift */; };
 		0B73EE36240AA595005E503F /* MMLocationTapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE35240AA595005E503F /* MMLocationTapView.swift */; };
 		0B73EE3C240AE5F9005E503F /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */; };
+		0B73EE3E240BE6AE005E503F /* MMPinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE3D240BE6AE005E503F /* MMPinkLabel.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
 		0BA9CF11239E501800ACB8E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0F239E501800ACB8E3 /* LaunchScreen.storyboard */; };
-		0BA9CF22239E6E9800ACB8E3 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF21239E6E9800ACB8E3 /* Icon.swift */; };
 		0BA9CF35239FBCA900ACB8E3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF34239FBCA900ACB8E3 /* Error.swift */; };
 		0BC7488523A7CD4700AFB3B5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC7488423A7CD4700AFB3B5 /* Reachability.swift */; };
 /* End PBXBuildFile section */
@@ -105,13 +105,13 @@
 		0B73EE33240AA1BF005E503F /* MMSecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMSecondaryTitleLabel.swift; sourceTree = "<group>"; };
 		0B73EE35240AA595005E503F /* MMLocationTapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLocationTapView.swift; sourceTree = "<group>"; };
 		0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
+		0B73EE3D240BE6AE005E503F /* MMPinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMPinkLabel.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BA9CF10239E501800ACB8E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0BA9CF12239E501800ACB8E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BA9CF21239E6E9800ACB8E3 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		0BA9CF34239FBCA900ACB8E3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0BC7488423A7CD4700AFB3B5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,7 +161,6 @@
 			children = (
 				0B73EDAC23FC353A005E503F /* Configuration.swift */,
 				0BA9CF34239FBCA900ACB8E3 /* Error.swift */,
-				0BA9CF21239E6E9800ACB8E3 /* Icon.swift */,
 				0B73EE2024094028005E503F /* Key.swift */,
 				0B73EDC423FD209A005E503F /* PlaceholderText.swift */,
 				0B73EDA423FBF661005E503F /* SFSymbols.swift */,
@@ -258,6 +257,7 @@
 			children = (
 				0B73EDD023FD2761005E503F /* MMTitleLabel.swift */,
 				0B73EE33240AA1BF005E503F /* MMSecondaryTitleLabel.swift */,
+				0B73EE3D240BE6AE005E503F /* MMPinkLabel.swift */,
 				0B73EDD723FD67C3005E503F /* MMBodyLabel.swift */,
 			);
 			path = UILabel;
@@ -478,6 +478,7 @@
 				0B73EDE723FEB501005E503F /* MMButton.swift in Sources */,
 				0B73EE27240997D7005E503F /* MMAlertContainerView.swift in Sources */,
 				0B73EE25240996C0005E503F /* MMAlertVC.swift in Sources */,
+				0B73EE3E240BE6AE005E503F /* MMPinkLabel.swift in Sources */,
 				0B73EE2924099B0B005E503F /* UIViewController+Ext.swift in Sources */,
 				0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */,
 				0B73ED9323FBED8D005E503F /* MMReminderCell.swift in Sources */,
@@ -502,7 +503,6 @@
 				0B73EDE523FEB0DF005E503F /* CoreDataManager.swift in Sources */,
 				0B73EDA323FBF3E7005E503F /* ReminderVC.swift in Sources */,
 				0B73EDD823FD67C3005E503F /* MMBodyLabel.swift in Sources */,
-				0BA9CF22239E6E9800ACB8E3 /* Icon.swift in Sources */,
 				0B73EDA823FC1B04005E503F /* MMMapView.swift in Sources */,
 				0B73EDE923FEB5D4005E503F /* LocationVC.swift in Sources */,
 				0B73EDC723FD20BE005E503F /* ToggleText.swift in Sources */,

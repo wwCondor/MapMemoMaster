@@ -18,10 +18,14 @@ class ReminderListVC: UIViewController {
     
     var dataSource: ReminderDataSource!
     
-    private let remindersTableView = MMRemindersTableView(frame: .zero)
+    private let remindersTableView       = MMRemindersTableView(frame: .zero)
+    private let largeRemindersImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.35))
+    private let mediumRemindersImageView = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.25))
+    private let smallRemindersImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.15))
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         layoutUI()
         configureNavigationBar()
         configureTableView()
@@ -31,8 +35,30 @@ class ReminderListVC: UIViewController {
     }
     
     private func layoutUI() {
-        view.addSubview(remindersTableView)
+        view.addSubviews(largeRemindersImageView, mediumRemindersImageView, smallRemindersImageView, remindersTableView)
         remindersTableView.pinToEdges(of: view)
+        
+        NSLayoutConstraint.activate([
+            smallRemindersImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            smallRemindersImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 40),
+            smallRemindersImageView.heightAnchor.constraint(equalToConstant: 100),
+            smallRemindersImageView.widthAnchor.constraint(equalToConstant: 100),
+            
+            mediumRemindersImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            mediumRemindersImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            mediumRemindersImageView.heightAnchor.constraint(equalToConstant: 200),
+            mediumRemindersImageView.widthAnchor.constraint(equalToConstant: 200),
+            
+            largeRemindersImageView.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
+            largeRemindersImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+            largeRemindersImageView.heightAnchor.constraint(equalToConstant: 300),
+            largeRemindersImageView.widthAnchor.constraint(equalToConstant: 300),
+            
+//            noRemindersLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+//            noRemindersLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+//            noRemindersLabel.topAnchor.constraint(equalTo: noRemindersImageView.bottomAnchor, constant: 20),
+//            noRemindersLabel.heightAnchor.constraint(equalToConstant: 30),
+        ])
     }
     
     private func configureNavigationBar() {

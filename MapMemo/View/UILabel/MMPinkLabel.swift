@@ -1,14 +1,14 @@
 //
-//  MMSecondaryTitleLabel.swift
+//  MMPinkLabel.swift
 //  MapMemo
 //
-//  Created by Wouter Willebrands on 29/02/2020.
+//  Created by Wouter Willebrands on 01/03/2020.
 //  Copyright © 2020 Studio Willebrands. All rights reserved.
 //
 
 import UIKit
 
-class MMSecondaryTitleLabel: UILabel {
+class MMPinkLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,19 +19,19 @@ class MMSecondaryTitleLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(alignment: NSTextAlignment, text: String) {
+    convenience init(text: String) {
         self.init()
-        self.textAlignment = alignment
         self.text          = text
     }
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor             = .clear
-        textColor                   = .white
-        font                        = UIFont.systemFont(ofSize: 16.0, weight: .medium)
+        textAlignment               = .center
+        textColor                   = UIColor.systemPink.withAlphaComponent(0.8)
+        font                        = UIFont.systemFont(ofSize: 18.0, weight: .bold)
         adjustsFontSizeToFitWidth   = true
-        minimumScaleFactor          = 0.65
+        minimumScaleFactor          = 0.9
         lineBreakMode               = .byTruncatingTail
     }
 }

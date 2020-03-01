@@ -16,4 +16,5 @@ enum PlaceHolderText {
     static let location: String           = "Search location"
     static let bubbleColor: String        = "Pin Color"
     static let defaultRadius: String      = "Bubble radius: 50m"
+    static let noReminders: String        = "No active Reminders"
 }

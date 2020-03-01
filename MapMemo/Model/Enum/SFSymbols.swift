@@ -25,4 +25,5 @@ enum SFSymbols {
     
     static let delete            = UIImage(systemName: "trash")
     static let edit              = UIImage(systemName: "pencil")
+    static let pin               = UIImage(systemName: "mappin.and.ellipse")
 }

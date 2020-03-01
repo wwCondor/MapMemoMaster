@@ -117,14 +117,27 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
         let searchRequest = MKLocalSearch.Request(completion: completion)
         let search = MKLocalSearch(request: searchRequest)
         search.start { (result, error) in
-            guard let coordinate = result?.mapItems.last?.placemark.coordinate else {
+            guard let location = result?.mapItems.last?.placemark else {
                 self.presentMMAlertOnMainThread(title: "Location Error", message: MMError.noLocation.localizedDescription, buttonTitle: "OK")
                 return
             }
-            let locationLatitude    = coordinate.latitude as Double
-            let locationLongitude   = coordinate.longitude as Double
-            let locationTitle       = completion.title
-            let locationSubtitle    = completion.subtitle
+
+            let locationLatitude      = location.coordinate.latitude as Double
+            let locationLongitude     = location.coordinate.longitude as Double
+            
+            guard let locationName    = location.name else { return }
+            guard let streetAddress   = location.thoroughfare, let streetNumber = location.subThoroughfare else { return }
+            guard let city            = location.locality else { return }
+            guard let isoCountryCode  = location.isoCountryCode else { return }
+            
+            let locationTitle    = locationName
+            var locationSubtitle = ""
+            
+            if "\(locationName)" == "\(streetAddress) \(streetNumber)" {
+                locationSubtitle = "\(city) (\(isoCountryCode))"
+            } else {
+                locationSubtitle = "\(streetAddress) \(streetNumber), \(city) (\(isoCountryCode))"
+            }
             
             self.delegate.locationSelected(title: locationTitle, subtitle: locationSubtitle, latitude: locationLatitude, longitude: locationLongitude)
             self.dismiss(animated: true, completion: nil)

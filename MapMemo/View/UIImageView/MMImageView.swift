@@ -19,14 +19,14 @@ class MMImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(image: UIImage) {
+    convenience init(image: UIImage, tintColor: UIColor) {
         self.init(frame: .zero)
         self.image = image
+        self.tintColor = tintColor
     }
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        tintColor           = .white
         backgroundColor     = .clear
     }
     

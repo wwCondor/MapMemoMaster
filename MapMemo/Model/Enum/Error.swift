@@ -24,7 +24,7 @@ extension MMError: LocalizedError {
     public var localizedDescription: String {
         switch self {
         case .noConnection:                    return "There is no internet connection."
-        case .noLocation:                      return "An error occured finding the coordinates for the selected location, please try again."
+        case .noLocation:                      return "An error occured finding the location for the current selection, please try again."
         case .noResults:                       return "Unable to find search results"
         case .failedFetch:                     return "Unable to retrieve reminders from memory"
         case .addNotificationFailed:           return "An error occured creating the notification request"

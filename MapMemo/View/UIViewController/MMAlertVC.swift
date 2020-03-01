@@ -70,9 +70,9 @@ class MMAlertVC: UIViewController {
     }
     
     private func configureLabels() {
-        titleLabel.text = self.alertTitle ?? "Something went wrong"
-        messageLabel.text = self.alertMessage ?? "Unable to complete request"
         messageLabel.numberOfLines = 4
+        titleLabel.text            = self.alertTitle ?? "Something went wrong"
+        messageLabel.text          = self.alertMessage ?? "Unable to complete request"
     }
     
     private func configureButton() {

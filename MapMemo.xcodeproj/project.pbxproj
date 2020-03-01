@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0EFEFC240C311E00F087C7 /* MMAnnotationMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */; };
 		0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED7F23FBE5E7005E503F /* String+Ext.swift */; };
 		0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8123FBE60D005E503F /* Double+Ext.swift */; };
 		0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */; };
@@ -57,10 +58,10 @@
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
 		0BA9CF11239E501800ACB8E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0F239E501800ACB8E3 /* LaunchScreen.storyboard */; };
 		0BA9CF35239FBCA900ACB8E3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF34239FBCA900ACB8E3 /* Error.swift */; };
-		0BC7488523A7CD4700AFB3B5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC7488423A7CD4700AFB3B5 /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationMenuVC.swift; sourceTree = "<group>"; };
 		0B73ED7F23FBE5E7005E503F /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8123FBE60D005E503F /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Ext.swift"; sourceTree = "<group>"; };
@@ -113,7 +114,6 @@
 		0BA9CF10239E501800ACB8E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0BA9CF12239E501800ACB8E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BA9CF34239FBCA900ACB8E3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		0BC7488423A7CD4700AFB3B5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				0B73EE24240996C0005E503F /* MMAlertVC.swift */,
+				0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -378,20 +379,11 @@
 		0BA9CF1A239E52C000ACB8E3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0BC7488323A7CD2600AFB3B5 /* Networking */,
 				0B73EE122402B7A3005E503F /* Manager */,
 				0B73ED7C23FBE578005E503F /* Enum */,
 				0B73ED7A23FBE4E6005E503F /* Extension */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		0BC7488323A7CD2600AFB3B5 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				0BC7488423A7CD4700AFB3B5 /* Reachability.swift */,
-			);
-			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -494,6 +486,7 @@
 				0B73EE36240AA595005E503F /* MMLocationTapView.swift in Sources */,
 				0B73EE192403EF35005E503F /* NotificationManager.swift in Sources */,
 				0B73EDE323FEAFA9005E503F /* MapMemo.xcdatamodeld in Sources */,
+				0B0EFEFC240C311E00F087C7 /* MMAnnotationMenuVC.swift in Sources */,
 				0B73EE0D2400458F005E503F /* UIContextualAction+Ext.swift in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
 				0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */,
@@ -511,7 +504,6 @@
 				0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */,
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
 				0B73EDA123FBF3D3005E503F /* MapVC.swift in Sources */,
-				0BC7488523A7CD4700AFB3B5 /* Reachability.swift in Sources */,
 				0B73ED8D23FBE969005E503F /* MMBackgroundView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

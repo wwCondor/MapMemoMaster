@@ -70,7 +70,6 @@ class MapVC: UIViewController {
         view.addSubviews(mapView, compassBackgroundView, compass)
         mapView.pinToEdges(of: view)
         
-        
         let padding: CGFloat = 30
         
         NSLayoutConstraint.activate([
@@ -241,6 +240,17 @@ class MapVC: UIViewController {
         for region in regions { locationManager.stopMonitoring(for: region) }
     }
     
+    private func presentAnnotationsMenuFor(reminder: Reminder) {
+//        print(reminder)
+//        presentMMAlertOnMainThread(title: "Something", message: "is", buttonTitle: "Wrong")
+        DispatchQueue.main.async {
+            let annotationMenuVC = MMAnnotationMenuVC(reminder: reminder)
+            annotationMenuVC.modalPresentationStyle = .overFullScreen
+            annotationMenuVC.modalTransitionStyle   = .crossDissolve
+            self.present(annotationMenuVC, animated: true)
+        }
+    }
+    
     deinit { NotificationCenter.default.removeObserver(self) }
 }
 
@@ -295,6 +305,12 @@ extension MapVC: MKMapViewDelegate {
         bubble.fillColor    = UIColor.systemPink.withAlphaComponent(0.2)
         bubble.lineWidth    = 2
         return bubble
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let title = view.annotation?.title!! else { return }
+        guard let reminder = managedObjectContext.fetchReminderWith(title: title, context: managedObjectContext) else { return }
+        presentAnnotationsMenuFor(reminder: reminder)
     }
 }
 

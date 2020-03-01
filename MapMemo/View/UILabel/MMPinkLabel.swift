@@ -21,7 +21,7 @@ class MMPinkLabel: UILabel {
     
     convenience init(text: String) {
         self.init()
-        self.text          = text
+        self.text = text
     }
     
     private func configure() {

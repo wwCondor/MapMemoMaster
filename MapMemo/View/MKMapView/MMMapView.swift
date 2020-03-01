@@ -13,7 +13,7 @@ class MMMapView: MKMapView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureView()
+        configureView() 
     }
     
     required init?(coder: NSCoder) {

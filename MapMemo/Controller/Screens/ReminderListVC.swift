@@ -31,7 +31,7 @@ class ReminderListVC: UIViewController {
         configureTableView()
         fetchReminders()
         configureDataSource()
-        addObserver()
+        addObserver() 
     }
     
     private func layoutUI() {

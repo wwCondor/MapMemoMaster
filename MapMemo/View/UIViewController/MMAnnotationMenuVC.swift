@@ -11,11 +11,6 @@ import UIKit
 class MMAnnotationMenuVC: UIViewController {
     
     private var reminder: Reminder?
-//
-//
-//    private var reminderTitle: String?
-//    private var locationName: String?
-//    private var locationAddress: String?
     
     private let containerView        = MMAlertContainerView()
     private let titleLabel           = MMTitleLabel(alignment: .center, text: "Title")
@@ -27,10 +22,6 @@ class MMAnnotationMenuVC: UIViewController {
     init(reminder: Reminder) {
         super.init(nibName: nil, bundle: nil)
         self.reminder = reminder
-//        print("Reminder: \(reminder)")
-//        self.reminderTitle    = reminder.title
-//        self.locationName     = reminder.locationName
-//        self.locationAddress  = reminder.locationAddress
     }
     
     required init?(coder: NSCoder) {
@@ -111,6 +102,7 @@ class MMAnnotationMenuVC: UIViewController {
     
     @objc private func navigationButtonTapped(sender: MMButton) {
         print("Launch navigation")
+        // MARK: Inform, dismiss and center map with a zoom
     }
     
     @objc private func shareButtonTapped(sender: MMButton) {

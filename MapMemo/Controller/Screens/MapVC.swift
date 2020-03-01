@@ -310,6 +310,12 @@ extension MapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let title = view.annotation?.title!! else { return }
         guard let reminder = managedObjectContext.fetchReminderWith(title: title, context: managedObjectContext) else { return }
+        
+//        let zoomRegionInMeters: Double = 5000
+        let center = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+        let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+//        mapView.setCenter(center, animated: true)
+        mapView.setRegion(region, animated: true)
         presentAnnotationsMenuFor(reminder: reminder)
     }
 }

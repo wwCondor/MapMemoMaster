@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B0EFEFC240C311E00F087C7 /* MMAnnotationMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */; };
+		0B0EFEFF240C485E00F087C7 /* MMAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */; };
 		0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED7F23FBE5E7005E503F /* String+Ext.swift */; };
 		0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8123FBE60D005E503F /* Double+Ext.swift */; };
 		0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationMenuVC.swift; sourceTree = "<group>"; };
+		0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationView.swift; sourceTree = "<group>"; };
 		0B73ED7F23FBE5E7005E503F /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8123FBE60D005E503F /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Ext.swift"; sourceTree = "<group>"; };
@@ -127,6 +129,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B0EFEFD240C483D00F087C7 /* MKAnnotationView */ = {
+			isa = PBXGroup;
+			children = (
+				0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */,
+			);
+			path = MKAnnotationView;
+			sourceTree = "<group>";
+		};
 		0B73ED7A23FBE4E6005E503F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +369,7 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0B0EFEFD240C483D00F087C7 /* MKAnnotationView */,
 				0B73EDA623FC1ACB005E503F /* MKMapView */,
 				0B73ED8B23FBE7E9005E503F /* UIButton */,
 				0B73EDA923FC32CF005E503F /* UIImageView */,
@@ -505,6 +516,7 @@
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
 				0B73EDA123FBF3D3005E503F /* MapVC.swift in Sources */,
 				0B73ED8D23FBE969005E503F /* MMBackgroundView.swift in Sources */,
+				0B0EFEFF240C485E00F087C7 /* MMAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

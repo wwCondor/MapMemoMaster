@@ -91,6 +91,7 @@ extension LocationVC: MKLocalSearchCompleterDelegate {
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
 //        presentMMAlertOnMainThread(title: "No Results", message: MMError.noResults.localizedDescription, buttonTitle: "OK")
+        // This alert currently also triggers when user empties search field 
     }
 }
 
@@ -122,8 +123,8 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
                 return
             }
 
-            let locationLatitude      = location.coordinate.latitude as Double
-            let locationLongitude     = location.coordinate.longitude as Double
+            let latitude      = location.coordinate.latitude as Double
+            let longitude     = location.coordinate.longitude as Double
             
             guard let locationName    = location.name else { return }
             guard let streetAddress   = location.thoroughfare, let streetNumber = location.subThoroughfare else { return }
@@ -139,7 +140,7 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
                 locationSubtitle = "\(streetAddress) \(streetNumber), \(city) (\(isoCountryCode))"
             }
             
-            self.delegate.locationSelected(title: locationTitle, subtitle: locationSubtitle, latitude: locationLatitude, longitude: locationLongitude)
+            self.delegate.locationSelected(title: locationTitle, subtitle: locationSubtitle, latitude: latitude, longitude: longitude)
             self.dismiss(animated: true, completion: nil)
         }
     }

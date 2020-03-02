@@ -7,13 +7,24 @@
 //
 
 import UIKit
+import CoreLocation
 
 enum AnnotationMode { case pinLocation, myLocation }
 
+protocol AnnotationDelegate: class {
+    func userTappedShareButton()
+    func userTappedNavigationButton()
+    func userTappedAddReminderButton()
+}
+
 class MMAnnotationVC: UIViewController {
     
-    private var reminder: Reminder?
-    private var modeSelected: AnnotationMode = .pinLocation
+    weak var delegate: AnnotationDelegate!
+    
+    var titleInfo: String?
+    var subtitleInfo: String?
+    var modeSelected: AnnotationMode = .pinLocation
+    var reminder: Reminder?
     
     private let containerView        = MMAlertContainerView()
     private let titleLabel           = MMTitleLabel(alignment: .center, text: "Title")
@@ -23,16 +34,20 @@ class MMAnnotationVC: UIViewController {
     private let actionButton         = MMButton(title: "Navigate to location")
     private let shareButton          = MMButton(title: "Share Location")
     
-    init(mode: AnnotationMode, reminder: Reminder?) {
-        super.init(nibName: nil, bundle: nil)
-        self.reminder     = reminder
-        self.modeSelected = mode
-        configureLabels(for: mode)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    init(mode: AnnotationMode, reminder: Reminder?, title: String?, subtitle: String?) {
+////    init(mode: AnnotationMode, reminder: Reminder?, location: CLLocationCoordinate2D?) {
+//        super.init(nibName: nil, bundle: nil)
+//        self.reminder     = reminder
+////        self.modeSelected = mode
+////        self.location     = location
+////        self.titleInfo    = title
+////        self.subtitleInfo = subtitle
+//        configureLabels(for: modeSelected)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +55,7 @@ class MMAnnotationVC: UIViewController {
         configureTapGestures()
         layoutUI()
         configureButtons()
+        configureLabels(for: modeSelected)
     }
 
     private func layoutUI() {
@@ -105,14 +121,10 @@ class MMAnnotationVC: UIViewController {
     
     private func configureLabelsForCurrentLocation() {
         actionButton.setTitle("Set Reminder", for: .normal)
-        // get current location
-        //
-        
-        // launch reminderVC with location preset when user taps action button
-        
         titleLabel.text           = "Current Location"
-        locationNameLabel.text    = "Location Name"
-        locationAddressLabel.text = "Location address"
+//        getLocationInfo()
+        locationNameLabel.text    = titleInfo ?? "Unable to retrieve location info"
+        locationAddressLabel.text = subtitleInfo ?? ""
     }
     
     private func configureBackground() {
@@ -143,14 +155,17 @@ class MMAnnotationVC: UIViewController {
     
     @objc private func actionButtonTapped(sender: MMButton) {
         switch modeSelected {
-        case .pinLocation: print("Launch navigation")
-        case .myLocation: print("Create reminder")
+        case .pinLocation:
+            delegate.userTappedNavigationButton()
+        case .myLocation:
+            dismiss(animated: true)
+            delegate.userTappedAddReminderButton()
         }
         
         // MARK: Inform, dismiss and center map with a zoom
     }
     
     @objc private func shareButtonTapped(sender: MMButton) {
-        print("Launch share")
+        delegate.userTappedShareButton()
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ReminderMode { case new, edit }
+enum ReminderMode { case new, edit, annotation }
 
 protocol ReminderVCDelegate: class {
     func didEdit(reminder: Reminder)
@@ -23,7 +23,6 @@ class ReminderVC: UIViewController {
     var reminder: Reminder?
     var locationName: String?
     var locationAddress: String?
-
     var reminderLatitude: Double?
     var reminderLongitude: Double?
     
@@ -32,7 +31,6 @@ class ReminderVC: UIViewController {
 
     let managedObjectContext        = CoreDataManager.shared.managedObjectContext
     
-//    private let locationButton          = MMTwoLineButton(title: PlaceHolderText.location, subtitle: "", mode: .single)
     private let locationButton          = MMButton(title: PlaceHolderText.location)
     private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
     private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
@@ -42,7 +40,6 @@ class ReminderVC: UIViewController {
     private let radiusLabel             = MMPinkLabel(text: PlaceHolderText.defaultRadius)
     
     private let radiiInMeters: [Double] = [10, 25, 50, 100, 500, 1000, 5000]
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,11 +120,15 @@ class ReminderVC: UIViewController {
     
     private func configureUI(for mode: ReminderMode, with reminder: Reminder?) {
         switch mode {
-        case .new: print("New")
+        case .new:
+            print("ReminderVC presented in New Mode")
         case .edit:
             guard let selectedReminder = reminder else { return }
             updateLabels(for: selectedReminder)
-            print("Edit")
+            print("ReminderVC presented in Edit Mode")
+        case .annotation:
+            updateButtonInfo()
+            print("ReminderVC presented in Annotation Mode")
         }
     }
     
@@ -189,6 +190,16 @@ class ReminderVC: UIViewController {
             self.updateSlider(for: reminder.bubbleRadius)
         }
     }
+    
+    private func updateButtonInfo() {
+        DispatchQueue.main.async {
+            guard let title = self.locationName, let subtitle = self.locationAddress else {
+                print("Unable to set button titel")
+                return
+            }
+            self.locationButton.setSplitTitle(title: title, subtitle: subtitle)
+        }
+    }
 
     @objc func sliderMoved(sender: UISlider) {
         sender.value = roundf(sender.value)
@@ -201,6 +212,7 @@ class ReminderVC: UIViewController {
         switch modeSelected {
         case .new: saveNewReminder()
         case .edit: saveReminderChanges()
+        case .annotation: saveNewReminder()
         }
     }
     

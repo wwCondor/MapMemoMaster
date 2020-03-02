@@ -14,6 +14,9 @@ import UserNotifications
 
 class MapVC: UIViewController {
     
+    
+    private var locationTitle: String?
+    private var locationSubtitle: String?
     private var lastLocation: CLLocation?
     private var reminders: [Reminder] = []
     private var locationAuthorized: Bool = false
@@ -27,6 +30,7 @@ class MapVC: UIViewController {
     private let mapView                 = MMMapView()
     private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
     private let compass                 = MMCompassImageView(frame: .zero)
+    
     
 //    private let testButton              = MMTwoLineButton(title: "Main", subtitle: "Some subtitle", mode: .split) // MARK: Delete
     
@@ -240,8 +244,40 @@ class MapVC: UIViewController {
         for region in regions { locationManager.stopMonitoring(for: region) }
     }
     
+    private func getLocationInfo() {
+        guard let location = getCurrentLocation() else { return }
+        
+        let geoCoder = CLGeocoder()
+        
+        let latitude = location.latitude
+        let longitude = location.longitude
+        
+        geoCoder.reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { (placemarks, error) in
+            guard error == nil else { return }
+            guard let placemark         = placemarks?.last else { return }
+            guard let name              = placemark.name else { return }
+            guard let streetAddress     = placemark.thoroughfare, let streetNumber = placemark.subThoroughfare else { return }
+            guard let city              = placemark.locality else { return }
+            guard let isoCountryCode    = placemark.isoCountryCode else { return }
+            
+            self.locationTitle = name
+            
+            if "\(name)" == "\(streetAddress) \(streetNumber)" {
+                self.locationSubtitle = "\(city) (\(isoCountryCode))"
+            } else {
+                self.locationSubtitle = "\(streetAddress) \(streetNumber), \(city) (\(isoCountryCode))"
+            }
+        }
+    }
+    
+    private func getCurrentLocation() -> CLLocationCoordinate2D? {
+        guard let location = locationManager.location?.coordinate else { return nil }
+        return location
+    }
+    
     private func centerMapOnUser() {
-        guard let location = locationManager.location?.coordinate else { return }
+        guard let location = getCurrentLocation() else { return }
+//        print(location.getInformation())
         let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
         mapView.setRegion(region, animated: true)
     }
@@ -263,18 +299,32 @@ class MapVC: UIViewController {
     private func presentMenuForPinLocation(for reminder: Reminder?) {
         DispatchQueue.main.async {
             guard let reminder = reminder else { return }
-            let annotationMenuVC = MMAnnotationVC(mode: .pinLocation, reminder: reminder)
+//            let annotationMenuVC = MMAnnotationVC(mode: .pinLocation, reminder: reminder, title: nil, subtitle: nil)
+            
+            let annotationMenuVC = MMAnnotationVC()
+//            let annotationMenuVC = MMAnnotationVC(mode: .pinLocation, reminder: reminder, location: nil)
             annotationMenuVC.modalPresentationStyle = .overFullScreen
             annotationMenuVC.modalTransitionStyle   = .crossDissolve
+            annotationMenuVC.reminder               = reminder
+            annotationMenuVC.modeSelected           = .pinLocation
+            annotationMenuVC.delegate               = self
             self.present(annotationMenuVC, animated: true)
         }
     }
     
     private func presentMenuForCurrentLocation() {
         DispatchQueue.main.async {
-            let annotationMenuVC = MMAnnotationVC(mode: .myLocation, reminder: nil)
+            guard let titleInfo = self.locationTitle, let subtitleInfo = self.locationSubtitle else { return }
+            let annotationMenuVC = MMAnnotationVC()
+//            guard let lastlocation = self.lastLocation else { return }
+//            let annotationMenuVC = MMAnnotationVC(mode: .myLocation, reminder: nil, location: location)
+//            let annotationMenuVC = MMAnnotationVC(mode: .myLocation, reminder: nil, title: self.locationTitle, subtitle: self.locationSubtitle)
             annotationMenuVC.modalPresentationStyle = .overFullScreen
             annotationMenuVC.modalTransitionStyle   = .crossDissolve
+            annotationMenuVC.titleInfo              = titleInfo
+            annotationMenuVC.subtitleInfo           = subtitleInfo
+            annotationMenuVC.modeSelected           = .myLocation
+            annotationMenuVC.delegate               = self
             self.present(annotationMenuVC, animated: true)
         }
     }
@@ -293,9 +343,11 @@ extension MapVC: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locations.last else { return }
+        lastLocation = currentLocation
         let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
         let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
         mapView.setRegion(region, animated: true)
+//        getLocationInfo()
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -337,9 +389,9 @@ extension MapVC: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
+            getLocationInfo()
             centerMapOnUser()
             annotationTapped(at: .myLocation, for: nil)
-            print("current location")
         } else {
             guard let annotationTitle = view.annotation?.title, let title = annotationTitle else { return }
             guard let reminder = managedObjectContext.fetchReminderWith(title: title, context: managedObjectContext) else { return }
@@ -352,4 +404,39 @@ extension MapVC: MKMapViewDelegate {
 
 class MMPointAnnotation: MKPointAnnotation {
     var pinTintColor: UIColor?
+}
+
+extension MapVC: AnnotationDelegate {
+    func userTappedShareButton() {
+        print("User wants to share location")
+    }
+    
+    func userTappedNavigationButton() {
+        print("User wants to navigate to reminder")
+    }
+    
+    func userTappedAddReminderButton() {
+        presentReminderVC(mode: .annotation, reminder: nil)
+        print("User wants to create reminder for current location")
+    }
+    
+    private func presentReminderVC(mode: ReminderMode, reminder: Reminder?) {
+        guard let location = lastLocation else {
+            presentMMAlertOnMainThread(title: "Coordinates not found", message: MMError.noLocation.localizedDescription, buttonTitle: "OK")
+            return
+        }
+                
+        let latitude   = location.coordinate.latitude
+        let longitude  = location.coordinate.longitude
+        
+        let reminderVC = ReminderVC(mode: mode, reminder: reminder)
+        reminderVC.locationName      = locationTitle
+        reminderVC.locationAddress   = locationSubtitle
+        reminderVC.reminderLatitude  = latitude
+        reminderVC.reminderLongitude = longitude
+        
+        let navigationController = UINavigationController(rootViewController: reminderVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+    }
 }

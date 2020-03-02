@@ -104,7 +104,8 @@ class ReminderListVC: UIViewController {
     }
     
     @objc private func updateReminders(sender: NotificationCenter) {
-        updateData()
+//        updateData()
+        configureDataSource()
     }
 
     @objc private func addButtonTapped() {

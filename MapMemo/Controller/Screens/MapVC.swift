@@ -147,12 +147,6 @@ class MapVC: UIViewController {
         updateUIForAuthorization(status: locationAuthorized)
     }
     
-    private func centerMapOnUser() {
-        guard let location = locationManager.location?.coordinate else { return }
-        let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-        mapView.setRegion(region, animated: true)
-    }
-    
     private func updateUIForAuthorization(status: Bool) {
         switch status {
         case true: print("Hide settings shortcut")
@@ -198,7 +192,8 @@ class MapVC: UIViewController {
         guard let notificationTitle = reminder.title else { return }
         guard let message           = reminder.message else { return }
         
-        let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude), radius: reminder.bubbleRadius, identifier: identifier)
+        let center = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+        let region = CLCircularRegion(center: center, radius: reminder.bubbleRadius, identifier: identifier)
         
         switch reminder.triggerOnEntry {
         case true:
@@ -234,7 +229,7 @@ class MapVC: UIViewController {
         print("Updating reminders")
         removeReminders()
         getActiveReminders()
-//        addRemindersToMap(reminders: reminders)
+//        addRemindersToMap(reminders: reminders) // moved inside fetchReminders method
     }
     
     private func removeReminders() {
@@ -243,6 +238,19 @@ class MapVC: UIViewController {
         mapView.removeAnnotations(mapView.annotations)
         let regions = locationManager.monitoredRegions
         for region in regions { locationManager.stopMonitoring(for: region) }
+    }
+    
+    private func centerMapOnUser() {
+        guard let location = locationManager.location?.coordinate else { return }
+        let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    private func centerMapOnPin(for reminder: Reminder) {
+        let center = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+        let region = MKCoordinateRegion(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+        mapView.setRegion(region, animated: true)
+        //        mapView.setCenter(center, animated: true)
     }
     
     private func annotationTapped(at mode: AnnotationMode, for reminder: Reminder?) {
@@ -326,7 +334,7 @@ extension MapVC: MKMapViewDelegate {
         bubble.lineWidth    = 2
         return bubble
     }
-
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
             centerMapOnUser()
@@ -335,13 +343,9 @@ extension MapVC: MKMapViewDelegate {
         } else {
             guard let annotationTitle = view.annotation?.title, let title = annotationTitle else { return }
             guard let reminder = managedObjectContext.fetchReminderWith(title: title, context: managedObjectContext) else { return }
-            let center = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
-            let region = MKCoordinateRegion(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-            //        mapView.setCenter(center, animated: true)
-            mapView.setRegion(region, animated: true)
+            centerMapOnPin(for: reminder)
             annotationTapped(at: .pinLocation, for: reminder)
         }
-
         mapView.deselectAnnotation(view as? MKAnnotation, animated: true)
     }
 }

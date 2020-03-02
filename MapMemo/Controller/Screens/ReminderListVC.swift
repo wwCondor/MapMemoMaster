@@ -36,7 +36,6 @@ class ReminderListVC: UIViewController {
     
     private func layoutUI() {
         view.addSubviews(largeRemindersImageView, mediumRemindersImageView, smallRemindersImageView, remindersTableView)
-        remindersTableView.pinToEdges(of: view)
         
         NSLayoutConstraint.activate([
             smallRemindersImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -54,10 +53,10 @@ class ReminderListVC: UIViewController {
             largeRemindersImageView.heightAnchor.constraint(equalToConstant: 300),
             largeRemindersImageView.widthAnchor.constraint(equalToConstant: 300),
             
-//            noRemindersLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-//            noRemindersLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-//            noRemindersLabel.topAnchor.constraint(equalTo: noRemindersImageView.bottomAnchor, constant: 20),
-//            noRemindersLabel.heightAnchor.constraint(equalToConstant: 30),
+            remindersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            remindersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            remindersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            remindersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     

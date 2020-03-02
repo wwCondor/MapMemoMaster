@@ -86,7 +86,7 @@ class MapVC: UIViewController {
     }
     
     private func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateRemindersOnMap), name: updateRemindersKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMapForReminders), name: updateRemindersKey, object: nil)
     }
     
     private func configureMapView() {
@@ -96,13 +96,15 @@ class MapVC: UIViewController {
     private func getActiveReminders() {
         do {
             reminders = try managedObjectContext.fetch(NSFetchRequest(entityName: "Reminder"))
-            print("Active reminders: \(reminders.count)")
+            addRemindersToMap(reminders: reminders)
+            print("Total reminders: \(reminders.count)")
         } catch {
             presentMMAlertOnMainThread(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription, buttonTitle: "OK")
         }
     }
     
     private func checkLocationServices() {
+        print("Checking location services")
         guard CLLocationManager.locationServicesEnabled() else {
             print("Location Services are Disabled")
             presentFailedPermissionActionSheet(description: MMError.locationServicesDisabled.localizedDescription , viewController: self)
@@ -134,11 +136,11 @@ class MapVC: UIViewController {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
             locationAuthorized = true
-//            mapView.showsUserLocation = true // Handle in class declaration?
+//            mapView.showsUserLocation = true // Handled in class declaration
             centerMapOnUser()
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading()
-            addRemindersToMap(reminders: reminders)
+//            addRemindersToMap(reminders: reminders) // Handled inside fetchReminders method
         @unknown default: break
         }
         
@@ -146,10 +148,9 @@ class MapVC: UIViewController {
     }
     
     private func centerMapOnUser() {
-        if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-            mapView.setRegion(region, animated: true)
-        }
+        guard let location = locationManager.location?.coordinate else { return }
+        let region = MKCoordinateRegion(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+        mapView.setRegion(region, animated: true)
     }
     
     private func updateUIForAuthorization(status: Bool) {
@@ -170,11 +171,15 @@ class MapVC: UIViewController {
                 createNotification(for: reminder)
             }
         }
+        
+        print("***")
+        print("Regions currently monitored: \(locationManager.monitoredRegions.count)")
+        print("***")
     }
     
     #warning("pinTintColor UIColor.white will never be used")
     private func createAnnotation(for reminder: Reminder) {
-        let annotation          = CustomPointAnnotation()
+        let annotation          = MMPointAnnotation()
         annotation.title        = reminder.title
         annotation.subtitle     = reminder.message
         annotation.pinTintColor = reminder.isActive ? UIColor.systemPink : UIColor.white
@@ -193,7 +198,7 @@ class MapVC: UIViewController {
         guard let notificationTitle = reminder.title else { return }
         guard let message           = reminder.message else { return }
         
-        let region = CLCircularRegion.init(center: CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude), radius: reminder.bubbleRadius, identifier: identifier)
+        let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude), radius: reminder.bubbleRadius, identifier: identifier)
         
         switch reminder.triggerOnEntry {
         case true:
@@ -225,11 +230,11 @@ class MapVC: UIViewController {
     }
     
     // MARK: Update Reminders
-    @objc private func updateRemindersOnMap(sender: NotificationCenter) {
+    @objc private func updateMapForReminders(sender: NotificationCenter) {
         print("Updating reminders")
         removeReminders()
         getActiveReminders()
-        addRemindersToMap(reminders: reminders)
+//        addRemindersToMap(reminders: reminders)
     }
     
     private func removeReminders() {
@@ -240,11 +245,26 @@ class MapVC: UIViewController {
         for region in regions { locationManager.stopMonitoring(for: region) }
     }
     
-    private func presentAnnotationsMenuFor(reminder: Reminder) {
-//        print(reminder)
-//        presentMMAlertOnMainThread(title: "Something", message: "is", buttonTitle: "Wrong")
+    private func annotationTapped(at mode: AnnotationMode, for reminder: Reminder?) {
+        switch mode {
+        case .pinLocation: presentMenuForPinLocation(for: reminder)
+        case .myLocation: presentMenuForCurrentLocation()
+        }
+    }
+    
+    private func presentMenuForPinLocation(for reminder: Reminder?) {
         DispatchQueue.main.async {
-            let annotationMenuVC = MMAnnotationMenuVC(reminder: reminder)
+            guard let reminder = reminder else { return }
+            let annotationMenuVC = MMAnnotationVC(mode: .pinLocation, reminder: reminder)
+            annotationMenuVC.modalPresentationStyle = .overFullScreen
+            annotationMenuVC.modalTransitionStyle   = .crossDissolve
+            self.present(annotationMenuVC, animated: true)
+        }
+    }
+    
+    private func presentMenuForCurrentLocation() {
+        DispatchQueue.main.async {
+            let annotationMenuVC = MMAnnotationVC(mode: .myLocation, reminder: nil)
             annotationMenuVC.modalPresentationStyle = .overFullScreen
             annotationMenuVC.modalTransitionStyle   = .crossDissolve
             self.present(annotationMenuVC, animated: true)
@@ -292,7 +312,7 @@ extension MapVC: MKMapViewDelegate {
         } else { 
             annotationView?.annotation = annotation
         }
-        if let annotation = annotation as? CustomPointAnnotation {
+        if let annotation = annotation as? MMPointAnnotation {
             annotationView?.pinTintColor = annotation.pinTintColor
         }
         
@@ -301,26 +321,31 @@ extension MapVC: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let bubble = MKCircleRenderer(overlay: overlay)
-        bubble.strokeColor  = UIColor.systemPink
-        bubble.fillColor    = UIColor.systemPink.withAlphaComponent(0.2)
+        bubble.strokeColor  = UIColor.systemPink.withAlphaComponent(0.8)
+        bubble.fillColor    = UIColor.systemPink.withAlphaComponent(0.4)
         bubble.lineWidth    = 2
         return bubble
     }
-    
+
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let title = view.annotation?.title!! else { return }
-        guard let reminder = managedObjectContext.fetchReminderWith(title: title, context: managedObjectContext) else { return }
-        
-        let center = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
-        let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-//        mapView.setCenter(center, animated: true)
-        mapView.setRegion(region, animated: true)
-        
-        presentAnnotationsMenuFor(reminder: reminder)
+        if view.annotation is MKUserLocation {
+            centerMapOnUser()
+            annotationTapped(at: .myLocation, for: nil)
+            print("current location")
+        } else {
+            guard let annotationTitle = view.annotation?.title, let title = annotationTitle else { return }
+            guard let reminder = managedObjectContext.fetchReminderWith(title: title, context: managedObjectContext) else { return }
+            let center = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+            let region = MKCoordinateRegion(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            //        mapView.setCenter(center, animated: true)
+            mapView.setRegion(region, animated: true)
+            annotationTapped(at: .pinLocation, for: reminder)
+        }
+
         mapView.deselectAnnotation(view as? MKAnnotation, animated: true)
     }
 }
 
-class CustomPointAnnotation: MKPointAnnotation {
+class MMPointAnnotation: MKPointAnnotation {
     var pinTintColor: UIColor?
 }

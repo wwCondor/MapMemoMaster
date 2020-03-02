@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B0EFEFC240C311E00F087C7 /* MMAnnotationMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */; };
 		0B0EFEFF240C485E00F087C7 /* MMAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */; };
+		0B0EFF01240CFE0500F087C7 /* MMAnnotationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */; };
 		0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED7F23FBE5E7005E503F /* String+Ext.swift */; };
 		0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8123FBE60D005E503F /* Double+Ext.swift */; };
 		0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */; };
@@ -62,8 +62,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationMenuVC.swift; sourceTree = "<group>"; };
 		0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationView.swift; sourceTree = "<group>"; };
+		0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationVC.swift; sourceTree = "<group>"; };
 		0B73ED7F23FBE5E7005E503F /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8123FBE60D005E503F /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Ext.swift"; sourceTree = "<group>"; };
@@ -312,7 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				0B73EE24240996C0005E503F /* MMAlertVC.swift */,
-				0B0EFEFB240C311E00F087C7 /* MMAnnotationMenuVC.swift */,
+				0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -474,6 +474,7 @@
 				0B73ED8823FBE6D8005E503F /* LosslessStringConvertible+Ext.swift in Sources */,
 				0B73EDC323FC6D69005E503F /* MMToggleButton.swift in Sources */,
 				0B73EDCC23FD25E3005E503F /* MMSlider.swift in Sources */,
+				0B0EFF01240CFE0500F087C7 /* MMAnnotationVC.swift in Sources */,
 				0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */,
 				0B73EE32240A9DCD005E503F /* UIImage+Ext.swift in Sources */,
 				0B73ED9A23FBF305005E503F /* MMTabBarController.swift in Sources */,
@@ -497,7 +498,6 @@
 				0B73EE36240AA595005E503F /* MMLocationTapView.swift in Sources */,
 				0B73EE192403EF35005E503F /* NotificationManager.swift in Sources */,
 				0B73EDE323FEAFA9005E503F /* MapMemo.xcdatamodeld in Sources */,
-				0B0EFEFC240C311E00F087C7 /* MMAnnotationMenuVC.swift in Sources */,
 				0B73EE0D2400458F005E503F /* UIContextualAction+Ext.swift in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
 				0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */,

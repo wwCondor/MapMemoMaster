@@ -27,6 +27,7 @@ class MMImageView: UIImageView {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
+        contentMode         = .scaleAspectFit
         backgroundColor     = .clear
     }
     

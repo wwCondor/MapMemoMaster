@@ -14,7 +14,6 @@ import UserNotifications
 
 class MapVC: UIViewController {
     
-    
     private var locationTitle: String?
     private var locationSubtitle: String?
     private var lastLocation: CLLocation?
@@ -31,7 +30,7 @@ class MapVC: UIViewController {
     private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
     private let compass                 = MMCompassImageView(frame: .zero)
     
-    
+//    private var mapCamera = MKMapCamera()
 //    private let testButton              = MMTwoLineButton(title: "Main", subtitle: "Some subtitle", mode: .split) // MARK: Delete
     
     override func viewDidLoad() {
@@ -95,8 +94,13 @@ class MapVC: UIViewController {
     
     private func configureMapView() {
         mapView.delegate = self
+//        mapView.camera = mapCamera
     }
 
+//    private func setMapCamera() {
+//        let currentLocation =
+//    }
+    
     private func getActiveReminders() {
         do {
             reminders = try managedObjectContext.fetch(NSFetchRequest(entityName: "Reminder"))
@@ -330,6 +334,13 @@ class MapVC: UIViewController {
     }
     
     deinit { NotificationCenter.default.removeObserver(self) }
+    
+//    private func setCamera(for location: CLLocationCoordinate2D) {
+//        mapCamera.centerCoordinate = location
+//        mapCamera.pitch = 20
+//        mapCamera.altitude = 1000
+//        mapCamera.heading = 45
+//    }
 }
 
 extension MapVC: CLLocationManagerDelegate {
@@ -341,12 +352,18 @@ extension MapVC: CLLocationManagerDelegate {
         }
     }
     
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        mapView.userLocation.title = ""
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         guard let currentLocation = locations.last else { return }
         lastLocation = currentLocation
         let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
         let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
         mapView.setRegion(region, animated: true)
+//        setCamera(for: center)
 //        getLocationInfo()
     }
     
@@ -368,7 +385,9 @@ extension MapVC: MKMapViewDelegate {
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.isEnabled = true
-            annotationView?.canShowCallout = true
+            annotationView?.canShowCallout = false
+//            annotationView?.isEnabled = false
+            #warning("Edited - Test")
         } else { 
             annotationView?.annotation = annotation
         }

@@ -31,7 +31,7 @@ class ReminderListVC: UIViewController {
         configureTableView()
         fetchReminders()
         configureDataSource()
-        addObserver() 
+//        addObserver() 
     }
     
     private func layoutUI() {
@@ -70,9 +70,9 @@ class ReminderListVC: UIViewController {
         remindersTableView.delegate = self
     }
     
-    private func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateReminders), name: updateRemindersKey, object: nil)
-    }
+//    private func addObserver() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(updateReminders), name: updateRemindersKey, object: nil)
+//    }
 
     private func fetchReminders() {
         fetchedResultsController.delegate = self
@@ -103,10 +103,10 @@ class ReminderListVC: UIViewController {
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
     
-    @objc private func updateReminders(sender: NotificationCenter) {
+//    @objc private func updateReminders(sender: NotificationCenter) {
 //        updateData()
-        configureDataSource()
-    }
+////        configureDataSource()
+//    }
 
     @objc private func addButtonTapped() {
         presentReminderVC(mode: .new, reminder: nil)
@@ -114,6 +114,7 @@ class ReminderListVC: UIViewController {
     
     private func presentReminderVC(mode: ReminderMode, reminder: Reminder?) {
         let reminderVC = ReminderVC(mode: mode, reminder: reminder)
+//        reminderVC.reminderVCListDelegate = self
         let navigationController = UINavigationController(rootViewController: reminderVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
@@ -145,7 +146,7 @@ extension ReminderListVC: UITableViewDelegate {
             guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
             reminder.managedObjectContext?.delete(reminder)
             reminder.managedObjectContext?.saveChanges()
-            self.updateData()
+//            self.updateData()
             NotificationCenter.default.post(name: self.updateRemindersKey, object: nil)
             completion(true)
         }
@@ -160,16 +161,16 @@ extension ReminderListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
             guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
             self.presentReminderVC(mode: .edit, reminder: reminder)
             completion(true)
         }
         
-        action.backgroundColor = .systemPink
-        action.image = SFSymbols.edit
+        editAction.backgroundColor = .systemPink
+        editAction.image = SFSymbols.edit
         
-        let swipeAction = UISwipeActionsConfiguration(actions: [action])
+        let swipeAction = UISwipeActionsConfiguration(actions: [editAction])
         return swipeAction
     }
     
@@ -190,3 +191,9 @@ extension ReminderListVC: NSFetchedResultsControllerDelegate {
         updateData()
     }
 }
+
+//extension ReminderListVC: ReminderVCListDelegate {
+//    func didEdit(reminder: Reminder) {
+//        print("We got here")
+//    }
+//}

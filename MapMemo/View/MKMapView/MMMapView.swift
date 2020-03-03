@@ -25,5 +25,9 @@ class MMMapView: MKMapView {
         showsUserLocation        = true
         isUserInteractionEnabled = true
         isZoomEnabled            = true
+//        showsBuildings           = true
+//        isPitchEnabled           = true
+        mapType                  = .standard
+//        mapType                  = .satelliteFlyover
     }
 }

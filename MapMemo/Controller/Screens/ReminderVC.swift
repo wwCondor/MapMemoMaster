@@ -10,15 +10,19 @@ import UIKit
 
 enum ReminderMode { case new, edit, annotation }
 
-protocol ReminderVCDelegate: class {
-    func didEdit(reminder: Reminder)
-}
+//protocol ReminderVCListDelegate: class {
+//    func didEdit(reminder: Reminder)
+//}
+//
+//protocol ReminderVCMapDelegate: class {
+//
+//}
 
 class ReminderVC: UIViewController {
     
     private let updateRemindersKey = Notification.Name(rawValue: Key.updateReminders)
     
-    weak var delegate: ReminderVCDelegate!
+//    weak var reminderVCListDelegate: ReminderVCListDelegate!
     
     var reminder: Reminder?
     var locationName: String?
@@ -118,6 +122,11 @@ class ReminderVC: UIViewController {
         ])
     }
     
+    private func configureTargets() {
+        radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
+        locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+    }
+    
     private func configureUI(for mode: ReminderMode, with reminder: Reminder?) {
         switch mode {
         case .new:
@@ -143,34 +152,12 @@ class ReminderVC: UIViewController {
             }
         }
     }
-
-    private func configureTargets() {
-        radiusSlider.addTarget(self, action: #selector(sliderMoved), for: .valueChanged)
-        locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func backButtonTapped() {
-        dismiss(animated: true)
-    }
-    
-    @objc private func saveButtonTapped() {
-        saveReminder()
-    }
-    
-    @objc private func locationButtonTapped() {
-        let locationVC = LocationVC()
-        locationVC.delegate = self
-        let navigationController = UINavigationController(rootViewController: locationVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true)
-    }
     
     private func updateLabels(for reminder: Reminder) {
         DispatchQueue.main.async {
-            guard let locationName = reminder.locationName, let locationAddress = reminder.locationAddress else { return }
-            
-            self.locationButton.setSplitTitle(title: locationName, subtitle: locationAddress)  //setTitle(reminder.locationName, for: .normal)
-            
+            self.locationName               = reminder.locationName
+            self.locationAddress            = reminder.locationAddress
+                        
             self.titleTextField.text        = reminder.title
             self.messageTextField.text      = reminder.message
 
@@ -188,6 +175,8 @@ class ReminderVC: UIViewController {
             self.reminderLongitude          = reminder.longitude
             
             self.updateSlider(for: reminder.bubbleRadius)
+            guard let title = reminder.locationName, let subtitle = reminder.locationAddress else { return }
+            self.locationButton.setSplitTitle(title: title, subtitle: subtitle)
         }
     }
     
@@ -206,6 +195,22 @@ class ReminderVC: UIViewController {
         let radiusSelected = Double(radiiInMeters[Int(roundf(sender.value))])
         radiusInMeters = radiusSelected
         radiusLabel.text = "Bubble radius: \(radiusSelected.clean)m"
+    }
+    
+    @objc private func backButtonTapped() {
+         dismiss(animated: true)
+     }
+     
+     @objc private func saveButtonTapped() {
+         saveReminder()
+     }
+    
+    @objc private func locationButtonTapped() {
+        let locationVC = LocationVC()
+        locationVC.delegate = self
+        let navigationController = UINavigationController(rootViewController: locationVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
     private func saveReminder() {
@@ -313,6 +318,7 @@ class ReminderVC: UIViewController {
         reminder.bubbleRadius     = Double(radiusInMeters)
         
         reminder.managedObjectContext?.saveChanges()
+//        reminderVCListDelegate.didEdit(reminder: reminder)
         NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         dismiss(animated: true)
         print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")

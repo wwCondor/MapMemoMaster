@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B0EFEFF240C485E00F087C7 /* MMAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */; };
 		0B0EFF01240CFE0500F087C7 /* MMAnnotationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */; };
+		0B0EFF08240FD12800F087C7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFF07240FD12800F087C7 /* Helper.swift */; };
 		0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED7F23FBE5E7005E503F /* String+Ext.swift */; };
 		0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8123FBE60D005E503F /* Double+Ext.swift */; };
 		0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */; };
@@ -64,6 +65,7 @@
 /* Begin PBXFileReference section */
 		0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationView.swift; sourceTree = "<group>"; };
 		0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationVC.swift; sourceTree = "<group>"; };
+		0B0EFF07240FD12800F087C7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		0B73ED7F23FBE5E7005E503F /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8123FBE60D005E503F /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
 		0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Ext.swift"; sourceTree = "<group>"; };
@@ -135,6 +137,14 @@
 				0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */,
 			);
 			path = MKAnnotationView;
+			sourceTree = "<group>";
+		};
+		0B0EFF06240FD11800F087C7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				0B0EFF07240FD12800F087C7 /* Helper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		0B73ED7A23FBE4E6005E503F /* Extension */ = {
@@ -344,6 +354,7 @@
 		0BA9CF00239E501700ACB8E3 /* MapMemo */ = {
 			isa = PBXGroup;
 			children = (
+				0B0EFF06240FD11800F087C7 /* Helpers */,
 				0B73EE2A240A91ED005E503F /* Stores */,
 				0BA9CF1A239E52C000ACB8E3 /* Model */,
 				0BA9CF19239E52BE00ACB8E3 /* View */,
@@ -475,6 +486,7 @@
 				0B73EDC323FC6D69005E503F /* MMToggleButton.swift in Sources */,
 				0B73EDCC23FD25E3005E503F /* MMSlider.swift in Sources */,
 				0B0EFF01240CFE0500F087C7 /* MMAnnotationVC.swift in Sources */,
+				0B0EFF08240FD12800F087C7 /* Helper.swift in Sources */,
 				0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */,
 				0B73EE32240A9DCD005E503F /* UIImage+Ext.swift in Sources */,
 				0B73ED9A23FBF305005E503F /* MMTabBarController.swift in Sources */,

@@ -97,6 +97,7 @@ class ReminderListVC: UIViewController {
     
     private func updateData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Reminder>()
+        
         snapshot.appendSections([.main])
         snapshot.appendItems(fetchedResultsController.fetchedObjects ?? [])
         snapshot.reloadItems(fetchedResultsController.fetchedObjects ?? [])

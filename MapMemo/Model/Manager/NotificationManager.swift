@@ -47,7 +47,9 @@ class NotificationManager: NSObject {
             presentAlert(with: "\(prefix) \(location)", description: message)
         }
         
-        if reminder.isRepeating != true { setStatusInactive(for: reminder) }
+        if reminder.isRepeating != true {
+            setStatusInactive(for: reminder)
+        }
         
         UIApplication.shared.applicationIconBadgeNumber += 1
     }

@@ -24,4 +24,18 @@ extension String {
     public var isNotEmpty: Bool {
         return !self.isEmpty
     }
+    
+    /// Removes substring from a string
+    /// - Parameter string: String to remove
+    func remove(string: String) -> String {
+        let stringComponents = string.components(separatedBy: " ")
+        var newString = self
+        
+        for stringComponent in stringComponents {
+            guard let stringToRemove = newString.range(of: stringComponent) else { return self }
+            newString.removeSubrange(stringToRemove)
+        }
+
+        return newString
+    }
 }

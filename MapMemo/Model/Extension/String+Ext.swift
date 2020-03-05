@@ -21,14 +21,14 @@ extension String {
     }
     
     /// Bool indicating  whether a string contains any characters
-    public var isNotEmpty: Bool {
+    var isNotEmpty: Bool {
         return !self.isEmpty
     }
     
     /// Removes substring from a string
     /// - Parameter string: String to remove
-    func remove(string: String) -> String {
-        let stringComponents = string.components(separatedBy: " ")
+    func remove(subString: String) -> String {
+        let stringComponents = subString.components(separatedBy: " ")
         var newString = self
         
         for stringComponent in stringComponents {

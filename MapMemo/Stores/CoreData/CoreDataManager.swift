@@ -12,6 +12,8 @@ class CoreDataManager {
     
     static let shared = CoreDataManager()
     
+    private let updateRemindersKey = Notification.Name(rawValue: Key.updateReminders)
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "MapMemo")
         container.loadPersistentStores { (description, error) in
@@ -23,8 +25,7 @@ class CoreDataManager {
     }()
     
     lazy var managedObjectContext: NSManagedObjectContext = {
-        let container = self.persistentContainer
-        return container.viewContext
+        return persistentContainer.viewContext
     }()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Reminder> = {
@@ -33,6 +34,18 @@ class CoreDataManager {
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         return fetchResultsController
     }()
+    
+    func delete(reminder: Reminder) {
+        managedObjectContext.delete(reminder)
+        managedObjectContext.saveChanges()
+    }
+    
+    func switchStatus(for reminder: Reminder, to status: Bool) {
+        reminder.isActive = status
+        managedObjectContext.saveChanges()
+        print("Reminder is now active:\(reminder.isActive)")
+        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+    }
 }
 
 extension NSManagedObjectContext {

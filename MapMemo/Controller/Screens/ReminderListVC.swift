@@ -14,7 +14,6 @@ class ReminderListVC: UIViewController {
     private let updateRemindersKey = Notification.Name(rawValue: Key.updateReminders)
     
     let coreDataManager = CoreDataManager.shared
-    let fetchedResultsController = CoreDataManager.shared.fetchedResultsController
     
     var dataSource: ReminderDataSource!
     
@@ -31,7 +30,7 @@ class ReminderListVC: UIViewController {
         configureTableView()
         fetchReminders()
         configureDataSource()
-//        addObserver() 
+//        addObserver()
     }
     
     private func layoutUI() {
@@ -75,9 +74,9 @@ class ReminderListVC: UIViewController {
 //    }
 
     private func fetchReminders() {
-        fetchedResultsController.delegate = self
+        coreDataManager.fetchedResultsController.delegate = self
         do {
-            try fetchedResultsController.performFetch()
+            try coreDataManager.fetchedResultsController.performFetch()
             updateData()
         } catch {
             presentMMAlertOnMainThread(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription, buttonTitle: "OK")
@@ -97,10 +96,9 @@ class ReminderListVC: UIViewController {
     
     private func updateData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Reminder>()
-        
         snapshot.appendSections([.main])
-        snapshot.appendItems(fetchedResultsController.fetchedObjects ?? [])
-        snapshot.reloadItems(fetchedResultsController.fetchedObjects ?? [])
+        snapshot.appendItems(coreDataManager.fetchedResultsController.fetchedObjects ?? [])
+        snapshot.reloadItems(coreDataManager.fetchedResultsController.fetchedObjects ?? [])
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
     
@@ -123,18 +121,22 @@ class ReminderListVC: UIViewController {
     
     @objc func switchToggled(sender: UISwitch) {
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        let isStatusActive: Bool = sender.isOn ? true : false
-        changeReminderStatus(at: indexPath, to: isStatusActive)
+        let status: Bool = sender.isOn ? true : false
+        guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
+//        coreDataManager.switchReminderStatus(for: reminder, to: status)
+        coreDataManager.switchStatus(for: reminder, to: status)
+        updateData()
+//        setReminderStatus(at: indexPath, to: status)
     }
     
-    private func changeReminderStatus(at indexPath: IndexPath, to status: Bool) {
-        guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
-        reminder.isActive = status
-        print("Reminder at index: \(indexPath) is now active:\(reminder.isActive)")
-        reminder.managedObjectContext?.saveChanges()
-        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
-        updateData()
-    }
+//    private func setReminderStatus(at indexPath: IndexPath, to status: Bool) {
+//        guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
+//        reminder.isActive = status
+////        print("Reminder at index: \(indexPath) is now active:\(reminder.isActive)")
+//        reminder.managedObjectContext?.saveChanges()
+//        updateData()
+////        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+//    }
     
     deinit { NotificationCenter.default.removeObserver(self) }
 }
@@ -145,9 +147,7 @@ extension ReminderListVC: UITableViewDelegate {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
-            reminder.managedObjectContext?.delete(reminder)
-            reminder.managedObjectContext?.saveChanges()
-//            self.updateData()
+            self.coreDataManager.delete(reminder: reminder)
             NotificationCenter.default.post(name: self.updateRemindersKey, object: nil)
             completion(true)
         }
@@ -190,11 +190,9 @@ extension ReminderListVC: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updateData()
+
+//        if self.isBeingPresented == true {
+//            updateData()
+//        }
     }
 }
-
-//extension ReminderListVC: ReminderVCListDelegate {
-//    func didEdit(reminder: Reminder) {
-//        print("We got here")
-//    }
-//}

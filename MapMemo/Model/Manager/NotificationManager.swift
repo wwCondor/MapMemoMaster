@@ -10,25 +10,65 @@ import UIKit
 import UserNotifications
 import CoreLocation
 
+protocol NotificationManagerDelegate: class {
+    func informLocationManager(for region: CLCircularRegion)
+}
+
 class NotificationManager: NSObject {
+    
+    weak var delegate: NotificationManagerDelegate!
     
     static let shared = NotificationManager()
     
     private let managedObjectContext = CoreDataManager.shared.managedObjectContext
     private let updateRemindersKey   = Notification.Name(rawValue: Key.updateReminders)
-    private let notificationsCenter  = UNUserNotificationCenter.current()
+    let center  = UNUserNotificationCenter.current()
     
     var hasAuthorization: Bool = false
     
     func requestAuthorization() {
         let options: UNAuthorizationOptions = [.badge, .sound, .alert]
         
-        notificationsCenter.requestAuthorization(options: options) { (authorizationGranted, error) in
+        center.requestAuthorization(options: options) { (authorizationGranted, error) in
             switch authorizationGranted {
             case true:  self.hasAuthorization = true
             case false: self.hasAuthorization = false
             }
         }
+    }
+    
+    // MARK: Added
+    func createNotificationRequest(for reminder: Reminder) -> UNNotificationRequest? {
+        if let identifier = reminder.locationName,  let notificationTitle = reminder.title,  let message = reminder.message {
+
+            let coordinate      = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+            let trigger         = createTrigger(for: reminder, with: identifier, at: coordinate)
+            let content         = UNMutableNotificationContent()
+            let messagePrefix   = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
+            content.title       = notificationTitle
+            content.body        = "\(messagePrefix) \(identifier): \(message)"
+            content.sound       = UNNotificationSound.default
+            
+            return UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        } else {
+            return nil
+        }
+    }
+    
+    // MARK: Added
+    private func createTrigger(for reminder: Reminder, with identifier: String, at coordinate: CLLocationCoordinate2D) -> UNLocationNotificationTrigger {
+        let region = CLCircularRegion(center: coordinate, radius: reminder.bubbleRadius, identifier: identifier)
+        delegate.informLocationManager(for: region)
+        
+        switch reminder.triggerOnEntry {
+        case true:
+            region.notifyOnEntry = true // Should be enough to set false only since true is default - Test
+            region.notifyOnExit  = false
+        case false:
+            region.notifyOnEntry = false
+            region.notifyOnExit  = true
+        }
+        return UNLocationNotificationTrigger(region: region, repeats: reminder.isRepeating)
     }
     
     func handleNotification(for region: CLRegion) {

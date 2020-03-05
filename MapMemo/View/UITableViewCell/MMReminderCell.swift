@@ -92,14 +92,12 @@ class MMReminderCell: UITableViewCell {
     func set(reminder: Reminder) {
         guard let locationName = reminder.locationName, let address = reminder.locationAddress else { return }
         
-        titleLabel.text                  = reminder.title
-        addressLabel.text                = "\(locationName) \(address)"
-        messageLabel.text                = reminder.message
-        
-        reminderStatusImageView.image    = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
-        triggerStatusImageView.image     = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
-        repeatStatusImageView.isHidden   = reminder.isRepeating ? false : true
-        
+        titleLabel.text                       = reminder.title
+        addressLabel.text                     = "\(locationName) \(address)"
+        messageLabel.text                     = reminder.message
+        reminderStatusImageView.image         = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
+        triggerStatusImageView.image          = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
+        repeatStatusImageView.isHidden        = reminder.isRepeating ? false : true
         contentBackgroundView.backgroundColor = reminder.isActive ? .systemPink : .systemGray4
         
         let switchStatus: Bool = reminder.isActive ? true : false

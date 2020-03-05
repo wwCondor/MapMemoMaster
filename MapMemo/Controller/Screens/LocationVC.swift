@@ -119,7 +119,7 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
         
         search.start { (result, error) in
             guard let location = result?.mapItems.last?.placemark else {
-                self.presentMMAlertOnMainThread(title: "Location Error", message: MMError.noLocation.localizedDescription, buttonTitle: "OK")
+                self.presentMMAlertOnMainThread(title: "Error retrieving location info", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "OK")
                 return
             }
 
@@ -127,7 +127,7 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
             let longitude        = location.coordinate.longitude as Double
             let title            = completion.title
             let subtitle         = Helper.createSubtitle(for: location)
-            let filteredSubtitle = subtitle.remove(string: title)
+            let filteredSubtitle = subtitle.remove(subString: title)
             
             self.delegate.locationSelected(title: title, subtitle: filteredSubtitle, latitude: latitude, longitude: longitude)
             self.dismiss(animated: true, completion: nil)

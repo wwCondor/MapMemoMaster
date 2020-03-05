@@ -10,29 +10,28 @@ import Foundation
 
 enum MMError: Error {
     case noConnection
-    case noLocation
+    case locationInfoNotFound
     case noResults
     case failedFetch
     case addNotificationFailed
-    
     case notificationAuthorizationDenied
     case locationAuthorizationDenied
     case locationServicesDisabled
+    case unableToObtainLocation
 }
 
 extension MMError: LocalizedError {
     public var localizedDescription: String {
         switch self {
-        case .noConnection:                    return "There is no internet connection."
-        case .noLocation:                      return "An error occured finding the location for the current selection, please try again."
-        case .noResults:                       return "Unable to find search results"
-        case .failedFetch:                     return "Unable to retrieve reminders from memory"
-        case .addNotificationFailed:           return "An error occured creating the notification request"
-            
-        case .notificationAuthorizationDenied: return "Notification Authorization denied. You can change authorization preferences in settings."
-        case .locationAuthorizationDenied:     return "Location Authorization denied or restrricted. You can change authorization preferences in settings."
-        case .locationServicesDisabled:        return "Woops! It seems location services are disabled. You can switch on location services in your phone settings under Privacy. Would you like to go to settings to enable location services?"
-            
+        case .noConnection:                     return "Seems there is no internet connection, try again later."
+        case .locationInfoNotFound:             return "Unable to obtain information on current location, please try again."
+        case .noResults:                        return "Unable to find search results"
+        case .failedFetch:                      return "Unable to retrieve reminders from memory"
+        case .addNotificationFailed:            return "An error occured creating the notification request"
+        case .notificationAuthorizationDenied:  return "Notification Authorization denied. You can change authorization preferences in settings."
+        case .locationAuthorizationDenied:      return "Location Authorization denied or restrricted. You can change authorization preferences in settings."
+        case .locationServicesDisabled:         return "Location services are disabled. Switch on location services in phone settings. Go to settings now?"
+        case .unableToObtainLocation:           return "Unable to obtain a location information for the selected location"
         }
     }
 }
@@ -78,5 +77,3 @@ extension MMReminderError: LocalizedError {
         }
     }
 }
-
-

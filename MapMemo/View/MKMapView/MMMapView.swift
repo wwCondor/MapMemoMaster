@@ -22,7 +22,7 @@ class MMMapView: MKMapView {
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
-        showsUserLocation        = true
+//        showsUserLocation        = true
         isUserInteractionEnabled = true
         isZoomEnabled            = true
 //        showsBuildings           = true

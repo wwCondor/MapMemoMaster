@@ -30,7 +30,9 @@ class CoreDataManager {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Reminder> = {
         let fetchRequest: NSFetchRequest<Reminder> = Reminder.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isActive", ascending: false), NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "identifier", ascending: true)]
+
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isActive", ascending: false), NSSortDescriptor(key: "identifier", ascending: true)]
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         return fetchResultsController
     }()
@@ -74,10 +76,10 @@ extension NSManagedObjectContext {
         }
     }
     
-    func fetchReminderWith(title: String, context: NSManagedObjectContext) -> Reminder? {
+    func fetchReminderWith(identifier: String, context: NSManagedObjectContext) -> Reminder? {
         
         let request = NSFetchRequest<Reminder>(entityName: "Reminder")
-        request.predicate = NSPredicate(format: "title == %@", title)
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
         
         do {
             let reminders = try context.fetch(request)

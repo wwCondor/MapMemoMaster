@@ -18,6 +18,9 @@ enum MMError: Error {
     case locationAuthorizationDenied
     case locationServicesDisabled
     case unableToObtainLocation
+    case requestFailed
+    case unableToUpdateUI
+    case noCoordinate
 }
 
 extension MMError: LocalizedError {
@@ -25,13 +28,16 @@ extension MMError: LocalizedError {
         switch self {
         case .noConnection:                     return "Seems there is no internet connection, try again later."
         case .locationInfoNotFound:             return "Unable to obtain information on current location, please try again."
-        case .noResults:                        return "Unable to find search results"
-        case .failedFetch:                      return "Unable to retrieve reminders from memory"
-        case .addNotificationFailed:            return "An error occured creating the notification request"
-        case .notificationAuthorizationDenied:  return "Notification Authorization denied. You can change authorization preferences in settings."
+        case .noResults:                        return "Unable to find search results."
+        case .failedFetch:                      return "Unable to retrieve reminders from memory."
+        case .addNotificationFailed:            return "An error occured creating the notification request."
+        case .notificationAuthorizationDenied:  return "Notification Authorization denied. Authorization preferences can be changed in settings."
         case .locationAuthorizationDenied:      return "Location Authorization denied or restrricted. You can change authorization preferences in settings."
         case .locationServicesDisabled:         return "Location services are disabled. Switch on location services in phone settings. Go to settings now?"
-        case .unableToObtainLocation:           return "Unable to obtain a location information for the selected location"
+        case .unableToObtainLocation:           return "Unable to obtain a location information for the selected location. Pleease try again."
+        case .requestFailed:                    return "Unable to create notification request for reminder."
+        case .unableToUpdateUI:                 return "Unable to retrieve reminder info to update the UI"
+        case .noCoordinate:                     return "Unable to retieve coordinate for location"
         }
     }
 }
@@ -50,7 +56,6 @@ extension MMError: LocalizedError {
 
 enum MMReminderError: Error {
     case reminderNil
-    case missingTitle
     case missingMessage 
     case missingLatitude
     case missingLongitude
@@ -65,7 +70,6 @@ extension MMReminderError: LocalizedError {
     public var localizedDescription: String {
         switch self {
         case .reminderNil:                  return "An error occured retrieving the reminder"
-        case .missingTitle:                 return "Woops! It seems you forgot to add a title to your reminder"
         case .missingMessage:               return "Woops! It seems you forgot to add a message to your reminder"
         case .missingLatitude:              return "Woops! It seems you forgot to enter a value for the latitude"
         case .missingLongitude:             return "Woops! It seems you forgot to enter a value for the longitude"

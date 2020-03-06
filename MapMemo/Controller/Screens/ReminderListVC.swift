@@ -11,12 +11,12 @@ import CoreData
 
 class ReminderListVC: UIViewController {
     
-    private let updateRemindersKey = Notification.Name(rawValue: Key.updateReminders)
-    
-    let coreDataManager = CoreDataManager.shared
-    
     var dataSource: ReminderDataSource!
     
+    private let updateRemindersKey   = Notification.Name(rawValue: Key.updateReminders)
+    private let coreDataManager      = CoreDataManager.shared
+    private let notificationManager  = NotificationManager.shared
+        
     private let remindersTableView       = MMRemindersTableView(frame: .zero)
     private let largeRemindersImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.35))
     private let mediumRemindersImageView = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.25))
@@ -29,6 +29,7 @@ class ReminderListVC: UIViewController {
         configureNavigationBar()
         configureTableView()
         fetchReminders()
+        updateData()
         configureDataSource()
 //        addObserver()
     }
@@ -77,7 +78,7 @@ class ReminderListVC: UIViewController {
         coreDataManager.fetchedResultsController.delegate = self
         do {
             try coreDataManager.fetchedResultsController.performFetch()
-            updateData()
+//            updateData()
         } catch {
             presentMMAlertOnMainThread(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription, buttonTitle: "OK")
         }
@@ -121,22 +122,11 @@ class ReminderListVC: UIViewController {
     
     @objc func switchToggled(sender: UISwitch) {
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        let status: Bool = sender.isOn ? true : false
         guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
-//        coreDataManager.switchReminderStatus(for: reminder, to: status)
+        let status: Bool = sender.isOn ? true : false
         coreDataManager.switchStatus(for: reminder, to: status)
         updateData()
-//        setReminderStatus(at: indexPath, to: status)
     }
-    
-//    private func setReminderStatus(at indexPath: IndexPath, to status: Bool) {
-//        guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
-//        reminder.isActive = status
-////        print("Reminder at index: \(indexPath) is now active:\(reminder.isActive)")
-//        reminder.managedObjectContext?.saveChanges()
-//        updateData()
-////        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
-//    }
     
     deinit { NotificationCenter.default.removeObserver(self) }
 }
@@ -146,7 +136,8 @@ extension ReminderListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            guard let reminder = self.dataSource?.itemIdentifier(for: indexPath) else { return }
+            guard let reminder = self.dataSource?.itemIdentifier(for: indexPath), let identifier = reminder.identifier else { return }
+            self.notificationManager.notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
             self.coreDataManager.delete(reminder: reminder)
             NotificationCenter.default.post(name: self.updateRemindersKey, object: nil)
             completion(true)
@@ -185,14 +176,9 @@ extension ReminderListVC: UITableViewDelegate {
     }
 }
 
-#warning("Move FRC -> CDM or as Ext")
 extension ReminderListVC: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updateData()
-
-//        if self.isBeingPresented == true {
-//            updateData()
-//        }
     }
 }

@@ -18,7 +18,7 @@ class MMReminderCell: UITableViewCell {
     private let repeatStatusImageView     = MMImageView(image: SFSymbols.isRepeating!, tintColor: .white)
     
     let titleLabel        = MMTitleLabel(alignment: .left, text: "Reminder title")
-    let addressLabel      = MMSecondaryTitleLabel(alignment: .left, text: "Address")
+    let subtitleLabel      = MMSecondaryTitleLabel(alignment: .left, text: "Address")
     let messageLabel      = MMSecondaryTitleLabel(alignment: .left, text: "A short message")
     let activationSwitch  = MMSwitch()
     
@@ -90,10 +90,10 @@ class MMReminderCell: UITableViewCell {
     }
     
     func set(reminder: Reminder) {
-        guard let locationName = reminder.locationName, let address = reminder.locationAddress else { return }
+//        guard let locationName = reminder.locationName, let address = reminder.locationAddress else { return }
         
-        titleLabel.text                       = reminder.title
-        addressLabel.text                     = "\(locationName) \(address)"
+        titleLabel.text                       = reminder.locationName
+        addressLabel.text                     = reminder.locationAddress
         messageLabel.text                     = reminder.message
         reminderStatusImageView.image         = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
         triggerStatusImageView.image          = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger

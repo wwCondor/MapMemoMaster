@@ -14,25 +14,12 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private let locationManager = CLLocationManager()
-
-//    var locationManager: CLLocationManager?
-    
-    let notificationsManager = NotificationManager.shared
+    private let notificationsManager = NotificationManager.shared
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-                
-//        locationManager = CLLocationManager()
-        
-        configureNotificationCenter()
-        
+        notificationsManager.notificationCenter.delegate = self
         notificationsManager.requestAuthorization()
-        
         return true
-    }
-    
-    private func configureNotificationCenter() {
-        let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.delegate = self
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {

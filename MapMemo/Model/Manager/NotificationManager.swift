@@ -22,14 +22,14 @@ class NotificationManager: NSObject {
     
     private let managedObjectContext = CoreDataManager.shared.managedObjectContext
     private let updateRemindersKey   = Notification.Name(rawValue: Key.updateReminders)
-    let center  = UNUserNotificationCenter.current()
+    let notificationCenter  = UNUserNotificationCenter.current()
     
     var hasAuthorization: Bool = false
     
     func requestAuthorization() {
         let options: UNAuthorizationOptions = [.badge, .sound, .alert]
         
-        center.requestAuthorization(options: options) { (authorizationGranted, error) in
+        notificationCenter.requestAuthorization(options: options) { (authorizationGranted, error) in
             switch authorizationGranted {
             case true:  self.hasAuthorization = true
             case false: self.hasAuthorization = false
@@ -38,20 +38,22 @@ class NotificationManager: NSObject {
     }
     
     // MARK: Added
-    func createNotificationRequest(for reminder: Reminder) -> UNNotificationRequest? {
-        if let identifier = reminder.locationName,  let notificationTitle = reminder.title,  let message = reminder.message {
-
+    func addNotificationRequest(for reminder: Reminder) {
+        if let identifier = reminder.identifier,  let locationName = reminder.locationName,  let message = reminder.message {
+            
             let coordinate      = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
             let trigger         = createTrigger(for: reminder, with: identifier, at: coordinate)
             let content         = UNMutableNotificationContent()
             let messagePrefix   = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
-            content.title       = notificationTitle
-            content.body        = "\(messagePrefix) \(identifier): \(message)"
+            content.title       = identifier
+            content.body        = "\(messagePrefix) \(locationName): \(message)"
             content.sound       = UNNotificationSound.default
             
-            return UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            
+            notificationCenter.add(request)
         } else {
-            return nil
+            presentAlert(title: "Request Failed", message: MMError.requestFailed.localizedDescription)
         }
     }
     
@@ -75,16 +77,16 @@ class NotificationManager: NSObject {
         guard let reminder = managedObjectContext.fetchReminder(with: region.identifier, context: managedObjectContext) else {
             
             if UIApplication.shared.applicationState == .active {
-                presentAlert(with: "Reminder Fetch Error", description: MMError.failedFetch.localizedDescription)
+                presentAlert(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription)
             }
             return
         }
         
         if UIApplication.shared.applicationState == .active {
-            let prefix   = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
-            let location = String(describing: reminder.locationName)
-            let message  = String(describing: reminder.message)
-            presentAlert(with: "\(prefix) \(location)", description: message)
+            let prefix       = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
+            let locationName = String(describing: reminder.locationName)
+            let message      = String(describing: reminder.message)
+            presentAlert(title: "\(prefix) \(locationName)", message: message)
         }
         
         if reminder.isRepeating != true {
@@ -94,19 +96,20 @@ class NotificationManager: NSObject {
         UIApplication.shared.applicationIconBadgeNumber += 1
     }
     
-    private func presentAlert(with title: String, description: String) {
+    private func presentAlert(title: String, message: String) {
         let viewController = UIApplication.shared.windows.first?.rootViewController
-        
         if let viewController = viewController {
             viewController.presentMMAlertOnMainThread(title: title, message: description, buttonTitle: "OK")
         }
     }
     
     private func setStatusInactive(for reminder: Reminder) {
+        guard let identifier = reminder.identifier else { return }
         reminder.isActive = false
         managedObjectContext.saveChanges()
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
         NotificationCenter.default.post(name: updateRemindersKey, object: nil)
-        print("\(String(describing: reminder.title)) is active: \(reminder.isActive)")
+        print("Reminder: \(String(describing: reminder.locationName))) is active: \(reminder.isActive)")
     }
     
 //    func checkNotificationAuthorization() {

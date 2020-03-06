@@ -30,13 +30,13 @@ class ReminderVC: UIViewController {
     var reminderLatitude: Double?
     var reminderLongitude: Double?
     
-    var radiusInMeters: Double      = 50
-    var modeSelected: ReminderMode  = .new
+    var radiusInMeters: Double          = 50
+    var modeSelected: ReminderMode      = .new
 
-    let managedObjectContext        = CoreDataManager.shared.managedObjectContext
+    let managedObjectContext            = CoreDataManager.shared.managedObjectContext
     
     private let locationButton          = MMButton(title: PlaceHolderText.location)
-    private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
+//    private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
     private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
     private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
     private let repeatToggleButton      = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
@@ -47,16 +47,15 @@ class ReminderVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        createDismissKeyboardTapGesture()
 
         view.backgroundColor = .systemBackground
 
         configureNavigationBar()
         layoutUI()
+        createDismissKeyboardTapGesture()
         configureTargets()
         
-        titleTextField.delegate = self
+//        titleTextField.delegate = self
         messageTextField.delegate = self
     }
 
@@ -79,7 +78,7 @@ class ReminderVC: UIViewController {
     }
     
     private func layoutUI() {
-        view.addSubviews(locationButton, titleTextField, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
+        view.addSubviews(locationButton, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
         
         let padding: CGFloat = 20
         let itemHeight: CGFloat  = 60
@@ -90,12 +89,12 @@ class ReminderVC: UIViewController {
             locationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             locationButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
-            titleTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
-            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            titleTextField.heightAnchor.constraint(equalToConstant: itemHeight),
+//            titleTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
+//            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+//            titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+//            titleTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             
-            messageTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: padding),
+            messageTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
             messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             messageTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             messageTextField.heightAnchor.constraint(equalToConstant: itemHeight),
@@ -129,15 +128,9 @@ class ReminderVC: UIViewController {
     
     private func configureUI(for mode: ReminderMode, with reminder: Reminder?) {
         switch mode {
-        case .new:
-            print("ReminderVC presented in New Mode")
-        case .edit:
-            guard let selectedReminder = reminder else { return }
-            updateLabels(for: selectedReminder)
-            print("ReminderVC presented in Edit Mode")
-        case .annotation:
-            updateButtonInfo()
-            print("ReminderVC presented in Annotation Mode")
+        case .new:        break
+        case .edit:       updateLabels(for: reminder)
+        case .annotation: updateButtonInfo()
         }
     }
     
@@ -153,14 +146,18 @@ class ReminderVC: UIViewController {
         }
     }
     
-    private func updateLabels(for reminder: Reminder) {
+    private func updateLabels(for reminder: Reminder?) {
+        guard let reminder = reminder else {
+            presentMMAlertOnMainThread(title: "Unable to update UI", message: MMError.unableToUpdateUI.localizedDescription, buttonTitle: "OK")
+            return
+        }
         DispatchQueue.main.async {
             self.locationName               = reminder.locationName
             self.locationAddress            = reminder.locationAddress
-                        
-            self.titleTextField.text        = reminder.title
+            
+//            self.titleTextField.text        = reminder.title
             self.messageTextField.text      = reminder.message
-
+            
             self.triggerToggleButton.isOn   = reminder.triggerOnEntry
             let triggerButtonTitle          = reminder.triggerOnEntry ? ToggleText.enteringTrigger : ToggleText.leavingTrigger
             self.triggerToggleButton.setTitle(triggerButtonTitle , for: .normal)
@@ -178,12 +175,13 @@ class ReminderVC: UIViewController {
             guard let title = reminder.locationName, let subtitle = reminder.locationAddress else { return }
             self.locationButton.setSplitTitle(title: title, subtitle: subtitle)
         }
+
     }
     
     private func updateButtonInfo() {
         DispatchQueue.main.async {
             guard let title = self.locationName, let subtitle = self.locationAddress else {
-                print("Unable to set button titel")
+                self.presentMMAlertOnMainThread(title: "Unable to update UI", message: MMError.unableToUpdateUI.localizedDescription, buttonTitle: "OK")
                 return
             }
             self.locationButton.setSplitTitle(title: title, subtitle: subtitle)
@@ -222,11 +220,6 @@ class ReminderVC: UIViewController {
     }
     
     private func saveNewReminder() {
-        guard let title = titleTextField.text, title.isNotEmpty, title != PlaceHolderText.title else {
-            presentMMAlertOnMainThread(title: "Missing Title", message: MMReminderError.missingTitle.localizedDescription, buttonTitle: "OK")
-            return
-        }
-        
         guard let message = messageTextField.text, message.isNotEmpty, message != PlaceHolderText.message else {
             presentMMAlertOnMainThread(title: "Missing Message", message: MMReminderError.missingMessage.localizedDescription, buttonTitle: "OK")
             return
@@ -254,7 +247,7 @@ class ReminderVC: UIViewController {
         
         let reminder = Reminder(context: managedObjectContext)
         
-        reminder.title           = title
+        reminder.identifier       = UUID.init().uuidString
         reminder.message         = message
         reminder.latitude        = latitude
         reminder.longitude       = longitude
@@ -266,19 +259,15 @@ class ReminderVC: UIViewController {
         reminder.bubbleRadius    = radiusInMeters
         
         reminder.managedObjectContext?.saveChanges()
-        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         dismiss(animated: true)
-        print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
+        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+
+        print("Saving reminder: \(locationName), at \(locationAddress)")
     }
     
     private func saveReminderChanges() {
         guard let reminder = reminder else {
             presentMMAlertOnMainThread(title: "No Reminder", message: MMReminderError.reminderNil.localizedDescription, buttonTitle: "OK")
-            return
-        }
-        
-        guard let newTitle = titleTextField.text else {
-            presentMMAlertOnMainThread(title: "Missing Title", message: MMReminderError.missingTitle.localizedDescription, buttonTitle: "OK")
             return
         }
         
@@ -307,7 +296,7 @@ class ReminderVC: UIViewController {
             return
         }
         
-        reminder.title            = newTitle
+//        reminder.title            = newTitle
         reminder.message          = newMessage
         reminder.latitude         = newLatitude
         reminder.longitude        = newLongitude
@@ -319,9 +308,10 @@ class ReminderVC: UIViewController {
         
         reminder.managedObjectContext?.saveChanges()
 //        reminderVCListDelegate.didEdit(reminder: reminder)
-        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
         dismiss(animated: true)
-        print("Saving \(String(describing: reminder.title)) reminder, at \(String(describing: reminder.locationName))")
+        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+
+        print("Saving \(newLocationName) reminder, at \(newLocationAddress)")
     }
 }
 
@@ -331,7 +321,7 @@ extension ReminderVC: UITextFieldDelegate {
         let maxCharacters = 24
 
         switch textField {
-        case titleTextField, messageTextField:
+        case messageTextField:
             let currentString = textField.text! as NSString
             let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
             return newString.length <= maxCharacters
@@ -349,11 +339,11 @@ extension ReminderVC: UITextFieldDelegate {
         guard let input = textField.text else { return }
         
         switch textField {
-        case titleTextField:
-            guard input.isNotEmpty else {
-            titleTextField.placeholder = PlaceHolderText.title
-            return
-            }
+//        case titleTextField:
+//            guard input.isNotEmpty else {
+//            titleTextField.placeholder = PlaceHolderText.title
+//            return
+//            }
         case messageTextField:
             guard input.isNotEmpty else {
             messageTextField.placeholder = PlaceHolderText.message

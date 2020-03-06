@@ -21,33 +21,17 @@ class MMAnnotationVC: UIViewController {
     
     weak var delegate: AnnotationDelegate!
     
-    var titleInfo: String?
-    var subtitleInfo: String?
+    var locationNameInfo: String?
+    var locationAddressInfo: String?
     var modeSelected: AnnotationMode = .pinLocation
     var reminder: Reminder?
     
     private let containerView        = MMAlertContainerView()
-    private let titleLabel           = MMTitleLabel(alignment: .center, text: "Title")
     private let locationNameLabel    = MMBodyLabel(alignment: .center, text: "Location Name")
     private let locationAddressLabel = MMBodyLabel(alignment: .center, text: "Address")
     private let dismissButton        = MMImageView(image: SFSymbols.close!, tintColor: .systemPink)
     private let actionButton         = MMButton(title: "Navigate to location")
     private let shareButton          = MMButton(title: "Share Location")
-    
-//    init(mode: AnnotationMode, reminder: Reminder?, title: String?, subtitle: String?) {
-////    init(mode: AnnotationMode, reminder: Reminder?, location: CLLocationCoordinate2D?) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.reminder     = reminder
-////        self.modeSelected = mode
-////        self.location     = location
-////        self.titleInfo    = title
-////        self.subtitleInfo = subtitle
-//        configureLabels(for: modeSelected)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +44,7 @@ class MMAnnotationVC: UIViewController {
 
     private func layoutUI() {
         view.addSubview(containerView)
-        containerView.addSubviews(titleLabel, locationNameLabel, locationAddressLabel, dismissButton, actionButton, shareButton)
+        containerView.addSubviews(locationNameLabel, locationAddressLabel, dismissButton, actionButton, shareButton)
         
         let padding: CGFloat = 20
         let labelHeight: CGFloat = 22
@@ -70,14 +54,9 @@ class MMAnnotationVC: UIViewController {
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 280),
-            containerView.heightAnchor.constraint(equalToConstant: 260),
+            containerView.heightAnchor.constraint(equalToConstant: 244),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            titleLabel.bottomAnchor.constraint(equalTo: locationNameLabel.topAnchor),
-            
-            dismissButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            dismissButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
             dismissButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
             dismissButton.widthAnchor.constraint(equalToConstant: 22),
             dismissButton.heightAnchor.constraint(equalToConstant: 22),
@@ -87,7 +66,7 @@ class MMAnnotationVC: UIViewController {
             locationNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
             locationNameLabel.heightAnchor.constraint(equalToConstant: labelHeight),
             
-            locationAddressLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12),
+            locationAddressLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -padding),
             locationAddressLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
             locationAddressLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
             locationAddressLabel.heightAnchor.constraint(equalToConstant: labelHeight),
@@ -114,17 +93,14 @@ class MMAnnotationVC: UIViewController {
     private func configureLabelsForReminder() {
         guard let reminder = reminder else { return }
         actionButton.setTitle("Navigate to location", for: .normal)
-        titleLabel.text           = reminder.title ?? "Unable to retrieve title"
-        locationNameLabel.text    = reminder.locationName ?? "Unable to retieve location name"
+        locationNameLabel.text    = reminder.locationName ?? "Unable to retieve location title"
         locationAddressLabel.text = reminder.locationAddress ?? "Unabel to retrieve address"
     }
     
     private func configureLabelsForCurrentLocation() {
         actionButton.setTitle("Set Reminder", for: .normal)
-        titleLabel.text           = "Current Location"
-//        getLocationInfo()
-        locationNameLabel.text    = titleInfo ?? "Unable to retrieve location info"
-        locationAddressLabel.text = subtitleInfo ?? ""
+        locationNameLabel.text    = locationNameInfo ?? "Unable to retrieve location title"
+        locationAddressLabel.text = locationAddressInfo ?? ""
     }
     
     private func configureBackground() {

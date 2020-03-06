@@ -38,7 +38,7 @@ class MMReminderCell: UITableViewCell {
     
     private func configureCellContent() {
         addSubviews(contentBackgroundView, triggerStatusImageView, reminderStatusImageView, repeatStatusImageView, activationSwitch)
-        addSubviews(titleLabel, addressLabel, messageLabel)
+        addSubviews(titleLabel, subtitleLabel, messageLabel)
         
         triggerStatusImageView.transform  = CGAffineTransform(rotationAngle: -.pi/2)
         
@@ -64,10 +64,10 @@ class MMReminderCell: UITableViewCell {
             messageLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
             messageLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
-            addressLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
-            addressLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
-            addressLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
-            addressLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
+            subtitleLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
+            subtitleLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
+            subtitleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
+            subtitleLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
             triggerStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
             triggerStatusImageView.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
@@ -93,7 +93,7 @@ class MMReminderCell: UITableViewCell {
 //        guard let locationName = reminder.locationName, let address = reminder.locationAddress else { return }
         
         titleLabel.text                       = reminder.locationName
-        addressLabel.text                     = reminder.locationAddress
+        subtitleLabel.text                     = reminder.locationAddress
         messageLabel.text                     = reminder.message
         reminderStatusImageView.image         = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
         triggerStatusImageView.image          = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger

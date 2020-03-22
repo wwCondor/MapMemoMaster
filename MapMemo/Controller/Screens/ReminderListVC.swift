@@ -18,9 +18,9 @@ class ReminderListVC: UIViewController {
     private let notificationManager  = NotificationManager.shared
         
     private let remindersTableView       = MMRemindersTableView(frame: .zero)
-    private let largeRemindersImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.35))
-    private let mediumRemindersImageView = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.25))
-    private let smallRemindersImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.15))
+    private let largeBackgroundImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.35))
+    private let mediumBackgroundImageView = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.25))
+    private let smallBackgroundImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.15))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,27 +31,26 @@ class ReminderListVC: UIViewController {
         fetchReminders()
         updateData()
         configureDataSource()
-//        addObserver()
     }
     
     private func layoutUI() {
-        view.addSubviews(largeRemindersImageView, mediumRemindersImageView, smallRemindersImageView, remindersTableView)
+        view.addSubviews(largeBackgroundImageView, mediumBackgroundImageView, smallBackgroundImageView, remindersTableView)
         
         NSLayoutConstraint.activate([
-            smallRemindersImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            smallRemindersImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 40),
-            smallRemindersImageView.heightAnchor.constraint(equalToConstant: 100),
-            smallRemindersImageView.widthAnchor.constraint(equalToConstant: 100),
+            smallBackgroundImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            smallBackgroundImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 40),
+            smallBackgroundImageView.heightAnchor.constraint(equalToConstant: 100),
+            smallBackgroundImageView.widthAnchor.constraint(equalToConstant: 100),
             
-            mediumRemindersImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            mediumRemindersImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            mediumRemindersImageView.heightAnchor.constraint(equalToConstant: 200),
-            mediumRemindersImageView.widthAnchor.constraint(equalToConstant: 200),
+            mediumBackgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            mediumBackgroundImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            mediumBackgroundImageView.heightAnchor.constraint(equalToConstant: 200),
+            mediumBackgroundImageView.widthAnchor.constraint(equalToConstant: 200),
             
-            largeRemindersImageView.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
-            largeRemindersImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
-            largeRemindersImageView.heightAnchor.constraint(equalToConstant: 300),
-            largeRemindersImageView.widthAnchor.constraint(equalToConstant: 300),
+            largeBackgroundImageView.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
+            largeBackgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+            largeBackgroundImageView.heightAnchor.constraint(equalToConstant: 300),
+            largeBackgroundImageView.widthAnchor.constraint(equalToConstant: 300),
             
             remindersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             remindersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -69,10 +68,6 @@ class ReminderListVC: UIViewController {
     private func configureTableView() {
         remindersTableView.delegate = self
     }
-    
-//    private func addObserver() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateReminders), name: updateRemindersKey, object: nil)
-//    }
 
     private func fetchReminders() {
         coreDataManager.fetchedResultsController.delegate = self

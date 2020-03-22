@@ -123,13 +123,14 @@ extension LocationVC: UITableViewDataSource, UITableViewDelegate {
                 return
             }
 
-            let latitude         = location.coordinate.latitude as Double
-            let longitude        = location.coordinate.longitude as Double
-            let title            = completion.title
-            let subtitle         = Helper.createSubtitle(for: location)
-            let filteredSubtitle = subtitle.remove(subString: title)
+            let latitude            = location.coordinate.latitude as Double
+            let longitude           = location.coordinate.longitude as Double
+            let title               = completion.title
+            let subtitle            = Helper.createSubtitle(for: location)
+            let filteredSubtitle    = subtitle.remove(subString: title)
+            let noWhiteSpaceTitle   = filteredSubtitle.trimmingCharacters(in: .whitespaces)
             
-            self.delegate.locationSelected(title: title, subtitle: filteredSubtitle, latitude: latitude, longitude: longitude)
+            self.delegate.locationSelected(title: title, subtitle: noWhiteSpaceTitle, latitude: latitude, longitude: longitude)
             self.dismiss(animated: true, completion: nil)
         }
     }

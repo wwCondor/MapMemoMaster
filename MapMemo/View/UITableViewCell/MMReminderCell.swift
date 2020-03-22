@@ -12,14 +12,13 @@ class MMReminderCell: UITableViewCell {
     
     static let identifier = "reminderCellId"
     
-    private let contentBackgroundView     = MMContentView(borderColor: .systemPink, cornerRadius: 5)
-    private let triggerStatusImageView    = MMImageView(image: SFSymbols.enterTrigger!, tintColor: .white)
-    private let reminderStatusImageView   = MMImageView(image: SFSymbols.notificationOn!, tintColor: .white)
-    private let repeatStatusImageView     = MMImageView(image: SFSymbols.isRepeating!, tintColor: .white)
+    private let contentBackgroundView       = MMContentView(borderColor: .systemPink, cornerRadius: 5)
+    private let triggerConditionImageView   = MMImageView(image: SFSymbols.enterTrigger!, tintColor: .white)
+    private let reminderStatusImageView     = MMImageView(image: SFSymbols.notificationOn!, tintColor: .white)
     
-    let titleLabel        = MMTitleLabel(alignment: .left, text: "Reminder title")
-    let subtitleLabel      = MMSecondaryTitleLabel(alignment: .left, text: "Address")
-    let messageLabel      = MMSecondaryTitleLabel(alignment: .left, text: "A short message")
+    let messageLabel      = MMTitleLabel(alignment: .left, text: "A short message")
+    let titleLabel        = MMSecondaryTitleLabel(alignment: .left, text: "Reminder title")
+    let subtitleLabel     = MMSecondaryTitleLabel(alignment: .left, text: "Address")
     let activationSwitch  = MMSwitch()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -37,10 +36,10 @@ class MMReminderCell: UITableViewCell {
     }
     
     private func configureCellContent() {
-        addSubviews(contentBackgroundView, triggerStatusImageView, reminderStatusImageView, repeatStatusImageView, activationSwitch)
+        addSubviews(contentBackgroundView, triggerConditionImageView, reminderStatusImageView, activationSwitch)
         addSubviews(titleLabel, subtitleLabel, messageLabel)
         
-        triggerStatusImageView.transform  = CGAffineTransform(rotationAngle: -.pi/2)
+        triggerConditionImageView.transform  = CGAffineTransform(rotationAngle: -.pi/2)
         
         let padding: CGFloat              = 10
         let largePadding: CGFloat         = 20
@@ -54,35 +53,30 @@ class MMReminderCell: UITableViewCell {
             contentBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             contentBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding/2),
             
-            titleLabel.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: padding),
-            titleLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
-            titleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
-            titleLabel.heightAnchor.constraint(equalToConstant: labelHeight),
-            
-            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
+            messageLabel.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: 15),
             messageLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
             messageLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -3),
             messageLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
-            subtitleLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
+            titleLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 2),
+            titleLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
+            titleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
+            titleLabel.heightAnchor.constraint(equalToConstant: labelHeight),
+            
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
             subtitleLabel.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -padding),
             subtitleLabel.heightAnchor.constraint(equalToConstant: secondaryLabelHeight),
             
-            triggerStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
-            triggerStatusImageView.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
-            triggerStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
-            triggerStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
+            triggerConditionImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
+            triggerConditionImageView.leadingAnchor.constraint(equalTo: contentBackgroundView.leadingAnchor, constant: largePadding),
+            triggerConditionImageView.heightAnchor.constraint(equalToConstant: iconSize),
+            triggerConditionImageView.widthAnchor.constraint(equalToConstant: iconSize),
             
             reminderStatusImageView.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: -padding),
-            reminderStatusImageView.leadingAnchor.constraint(equalTo: triggerStatusImageView.trailingAnchor, constant: padding),
+            reminderStatusImageView.leadingAnchor.constraint(equalTo: triggerConditionImageView.trailingAnchor, constant: padding),
             reminderStatusImageView.heightAnchor.constraint(equalToConstant: iconSize),
             reminderStatusImageView.widthAnchor.constraint(equalToConstant: iconSize),
-            
-            repeatStatusImageView.centerYAnchor.constraint(equalTo: reminderStatusImageView.centerYAnchor),
-            repeatStatusImageView.leadingAnchor.constraint(equalTo: reminderStatusImageView.trailingAnchor, constant: padding),
-            repeatStatusImageView.heightAnchor.constraint(equalToConstant: 18),
-            repeatStatusImageView.widthAnchor.constraint(equalToConstant: 18),
             
             activationSwitch.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: 15),
             activationSwitch.trailingAnchor.constraint(equalTo: contentBackgroundView.trailingAnchor, constant: -20),
@@ -90,15 +84,12 @@ class MMReminderCell: UITableViewCell {
     }
     
     func set(reminder: Reminder) {
-//        guard let locationName = reminder.locationName, let address = reminder.locationAddress else { return }
-        
-        titleLabel.text                       = reminder.locationName
-        subtitleLabel.text                     = reminder.locationAddress
-        messageLabel.text                     = reminder.message
-        reminderStatusImageView.image         = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
-        triggerStatusImageView.image          = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
-        repeatStatusImageView.isHidden        = reminder.isRepeating ? false : true
-        contentBackgroundView.backgroundColor = reminder.isActive ? .systemPink : .systemGray4
+        titleLabel.text                         = reminder.locationName
+        subtitleLabel.text                      = reminder.locationAddress
+        messageLabel.text                       = reminder.message
+        reminderStatusImageView.image           = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
+        triggerConditionImageView.image            = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
+        contentBackgroundView.backgroundColor   = reminder.isActive ? .systemPink : .systemGray4
         
         let switchStatus: Bool = reminder.isActive ? true : false
         self.activationSwitch.setOn(switchStatus, animated: false)

@@ -10,20 +10,10 @@ import UIKit
 
 enum ReminderMode { case new, edit, annotation }
 
-//protocol ReminderVCListDelegate: class {
-//    func didEdit(reminder: Reminder)
-//}
-//
-//protocol ReminderVCMapDelegate: class {
-//
-//}
-
 class ReminderVC: UIViewController {
     
     private let updateRemindersKey = Notification.Name(rawValue: Key.updateReminders)
-    
-//    weak var reminderVCListDelegate: ReminderVCListDelegate!
-    
+
     var reminder: Reminder?
     var locationName: String?
     var locationAddress: String?
@@ -36,10 +26,8 @@ class ReminderVC: UIViewController {
     let managedObjectContext            = CoreDataManager.shared.managedObjectContext
     
     private let locationButton          = MMButton(title: PlaceHolderText.location)
-//    private let titleTextField          = MMTextField(placeholder: PlaceHolderText.title)
     private let messageTextField        = MMTextField(placeholder: PlaceHolderText.message)
     private let triggerToggleButton     = MMToggleButton(buttonType: .triggerButton, title: ToggleText.leavingTrigger)
-    private let repeatToggleButton      = MMToggleButton(buttonType: .repeatButtton, title: ToggleText.isNotRepeating)
     private let radiusSlider            = MMSlider()
     private let radiusLabel             = MMPinkLabel(text: PlaceHolderText.defaultRadius)
     
@@ -55,7 +43,6 @@ class ReminderVC: UIViewController {
         createDismissKeyboardTapGesture()
         configureTargets()
         
-//        titleTextField.delegate = self
         messageTextField.delegate = self
     }
 
@@ -78,7 +65,7 @@ class ReminderVC: UIViewController {
     }
     
     private func layoutUI() {
-        view.addSubviews(locationButton, messageTextField, triggerToggleButton, repeatToggleButton, radiusSlider, radiusLabel)
+        view.addSubviews(locationButton, messageTextField, triggerToggleButton, radiusSlider, radiusLabel)
         
         let padding: CGFloat = 20
         let itemHeight: CGFloat  = 60
@@ -88,11 +75,6 @@ class ReminderVC: UIViewController {
             locationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             locationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             locationButton.heightAnchor.constraint(equalToConstant: itemHeight),
-            
-//            titleTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
-//            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-//            titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-//            titleTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             
             messageTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: padding),
             messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
@@ -104,12 +86,7 @@ class ReminderVC: UIViewController {
             triggerToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             triggerToggleButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
-            repeatToggleButton.topAnchor.constraint(equalTo: triggerToggleButton.bottomAnchor, constant: padding),
-            repeatToggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            repeatToggleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            repeatToggleButton.heightAnchor.constraint(equalToConstant: itemHeight),
-            
-            radiusSlider.topAnchor.constraint(equalTo: repeatToggleButton.bottomAnchor, constant: padding),
+            radiusSlider.topAnchor.constraint(equalTo: triggerToggleButton.bottomAnchor, constant: padding),
             radiusSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             radiusSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             radiusSlider.heightAnchor.constraint(equalToConstant: itemHeight),
@@ -154,18 +131,12 @@ class ReminderVC: UIViewController {
         DispatchQueue.main.async {
             self.locationName               = reminder.locationName
             self.locationAddress            = reminder.locationAddress
-            
-//            self.titleTextField.text        = reminder.title
             self.messageTextField.text      = reminder.message
             
             self.triggerToggleButton.isOn   = reminder.triggerOnEntry
             let triggerButtonTitle          = reminder.triggerOnEntry ? ToggleText.enteringTrigger : ToggleText.leavingTrigger
             self.triggerToggleButton.setTitle(triggerButtonTitle , for: .normal)
-            
-            self.repeatToggleButton.isOn    = reminder.isRepeating
-            let repeatButtonTitle           = reminder.isRepeating ? ToggleText.isRepeating : ToggleText.isNotRepeating
-            self.repeatToggleButton.setTitle(repeatButtonTitle, for: .normal)
-            
+
             self.radiusInMeters             = reminder.bubbleRadius
             self.radiusLabel.text           = "Bubble radius: \(reminder.bubbleRadius.clean)m"
             self.reminderLatitude           = reminder.latitude
@@ -254,7 +225,6 @@ class ReminderVC: UIViewController {
         reminder.locationName    = locationName
         reminder.locationAddress = locationAddress
         reminder.triggerOnEntry  = triggerToggleButton.isOn
-        reminder.isRepeating     = repeatToggleButton.isOn
         reminder.isActive        = true
         reminder.bubbleRadius    = radiusInMeters
         
@@ -296,18 +266,15 @@ class ReminderVC: UIViewController {
             return
         }
         
-//        reminder.title            = newTitle
         reminder.message          = newMessage
         reminder.latitude         = newLatitude
         reminder.longitude        = newLongitude
         reminder.locationName     = newLocationName
         reminder.locationAddress  = newLocationAddress
         reminder.triggerOnEntry   = triggerToggleButton.isOn
-        reminder.isRepeating      = repeatToggleButton.isOn
         reminder.bubbleRadius     = Double(radiusInMeters)
         
         reminder.managedObjectContext?.saveChanges()
-//        reminderVCListDelegate.didEdit(reminder: reminder)
         dismiss(animated: true)
         NotificationCenter.default.post(name: updateRemindersKey, object: nil)
 
@@ -339,11 +306,6 @@ extension ReminderVC: UITextFieldDelegate {
         guard let input = textField.text else { return }
         
         switch textField {
-//        case titleTextField:
-//            guard input.isNotEmpty else {
-//            titleTextField.placeholder = PlaceHolderText.title
-//            return
-//            }
         case messageTextField:
             guard input.isNotEmpty else {
             messageTextField.placeholder = PlaceHolderText.message

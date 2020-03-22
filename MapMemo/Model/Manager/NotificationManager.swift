@@ -45,8 +45,8 @@ class NotificationManager: NSObject {
             let trigger         = createTrigger(for: reminder, with: identifier, at: coordinate)
             let content         = UNMutableNotificationContent()
             let messagePrefix   = reminder.triggerOnEntry ? "Arrived at" : "Leaving"
-            content.title       = identifier
-            content.body        = "\(messagePrefix) \(locationName): \(message)"
+            content.title       = "\(messagePrefix) \(locationName)"
+            content.body        = "\(message)"
             content.sound       = UNNotificationSound.default
             
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
@@ -70,7 +70,7 @@ class NotificationManager: NSObject {
             region.notifyOnEntry = false
             region.notifyOnExit  = true
         }
-        return UNLocationNotificationTrigger(region: region, repeats: reminder.isRepeating)
+        return UNLocationNotificationTrigger(region: region, repeats: true)
     }
     
     func handleNotification(for region: CLRegion) {
@@ -89,9 +89,9 @@ class NotificationManager: NSObject {
             presentAlert(title: "\(prefix) \(locationName)", message: message)
         }
         
-        if reminder.isRepeating != true {
-            setStatusInactive(for: reminder)
-        }
+//        if reminder.isRepeating != true {
+//            setStatusInactive(for: reminder)
+//        }
         
         UIApplication.shared.applicationIconBadgeNumber += 1
     }
@@ -103,14 +103,14 @@ class NotificationManager: NSObject {
         }
     }
     
-    private func setStatusInactive(for reminder: Reminder) {
-        guard let identifier = reminder.identifier else { return }
-        reminder.isActive = false
-        managedObjectContext.saveChanges()
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
-        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
-        print("Reminder: \(String(describing: reminder.locationName))) is active: \(reminder.isActive)")
-    }
+//    private func setStatusInactive(for reminder: Reminder) {
+//        guard let identifier = reminder.identifier else { return }
+//        reminder.isActive = false
+//        managedObjectContext.saveChanges()
+//        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+//        NotificationCenter.default.post(name: updateRemindersKey, object: nil)
+//        print("Reminder: \(String(describing: reminder.locationName))) is active: \(reminder.isActive)")
+//    }
     
 //    func checkNotificationAuthorization() {
 //        notificationsCenter.getNotificationSettings { (settings) in

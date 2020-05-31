@@ -10,6 +10,7 @@ import UIKit
 
 enum Button { case triggerButton, repeatButtton }
 
+// Button specifically used for toggling on/off repeat and toggle between trigger mode.
 class MMToggleButton: UIButton {
     
     var isOn = false

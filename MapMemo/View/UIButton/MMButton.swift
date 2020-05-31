@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Button with text
 class MMButton: UIButton {
 
     override init(frame: CGRect) {

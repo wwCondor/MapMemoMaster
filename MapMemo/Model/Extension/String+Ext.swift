@@ -38,4 +38,18 @@ extension String {
 
         return newString
     }
+    
+    func lastCharacterLowerCased() -> String {
+        var string = self
+        guard let lastCharacter = string.last else { return string }
+        
+        if !lastCharacter.isNumber {
+            guard let lowerCasedCharacter = string.last?.lowercased() else { return string }
+            string.removeLast()
+            string.append(lowerCasedCharacter)
+            return string
+        }
+        
+        return string
+    }
 }

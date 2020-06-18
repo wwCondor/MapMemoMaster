@@ -231,7 +231,7 @@ class MapVC: UIViewController {
             guard error == nil else { return }
             guard let placemark         = placemarks?.last else { return }
             guard let name              = placemark.name else { return }
-            guard let streetAddress     = placemark.thoroughfare, let streetNumber = placemark.subThoroughfare else { return }
+            guard let streetAddress     = placemark.thoroughfare, let streetNumber = placemark.subThoroughfare?.lastCharacterLowerCased() else { return }
             guard let city              = placemark.locality else { return }
             guard let isoCountryCode    = placemark.isoCountryCode else { return }
 

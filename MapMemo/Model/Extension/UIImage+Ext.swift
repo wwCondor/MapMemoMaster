@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImage {
-    // Used set alpha on images for mainController
+    // Used to set alpha on images for mainController
     func alpha(_ value: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         draw(at: CGPoint.zero, blendMode: .normal, alpha: value)

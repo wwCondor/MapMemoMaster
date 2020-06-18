@@ -94,12 +94,12 @@ class MMAnnotationVC: UIViewController {
         guard let reminder = reminder else { return }
         actionButton.setTitle("Navigate to location", for: .normal)
         locationNameLabel.text    = reminder.locationName ?? "Unable to retieve location title"
-        locationAddressLabel.text = reminder.locationAddress ?? "Unabel to retrieve address"
+        locationAddressLabel.text = reminder.locationAddress ?? "Unabel to retrieve location address"
     }
     
     private func configureLabelsForCurrentLocation() {
         actionButton.setTitle("Set Reminder", for: .normal)
-        locationNameLabel.text    = locationNameInfo ?? "Unable to retrieve location title"
+        locationNameLabel.text    = locationNameInfo ?? "Unable to retrieve location info. Please try again."
         locationAddressLabel.text = locationAddressInfo ?? ""
     }
     

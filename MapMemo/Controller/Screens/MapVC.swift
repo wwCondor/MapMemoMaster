@@ -292,17 +292,21 @@ class MapVC: UIViewController {
     
     private func presentMenuForCurrentLocation() {
         DispatchQueue.main.async {
-            guard let locationName = self.locationTitle, let locationAddress = self.locationSubtitle else {
-                self.presentMMAlertOnMainThread(title: "Something went wrong here", message: MMError.locationInfoNotFound.localizedDescription, buttonTitle: "OK")
-                return
-            }
+            //            guard let locationName = self.locationTitle, let locationAddress = self.locationSubtitle else {
+            //                self.presentMMAlertOnMainThread(title: "Something went wrong", message: MMError.locationInfoNotFound.localizedDescription, buttonTitle: "OK")
+            //                return
+//                        }
+            self.getLocationInfo()
             let annotationMenuVC = MMAnnotationVC()
             annotationMenuVC.modalPresentationStyle = .overFullScreen
             annotationMenuVC.modalTransitionStyle   = .crossDissolve
-            annotationMenuVC.locationNameInfo       = locationName
-            annotationMenuVC.locationAddressInfo    = locationAddress
+//            annotationMenuVC.locationNameInfo       = locationName
+//            annotationMenuVC.locationAddressInfo    = locationAddress
+            annotationMenuVC.locationNameInfo       = self.locationTitle
+            annotationMenuVC.locationAddressInfo    = self.locationSubtitle
             annotationMenuVC.modeSelected           = .myLocation
             annotationMenuVC.delegate               = self
+            self.centerMapOnUser()
             self.present(annotationMenuVC, animated: true)
         }
     }
@@ -399,8 +403,8 @@ extension MapVC: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {
-            getLocationInfo()
-            centerMapOnUser()
+//            getLocationInfo()
+//            centerMapOnUser()
             annotationTapped(at: .myLocation, for: nil)
         } else {
             guard let title = view.annotation?.title, let identifier = title else { return }

@@ -10,7 +10,7 @@ import Foundation
 
 enum MMError: Error {
     case noConnection
-    case locationInfoNotFound
+//    case locationInfoNotFound
     case noResults
     case failedFetch
     case addNotificationFailed
@@ -27,7 +27,7 @@ extension MMError: LocalizedError {
     public var localizedDescription: String {
         switch self {
         case .noConnection:                     return "Seems there is no internet connection, try again later."
-        case .locationInfoNotFound:             return "Unable to obtain information on current location, please try again."
+//        case .locationInfoNotFound:             return "Unable to obtain information on current location, please try again."
         case .noResults:                        return "Unable to find search results."
         case .failedFetch:                      return "Unable to retrieve reminders from memory."
         case .addNotificationFailed:            return "An error occured creating the notification request."

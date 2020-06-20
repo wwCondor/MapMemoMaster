@@ -12,7 +12,7 @@ import CoreLocation
 enum AnnotationMode { case pinLocation, myLocation }
 
 protocol AnnotationDelegate: class {
-    func userTappedShareButton()
+//    func userTappedShareButton()
     func userTappedNavigationButton()
     func userTappedAddReminderButton()
 }
@@ -31,7 +31,7 @@ class MMAnnotationVC: UIViewController {
     private let locationAddressLabel = MMBodyLabel(alignment: .center, text: "Address")
     private let dismissButton        = MMImageView(image: SFSymbols.close!, tintColor: .systemPink)
     private let actionButton         = MMButton(title: "Navigate to location")
-    private let shareButton          = MMButton(title: "Share Location")
+//    private let shareButton          = MMButton(title: "Share Location")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,7 @@ class MMAnnotationVC: UIViewController {
 
     private func layoutUI() {
         view.addSubview(containerView)
-        containerView.addSubviews(locationNameLabel, locationAddressLabel, dismissButton, actionButton, shareButton)
+        containerView.addSubviews(locationNameLabel, locationAddressLabel, dismissButton, actionButton)//, shareButton)
         
         let padding: CGFloat = 20
         let labelHeight: CGFloat = 22
@@ -54,7 +54,7 @@ class MMAnnotationVC: UIViewController {
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 280),
-            containerView.heightAnchor.constraint(equalToConstant: 244),
+            containerView.heightAnchor.constraint(equalToConstant: 200),
             
             dismissButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
             dismissButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
@@ -71,15 +71,15 @@ class MMAnnotationVC: UIViewController {
             locationAddressLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
             locationAddressLabel.heightAnchor.constraint(equalToConstant: labelHeight),
             
-            actionButton.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -padding),
+            actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
             actionButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
             actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
             actionButton.heightAnchor.constraint(equalToConstant: buttonHeight),
 
-            shareButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
-            shareButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            shareButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            shareButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+//            shareButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
+//            shareButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+//            shareButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+//            shareButton.heightAnchor.constraint(equalToConstant: buttonHeight),
         ])
     }
     
@@ -99,8 +99,8 @@ class MMAnnotationVC: UIViewController {
     
     private func configureLabelsForCurrentLocation() {
         actionButton.setTitle("Set Reminder", for: .normal)
-        locationNameLabel.text    = locationNameInfo ?? "Unable to retrieve location info. Please try again."
-        locationAddressLabel.text = locationAddressInfo ?? ""
+        locationNameLabel.text    = locationNameInfo ?? "Unable to retrieve location info."
+        locationAddressLabel.text = locationAddressInfo ?? "Please try again."
     }
     
     private func configureBackground() {
@@ -118,7 +118,7 @@ class MMAnnotationVC: UIViewController {
     
     private func configureButtons() {
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
-        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
+//        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
     }
     
     @objc private func backgroundTapped(sender: UITapGestureRecognizer) {
@@ -141,7 +141,7 @@ class MMAnnotationVC: UIViewController {
         // MARK: Inform, dismiss and center map with a zoom
     }
     
-    @objc private func shareButtonTapped(sender: MMButton) {
-        delegate.userTappedShareButton()
-    }
+//    @objc private func shareButtonTapped(sender: MMButton) {
+//        delegate.userTappedShareButton()
+//    }
 }

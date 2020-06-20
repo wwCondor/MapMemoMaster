@@ -402,19 +402,42 @@ extension MapVC: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        guard let calloutView = view.subviews.first else { return }
+//        let userLocationTapGesture = UITapGestureRecognizer(target: self, action: #selector(userDidTapUserLocation(sender:)))
+//        let pinTapGesutre = UITapGestureRecognizer(target: self, action: #selector(userDidTapPinLocation(sender:)))
+//        calloutView.addGestureRecognizer(userLocationTapGesture)
+//        calloutView.addGestureRecognizer(pinTapGesutre)
+        
         if view.annotation is MKUserLocation {
-//            getLocationInfo()
-//            centerMapOnUser()
             annotationTapped(at: .myLocation, for: nil)
         } else {
-            guard let title = view.annotation?.title, let identifier = title else { return }
-            guard let reminder = managedObjectContext.fetchReminderWith(identifier: identifier, context: managedObjectContext) else { return }
+            guard let reminder = findReminder(for: view) else  { return }
+//            let location = findLocation(for: view)
+//            guard let title = view.annotation?.title, let identifier = title else { return }
+//            guard let reminder = managedObjectContext.fetchReminderWith(identifier: identifier, context: managedObjectContext) else { return }
             let location = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
             centerMap(on: location)
             annotationTapped(at: .pinLocation, for: reminder)
         }
-//        mapView.deselectAnnotation(view as? MKAnnotation, animated: true)
+        mapView.deselectAnnotation(view as? MKAnnotation, animated: true)
     }
+    
+    private func findReminder(for view: MKAnnotationView) -> Reminder? {
+        guard let title = view.annotation?.title, let identifier = title else { return nil}
+        guard let reminder = managedObjectContext.fetchReminderWith(identifier: identifier, context: managedObjectContext) else { return nil}
+        return reminder
+    }
+    
+//    @objc private func userDidTapUserLocation(sender: UITapGestureRecognizer) {
+//        print("User location was tapped")
+////        switch view {
+////            case
+////        }
+//    }
+//
+//    @objc private func userDidTapPinLocation(sender: UITapGestureRecognizer) {
+//        print("Pin annotation was tapped")
+//    }
 }
 
 class MMPointAnnotation: MKPointAnnotation {

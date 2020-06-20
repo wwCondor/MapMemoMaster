@@ -34,5 +34,6 @@ class MMBodyLabel: UILabel {
         adjustsFontSizeToFitWidth           = true
         minimumScaleFactor                  = 0.75
         lineBreakMode                       = .byWordWrapping
+        numberOfLines                       = 0
     }
 }

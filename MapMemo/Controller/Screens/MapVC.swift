@@ -292,34 +292,7 @@ class MapVC: UIViewController {
     }
     
     private func presentMenuForCurrentLocation() {
-        
-                    
-                    
-            //        guard let location = lastLocation else {
-            //            presentMMAlertOnMainThread(title: "Coordinates not found", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "OK")
-            //            return
-            //        }
-            //
-            //        let latitude   = location.coordinate.latitude
-            //        let longitude  = location.coordinate.longitude
-            //
-            //        let reminderVC = ReminderVC(mode: mode, reminder: reminder)
-            //        reminderVC.locationName      = self.locationTitle
-            //        reminderVC.locationAddress   = self.locationSubtitle
-            //        reminderVC.reminderLatitude  = latitude
-            //        reminderVC.reminderLongitude = longitude
-            //
-            //        let navigationController = UINavigationController(rootViewController: reminderVC)
-            //        navigationController.modalPresentationStyle = .fullScreen
-            //        present(navigationController, animated: true)
-        guard let location = lastLocation else { return }
-        
-        
-        
         DispatchQueue.main.async {
-            
-            
-            self.getLocationInfo()
             let annotationMenuVC = MMAnnotationVC()
             annotationMenuVC.modalPresentationStyle = .overFullScreen
             annotationMenuVC.modalTransitionStyle   = .crossDissolve
@@ -373,8 +346,9 @@ extension MapVC: CLLocationManagerDelegate {
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         guard let newLocation = userLocation.location else { return }
-        
         lastLocation = newLocation
+        getLocationInfo()
+        print("Location changed")
 //        mapView.userLocation.title = ""
     }
     

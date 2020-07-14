@@ -16,18 +16,19 @@ class MapVC: UIViewController {
     private var locationTitle: String?
     private var locationSubtitle: String?
     private var lastLocation: CLLocation?
-    private var reminders: [Reminder] = []
+    private var reminders: [Reminder]    = []
     private var locationAuthorized: Bool = false
     
-    private let updateRemindersKey      = Notification.Name(rawValue: Key.updateReminders)
-    private let managedObjectContext    = CoreDataManager.shared.managedObjectContext
-    private let notificationManager     = NotificationManager.shared
-    private let locationManager         = CLLocationManager()
-    private let regionInMeters: Double  = 2500
+    private let updateRemindersKey       = Notification.Name(rawValue: Key.updateReminders)
+    private let managedObjectContext     = CoreDataManager.shared.managedObjectContext
+    private let notificationManager      = NotificationManager.shared
+    private let locationManager          = CLLocationManager()
+    private let regionInMeters: Double   = 2500
     
-    private let mapView                 = MMMapView()
-    private let compassBackgroundView   = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
-    private let compass                 = MMCompassImageView(frame: .zero)
+    private let mapView                  = MMMapView()
+    private let compassBackgroundView    = MMBackgroundView(backgroundColor: .systemBackground, cornerRadius: Configuration.compassBackgroundSize/2)
+    private let compass                  = MMCompassImageView(frame: .zero)
+    
     
 //    private var mapCamera = MKMapCamera()
 //    private let testButton              = MMTwoLineButton(title: "Main", subtitle: "Some subtitle", mode: .split) // MARK: Delete
@@ -41,7 +42,7 @@ class MapVC: UIViewController {
         addObserver()
         getActiveReminders()
         checkLocationServices()
-
+        
 //        layoutTestObject()
 //        configureTestButton() // MARK: Delete
     }
@@ -252,8 +253,8 @@ class MapVC: UIViewController {
 //        return location
 //    }
     
-    private func centerMap(on center: CLLocationCoordinate2D) {
-        let region = MKCoordinateRegion(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+    private func centerMap(on coordinate: CLLocationCoordinate2D) {
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
         mapView.setRegion(region, animated: true)
     }
     
@@ -270,10 +271,10 @@ class MapVC: UIViewController {
 //        mapView.setRegion(region, animated: true)
 //    }
     
-    private func annotationTapped(at mode: AnnotationMode, for reminder: Reminder?) {
-        switch mode {
+    private func annotationTapped(at type: AnnotationType, for reminder: Reminder?) {
+        switch type {
         case .pinLocation: presentMenuForPinLocation(for: reminder)
-        case .myLocation: presentMenuForCurrentLocation()
+        case .currentLocation: presentMenuForCurrentLocation()
         }
     }
     
@@ -291,20 +292,40 @@ class MapVC: UIViewController {
     }
     
     private func presentMenuForCurrentLocation() {
+        
+                    
+                    
+            //        guard let location = lastLocation else {
+            //            presentMMAlertOnMainThread(title: "Coordinates not found", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "OK")
+            //            return
+            //        }
+            //
+            //        let latitude   = location.coordinate.latitude
+            //        let longitude  = location.coordinate.longitude
+            //
+            //        let reminderVC = ReminderVC(mode: mode, reminder: reminder)
+            //        reminderVC.locationName      = self.locationTitle
+            //        reminderVC.locationAddress   = self.locationSubtitle
+            //        reminderVC.reminderLatitude  = latitude
+            //        reminderVC.reminderLongitude = longitude
+            //
+            //        let navigationController = UINavigationController(rootViewController: reminderVC)
+            //        navigationController.modalPresentationStyle = .fullScreen
+            //        present(navigationController, animated: true)
+        guard let location = lastLocation else { return }
+        
+        
+        
         DispatchQueue.main.async {
-            //            guard let locationName = self.locationTitle, let locationAddress = self.locationSubtitle else {
-            //                self.presentMMAlertOnMainThread(title: "Something went wrong", message: MMError.locationInfoNotFound.localizedDescription, buttonTitle: "OK")
-            //                return
-//                        }
+            
+            
             self.getLocationInfo()
             let annotationMenuVC = MMAnnotationVC()
             annotationMenuVC.modalPresentationStyle = .overFullScreen
             annotationMenuVC.modalTransitionStyle   = .crossDissolve
-//            annotationMenuVC.locationNameInfo       = locationName
-//            annotationMenuVC.locationAddressInfo    = locationAddress
+            annotationMenuVC.modeSelected           = .currentLocation
             annotationMenuVC.locationNameInfo       = self.locationTitle
             annotationMenuVC.locationAddressInfo    = self.locationSubtitle
-            annotationMenuVC.modeSelected           = .myLocation
             annotationMenuVC.delegate               = self
             self.centerMapOnUser()
             self.present(annotationMenuVC, animated: true)
@@ -351,14 +372,17 @@ extension MapVC: CLLocationManagerDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        mapView.userLocation.title = ""
+        guard let newLocation = userLocation.location else { return }
+        
+        lastLocation = newLocation
+//        mapView.userLocation.title = ""
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         lastLocation = location
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        centerMap(on: center)
+        let locationCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        centerMap(on: locationCoordinate)
 
 //        setCamera(for: center)
 //        getLocationInfo()
@@ -409,7 +433,7 @@ extension MapVC: MKMapViewDelegate {
 //        calloutView.addGestureRecognizer(pinTapGesutre)
         
         if view.annotation is MKUserLocation {
-            annotationTapped(at: .myLocation, for: nil)
+            annotationTapped(at: .currentLocation, for: nil)
         } else {
             guard let reminder = findReminder(for: view) else  { return }
 //            let location = findLocation(for: view)

@@ -60,6 +60,7 @@
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
 		0BA9CF11239E501800ACB8E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0F239E501800ACB8E3 /* LaunchScreen.storyboard */; };
 		0BA9CF35239FBCA900ACB8E3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF34239FBCA900ACB8E3 /* Error.swift */; };
+		0BE3780724BDD0CC004CBE5B /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		0BA9CF10239E501800ACB8E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0BA9CF12239E501800ACB8E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BA9CF34239FBCA900ACB8E3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,12 +157,13 @@
 				0B73ED8723FBE6D8005E503F /* LosslessStringConvertible+Ext.swift */,
 				0B73ED7F23FBE5E7005E503F /* String+Ext.swift */,
 				0B73EE0C2400458F005E503F /* UIContextualAction+Ext.swift */,
+				0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */,
 				0B73EE31240A9DCD005E503F /* UIImage+Ext.swift */,
+				0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */,
 				0B73EDB623FC43E6005E503F /* UITableView+Ext.swift */,
 				0B73ED9423FBEF27005E503F /* UIView+Ext.swift */,
 				0B73EE2824099B0B005E503F /* UIViewController+Ext.swift */,
 				0B73EE2E240A9C54005E503F /* UserDefaults+Ext.swift */,
-				0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				0B73EDD623FD5C6E005E503F /* MMImageView.swift in Sources */,
 				0B73EE3C240AE5F9005E503F /* UIButton+Ext.swift in Sources */,
 				0B73ED9F23FBF3C1005E503F /* ReminderListVC.swift in Sources */,
+				0BE3780724BDD0CC004CBE5B /* UIStackView+Ext.swift in Sources */,
 				0B73EE2F240A9C54005E503F /* UserDefaults+Ext.swift in Sources */,
 				0B73EDB723FC43E6005E503F /* UITableView+Ext.swift in Sources */,
 				0BA9CF35239FBCA900ACB8E3 /* Error.swift in Sources */,

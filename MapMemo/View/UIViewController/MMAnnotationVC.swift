@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-enum AnnotationMode { case pinLocation, myLocation }
+enum AnnotationType { case pinLocation, currentLocation }
 
 protocol AnnotationDelegate: class {
 //    func userTappedShareButton()
@@ -23,8 +23,16 @@ class MMAnnotationVC: UIViewController {
     
     var locationNameInfo: String?
     var locationAddressInfo: String?
-    var modeSelected: AnnotationMode = .pinLocation
+    var modeSelected: AnnotationType = .pinLocation
     var reminder: Reminder?
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
     
     private let containerView        = MMAlertContainerView()
     private let locationNameLabel    = MMBodyLabel(alignment: .center, text: "Location Name")
@@ -38,16 +46,18 @@ class MMAnnotationVC: UIViewController {
         configureBackground()
         configureTapGestures()
         layoutUI()
+        layoutStackViewContent()
+        
         configureButtons()
         configureLabels(for: modeSelected)
     }
 
     private func layoutUI() {
         view.addSubview(containerView)
-        containerView.addSubviews(locationNameLabel, locationAddressLabel, dismissButton, actionButton)//, shareButton)
+        containerView.addSubviews(stackView, dismissButton, actionButton)//, shareButton)
+
         
         let padding: CGFloat = 20
-        let labelHeight: CGFloat = 22
         let buttonHeight: CGFloat = 50
         
         NSLayoutConstraint.activate([
@@ -61,15 +71,10 @@ class MMAnnotationVC: UIViewController {
             dismissButton.widthAnchor.constraint(equalToConstant: 22),
             dismissButton.heightAnchor.constraint(equalToConstant: 22),
             
-            locationNameLabel.bottomAnchor.constraint(equalTo: locationAddressLabel.topAnchor),
-            locationNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            locationNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            locationNameLabel.heightAnchor.constraint(equalToConstant: labelHeight),
-            
-            locationAddressLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -padding),
-            locationAddressLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            locationAddressLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            locationAddressLabel.heightAnchor.constraint(equalToConstant: labelHeight),
+            stackView.topAnchor.constraint(equalTo: dismissButton.bottomAnchor, constant: padding),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            stackView.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -padding),
             
             actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
             actionButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
@@ -83,10 +88,14 @@ class MMAnnotationVC: UIViewController {
         ])
     }
     
-    private func configureLabels(for mode: AnnotationMode) {
-        switch mode {
+    private func layoutStackViewContent() {
+        stackView.addArrangedSubviews(locationNameLabel, locationAddressLabel)
+    }
+    
+    private func configureLabels(for type: AnnotationType) {
+        switch type {
         case .pinLocation: configureLabelsForReminder()
-        case .myLocation: configureLabelsForCurrentLocation()
+        case .currentLocation: configureLabelsForCurrentLocation()
         }
     }
 
@@ -133,7 +142,7 @@ class MMAnnotationVC: UIViewController {
         switch modeSelected {
         case .pinLocation:
             delegate.userTappedNavigationButton()
-        case .myLocation:
+        case .currentLocation:
             dismiss(animated: true)
             delegate.userTappedAddReminderButton()
         }

@@ -22,6 +22,7 @@ class MMMapView: MKMapView {
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
+        userTrackingMode = .follow
 //        showsUserLocation        = true
         isUserInteractionEnabled = true
         isZoomEnabled            = true

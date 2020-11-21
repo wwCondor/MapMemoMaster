@@ -9,13 +9,13 @@
 import UIKit
 import MapKit
 
-protocol LocationDelegate: class {
+protocol ReminderLocationDelegate: class {
     func locationSelected(title: String, subtitle: String, latitude: Double, longitude: Double)
 }
 
 class LocationVC: UIViewController {
     
-    weak var delegate: LocationDelegate!
+    weak var delegate: ReminderLocationDelegate!
     
     private let locationSearchBar       = MMLocationSearchBar()
     private let searchResultsTableView  = UITableView()

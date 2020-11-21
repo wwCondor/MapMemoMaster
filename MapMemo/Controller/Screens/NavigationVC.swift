@@ -6,15 +6,18 @@
 //  Copyright © 2020 Studio Willebrands. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import MapKit
 
-class NavigationViewcontroller: UIViewController {
+class NavigationVC: UIViewController {
     
     var reminder: Reminder?
     
+    private let mapView = MMMapView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         configureViewController()
         configureNavigationBar()
     }
@@ -67,3 +70,21 @@ class NavigationViewcontroller: UIViewController {
          dismiss(animated: true)
      }
 }
+
+extension NavigationVC: MKMapViewDelegate {
+    
+    
+//    private func prepareMapForDirections(from location: CLLocation, to destination: CLLocationCoordinate2D) {
+//        let direction = MKDirections(request: createRequest(from: location, to: destination))
+//        direction.calculate { [unowned self] response, error in
+//            guard let unwrappedResponse = response else { return }
+//            for route in unwrappedResponse.routes {
+//                self.mapView.addOverlay(route.polyline)
+//                let padding: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: padding,animated: true)
+//            }
+//        }
+//    }
+    
+}
+

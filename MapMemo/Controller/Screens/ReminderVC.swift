@@ -322,7 +322,7 @@ extension ReminderVC: UITextFieldDelegate {
     }
 }
 
-extension ReminderVC: LocationDelegate {
+extension ReminderVC: ReminderLocationDelegate {
     func locationSelected(title: String, subtitle: String, latitude: Double, longitude: Double) {
         locationButton.setSplitTitle(title: title, subtitle: subtitle)
         locationName      = title

@@ -59,6 +59,7 @@
 		0BA9CF11239E501800ACB8E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0F239E501800ACB8E3 /* LaunchScreen.storyboard */; };
 		0BA9CF35239FBCA900ACB8E3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF34239FBCA900ACB8E3 /* Error.swift */; };
 		0BD6EE0F25691AC000AD26C4 /* NavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6EE0E25691AC000AD26C4 /* NavigationVC.swift */; };
+		0BD6EE1125693DAC00AD26C4 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6EE1025693DAC00AD26C4 /* LocationManager.swift */; };
 		0BE3780724BDD0CC004CBE5B /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +118,7 @@
 		0BA9CF12239E501800ACB8E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BA9CF34239FBCA900ACB8E3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0BD6EE0E25691AC000AD26C4 /* NavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationVC.swift; sourceTree = "<group>"; };
+		0BD6EE1025693DAC00AD26C4 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				0B73EE182403EF35005E503F /* NotificationManager.swift */,
+				0BD6EE1025693DAC00AD26C4 /* LocationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				0B0EFF08240FD12800F087C7 /* Helper.swift in Sources */,
 				0B73EDBA23FC6099005E503F /* MMLocationSearchBar.swift in Sources */,
 				0B73EE32240A9DCD005E503F /* UIImage+Ext.swift in Sources */,
+				0BD6EE1125693DAC00AD26C4 /* LocationManager.swift in Sources */,
 				0B73ED9A23FBF305005E503F /* MMTabBarController.swift in Sources */,
 				0B73EE2124094028005E503F /* Key.swift in Sources */,
 				0B73EDE723FEB501005E503F /* MMButton.swift in Sources */,

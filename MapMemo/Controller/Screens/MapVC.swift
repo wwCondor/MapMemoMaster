@@ -50,7 +50,9 @@ class MapVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+//        locationManager.delegate = self
     }
+    
     
 //    private func configureTestButton() { // MARK: Delete
 //        testButton.addTarget(self, action: #selector(testButtonTapped), for: .touchUpInside)
@@ -440,9 +442,10 @@ extension MapVC: MKMapViewDelegate {
     }
     
     private func presentNavigationVC(for reminder: Reminder) {
-        let navigationVC = NavigationViewcontroller(reminder: reminder)
+        let navigationVC = NavigationVC(reminder: reminder)
         let navigationController = UINavigationController(rootViewController: navigationVC)
-        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.modalPresentationStyle = .popover
+//        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
         print("Presenting Navigation Controller")
     }
@@ -455,6 +458,7 @@ class MMPointAnnotation: MKPointAnnotation {
 extension MapVC: AnnotationDelegate {
     func userTappedShareButton() {
         print("User wants to share location")
+        // Not implemented
     }
     
     func userTappedNavigationButton(for reminder: Reminder) {

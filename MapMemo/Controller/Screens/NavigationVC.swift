@@ -13,6 +13,8 @@ class NavigationVC: UIViewController {
     
     var reminder: Reminder?
     
+    private let locationManager          = LocationManager.shared
+    
     private let mapView = MMMapView()
     
     override func viewDidLoad() {
@@ -20,6 +22,14 @@ class NavigationVC: UIViewController {
         mapView.delegate = self
         configureViewController()
         configureNavigationBar()
+        layoutUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        locationManager.delegate = self
+
+        //        locationManager.delegate = self
     }
     
     init(reminder: Reminder?) {
@@ -44,12 +54,13 @@ class NavigationVC: UIViewController {
     }
     
     private func layoutUI() {
-//        view.addSubview()
+        view.addSubviews(mapView)
+        mapView.pinToEdges(of: view)
         
-        NSLayoutConstraint.activate([
-        
-        
-        ])
+//        NSLayoutConstraint.activate([
+//
+//
+//        ])
     }
     
     private func configureUI(for reminder: Reminder?) {
@@ -69,6 +80,18 @@ class NavigationVC: UIViewController {
     @objc private func backButtonTapped() {
          dismiss(animated: true)
      }
+}
+
+extension NavigationVC: LocationDataDelegate {
+    func updateCurrentLocation(to location: CLLocation) {
+        // In here we want to update user location on map
+    }
+    
+    func updateCurrentHeading(to newHeading: CLHeading) {
+        // In here we want to make sure that arrow around user location keeps indicating direction towards destination
+    }
+    
+    
 }
 
 extension NavigationVC: MKMapViewDelegate {

@@ -16,13 +16,16 @@ class MapVC: UIViewController {
     private var locationTitle: String?
     private var locationSubtitle: String?
     private var lastLocation: CLLocation?
+    
     private var reminders: [Reminder]    = []
     private var locationAuthorized: Bool = false
     
     private let updateRemindersKey       = Notification.Name(rawValue: Key.updateReminders)
+    
     private let managedObjectContext     = CoreDataManager.shared.managedObjectContext
     private let notificationManager      = NotificationManager.shared
-    private let locationManager          = CLLocationManager()
+    private let locationManager          = LocationManager.shared
+//    private let locationManager          = CLLocationManager()
     private let regionInMeters: Double   = 2500
     
     private let mapView                  = MMMapView()
@@ -41,7 +44,9 @@ class MapVC: UIViewController {
         
         addObserver()
         getActiveReminders()
-        checkLocationServices()
+        locationManager.checkLocationServices()
+//        locationManager.configureLocationManager()
+//        centerMapOnUser()
         
 //        layoutTestObject()
 //        configureTestButton() // MARK: Delete
@@ -50,7 +55,7 @@ class MapVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-//        locationManager.delegate = self
+        locationManager.delegate = self
     }
     
     
@@ -115,53 +120,56 @@ class MapVC: UIViewController {
         } catch {
             presentMMAlertOnMainThread(title: "Reminder Fetch Error", message: MMError.failedFetch.localizedDescription, buttonTitle: "OK")
         }
+        
+        addRemindersToMap(reminders: reminders)
+        
         print("Retrieved active reminders")
     }
     
-    private func checkLocationServices() {
-        print("Checking location services")
-        guard CLLocationManager.locationServicesEnabled() else {
-            print("Location Services are Disabled")
-            presentFailedPermissionActionSheet(description: MMError.locationServicesDisabled.localizedDescription , viewController: self)
-            return
-        }
-        
-        print("Location Services are Enabled")
-        configureLocationManager()
-        checkLocationAuthorization()
-    }
+//    private func checkLocationServices() {
+//        print("Checking location services")
+//        guard CLLocationManager.locationServicesEnabled() else {
+//            print("Location Services are Disabled")
+//            presentFailedPermissionActionSheet(description: MMError.locationServicesDisabled.localizedDescription , viewController: self)
+//            return
+//        }
+//
+//        print("Location Services are Enabled")
+//        configureLocationManager()
+//        checkLocationAuthorization()
+//    }
     
-    private func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = 25
-    }
+//    private func configureLocationManager() {
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+//        locationManager.distanceFilter = 25
+//    }
     
-    private func checkLocationAuthorization() {
-        print("Checking Location Authorization")
-        switch CLLocationManager.authorizationStatus() {
-            
-        case .notDetermined:
-            print("Requesting Authorization")
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted, .denied:
-            print("Authorization restricted or denied")
-            locationAuthorized = false
-            presentFailedPermissionActionSheet(description: MMError.locationAuthorizationDenied.localizedDescription , viewController: self)
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("Authorized")
-            locationAuthorized = true
-            mapView.showsUserLocation = true // Handled in class declaration
-            centerMapOnUser()
-            locationManager.startUpdatingLocation()
-            locationManager.startUpdatingHeading()
-            addRemindersToMap(reminders: reminders) // Handle inside fetchReminders method?
-        @unknown default: break
-        }
-        
-        #warning("Implement no authorization path -> Settings")
-//        updateUIForAuthorization(status: locationAuthorized)
-    }
+//    private func checkLocationAuthorization() {
+//        print("Checking Location Authorization")
+//        switch CLLocationManager.authorizationStatus() {
+//
+//        case .notDetermined:
+//            print("Requesting Authorization")
+//            locationManager.requestWhenInUseAuthorization()
+//        case .restricted, .denied:
+//            print("Authorization restricted or denied")
+//            locationAuthorized = false
+//            presentFailedPermissionActionSheet(description: MMError.locationAuthorizationDenied.localizedDescription , viewController: self)
+//        case .authorizedAlways, .authorizedWhenInUse:
+//            print("Authorized")
+//            locationAuthorized = true
+//            mapView.showsUserLocation = true // Handled in class declaration
+//            centerMapOnUser()
+//            locationManager.startUpdatingLocation()
+//            locationManager.startUpdatingHeading()
+//            addRemindersToMap(reminders: reminders) // Handle inside fetchReminders method?
+//        @unknown default: break
+//        }
+//
+//        #warning("Implement no authorization path -> Settings")
+////        updateUIForAuthorization(status: locationAuthorized)
+//    }
     
     /// Updates UI for authorization status
 //    private func updateUIForAuthorization(status: Bool) {
@@ -217,13 +225,13 @@ class MapVC: UIViewController {
         reminders.removeAll()
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
-        let regions = locationManager.monitoredRegions
-        for region in regions { locationManager.stopMonitoring(for: region) }
+        let regions = locationManager.manager.monitoredRegions
+        for region in regions { locationManager.manager.stopMonitoring(for: region) }
         print("Finished removing reminders")
     }
     
-    private func getLocationInfo() {
-        guard let location = lastLocation else { return }
+    private func getLocationInfo(for location: CLLocation) {
+//        guard let location = lastLocation else { return }
         
         let geoCoder = CLGeocoder()
 
@@ -261,6 +269,7 @@ class MapVC: UIViewController {
     }
     
     private func centerMapOnUser() {
+//        guard locationManager.hasLocationAuthorization == true else { return }
         guard let location = lastLocation else { return }
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
@@ -337,36 +346,56 @@ class MapVC: UIViewController {
 //    }
 }
 
+extension MapVC: LocationDataDelegate {
+    func updateCurrentLocation(to newLocation: CLLocation) {
+        lastLocation = newLocation
+        let locationCoordinate = CLLocationCoordinate2D(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude)
+//        getLocationInfo(for: newLocation)
+//        centerMapOnUser()
+//        let locationCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        centerMap(on: locationCoordinate)
+    }
+    
+    func updateCurrentHeading(to newHeading: CLHeading) {
+        animateCompass(to: newHeading)
+    }
+    
+    private func animateCompass(to newHeading: CLHeading) {
+        let angle = CGFloat(newHeading.trueHeading).degreesToRadians
+        UIView.animate(withDuration: 0.3) { self.compass.transform = CGAffineTransform(rotationAngle: -CGFloat(angle))}
+    }
+}
+
 extension MapVC: CLLocationManagerDelegate {
     
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        UIView.animate(withDuration: 0.3) {
-            let angle = CGFloat(newHeading.trueHeading).degreesToRadians
-            self.compass.transform = CGAffineTransform(rotationAngle: -CGFloat(angle))
-        }
-    }
+//    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+//        UIView.animate(withDuration: 0.3) {
+//            let angle = CGFloat(newHeading.trueHeading).degreesToRadians
+//            self.compass.transform = CGAffineTransform(rotationAngle: -CGFloat(angle))
+//        }
+//    }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         guard let newLocation = userLocation.location else { return }
         lastLocation = newLocation
-        getLocationInfo()
+        getLocationInfo(for: newLocation)
         print("Location changed")
 //        mapView.userLocation.title = ""
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        lastLocation = location
-        let locationCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        centerMap(on: locationCoordinate)
-
-//        setCamera(for: center)
-//        getLocationInfo()
-    }
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let location = locations.last else { return }
+//        lastLocation = location
+//        let locationCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+//        centerMap(on: locationCoordinate)
+//
+////        setCamera(for: center)
+////        getLocationInfo()
+//    }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorization()
-    }
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        checkLocationAuthorization()
+//    }
 }
 
 
@@ -477,6 +506,6 @@ extension MapVC: AnnotationDelegate {
 
 extension MapVC: NotificationManagerDelegate {
     func informLocationManager(for region: CLCircularRegion) {
-        locationManager.startMonitoring(for: region)
+        locationManager.manager.startMonitoring(for: region)
     }
 }

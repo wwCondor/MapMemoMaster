@@ -17,7 +17,7 @@ class ReminderListVC: UIViewController {
     private let coreDataManager      = CoreDataManager.shared
     private let notificationManager  = NotificationManager.shared
         
-    private let remindersTableView       = MMRemindersTableView(frame: .zero)
+    private let remindersTableView        = MMRemindersTableView(frame: .zero)
     private let largeBackgroundImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.35))
     private let mediumBackgroundImageView = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.25))
     private let smallBackgroundImageView  = MMImageView(image: SFSymbols.pin!, tintColor: UIColor.systemPink.withAlphaComponent(0.15))

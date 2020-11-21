@@ -9,37 +9,21 @@
 import UIKit
 
 class MMTabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewControllers = [createMapNavController(), createReminderListNavController()]//, createReminderNavController()]
-
+        viewControllers = [createMapNavController(), createReminderListNavController()]
+        
         configureTabBarAppearance()
-//        configureShadow()
     }
     
     private func configureTabBarAppearance() {
         let tabBarAppearance = UITabBar.appearance()
         tabBarAppearance.barTintColor    = .systemBackground
         tabBarAppearance.tintColor       = .systemPink
-//        tabBarAppearance.isTranslucent   = true
-//        tabBarAppearance.layer.shadowColor = UIColor.systemPink.cgColor
-//        tabBarAppearance.layer.shadowRadius = 20
-//        tabBarAppearance.layer.shadowOpacity = 0.5
-//        tabBarAppearance.layer.shadowOffset = .zero
-//        tabBarAppearance.layer.masksToBounds = true
     }
     
-//    private func configureShadow() {
-//        view.layer.shadowColor = UIColor.black.cgColor
-//        view.layer.shadowRadius = 20
-//        view.layer.shadowOpacity = 0.5
-//        view.layer.shadowOffset = .zero
-//        view.layer.masksToBounds = false
-//    }
-    
-    /// Creates the UINavigationController
     private func createMapNavController() -> UINavigationController {
         let mapVC = MapVC()
         let mapImage = SFSymbols.map
@@ -55,12 +39,4 @@ class MMTabBarController: UITabBarController {
         reminderListVC.tabBarItem = UITabBarItem(title: "Reminders", image: listImage, tag: 1)
         return   UINavigationController(rootViewController: reminderListVC)
     }
-
-//    private func createReminderNavController() -> UINavigationController {
-//        let reminderVC = ReminderVC()
-//        let addImage = SFSymbols.add
-//        reminderVC.title = "Reminder"
-//        reminderVC.tabBarItem = UITabBarItem(title: "Add", image: addImage, tag: 2)
-//        return   UINavigationController(rootViewController: reminderVC)
-//    }
 }

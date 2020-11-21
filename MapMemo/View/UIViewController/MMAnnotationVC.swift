@@ -13,7 +13,7 @@ enum AnnotationType { case pinLocation, currentLocation }
 
 protocol AnnotationDelegate: class {
 //    func userTappedShareButton()
-    func userTappedNavigationButton()
+    func userTappedNavigationButton(for reminder: Reminder)
     func userTappedAddReminderButton()
 }
 
@@ -141,10 +141,15 @@ class MMAnnotationVC: UIViewController {
     @objc private func actionButtonTapped(sender: MMButton) {
         switch modeSelected {
         case .pinLocation:
-            delegate.userTappedNavigationButton()
+            guard let selectedReminnder = reminder else {
+                self.presentMMAlertOnMainThread(title: "Reminder Error", message: MMReminderError.reminderNil.localizedDescription, buttonTitle: "Ok")
+                return }
+            
+            dismiss(animated: true, completion: {
+                self.delegate.userTappedNavigationButton(for: selectedReminnder)})
         case .currentLocation:
-            dismiss(animated: true)
-            delegate.userTappedAddReminderButton()
+            dismiss(animated: true, completion: {
+                self.delegate.userTappedAddReminderButton()})
         }
         
         // MARK: Inform, dismiss and center map with a zoom

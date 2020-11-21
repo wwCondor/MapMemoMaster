@@ -88,7 +88,7 @@ class MMReminderCell: UITableViewCell {
         subtitleLabel.text                      = reminder.locationAddress
         messageLabel.text                       = reminder.message
         reminderStatusImageView.image           = reminder.isActive ? SFSymbols.notificationOn : SFSymbols.notificationOff
-        triggerConditionImageView.image            = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
+        triggerConditionImageView.image         = reminder.triggerOnEntry ? SFSymbols.enterTrigger : SFSymbols.exitTrigger
         contentBackgroundView.backgroundColor   = reminder.isActive ? .systemPink : .systemGray4
         
         let switchStatus: Bool = reminder.isActive ? true : false

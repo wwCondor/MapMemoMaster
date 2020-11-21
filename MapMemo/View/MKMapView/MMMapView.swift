@@ -22,13 +22,9 @@ class MMMapView: MKMapView {
     
     private func configureView() {
         translatesAutoresizingMaskIntoConstraints = false
-        userTrackingMode = .follow
-//        showsUserLocation        = true
+        userTrackingMode         = .follow
         isUserInteractionEnabled = true
         isZoomEnabled            = true
-//        showsBuildings           = true
-//        isPitchEnabled           = true
         mapType                  = .standard
-//        mapType                  = .satelliteFlyover
     }
 }

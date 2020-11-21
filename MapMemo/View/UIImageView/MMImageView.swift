@@ -30,5 +30,4 @@ class MMImageView: UIImageView {
         contentMode         = .scaleAspectFit
         backgroundColor     = .clear
     }
-    
 }

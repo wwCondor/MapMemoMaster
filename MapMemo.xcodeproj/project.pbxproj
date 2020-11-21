@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B0EFEFF240C485E00F087C7 /* MMAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */; };
 		0B0EFF01240CFE0500F087C7 /* MMAnnotationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */; };
 		0B0EFF08240FD12800F087C7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0EFF07240FD12800F087C7 /* Helper.swift */; };
 		0B73ED8023FBE5E7005E503F /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73ED7F23FBE5E7005E503F /* String+Ext.swift */; };
@@ -42,7 +41,6 @@
 		0B73EDE523FEB0DF005E503F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE423FEB0DF005E503F /* CoreDataManager.swift */; };
 		0B73EDE723FEB501005E503F /* MMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE623FEB501005E503F /* MMButton.swift */; };
 		0B73EDE923FEB5D4005E503F /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EDE823FEB5D4005E503F /* LocationVC.swift */; };
-		0B73EE0D2400458F005E503F /* UIContextualAction+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE0C2400458F005E503F /* UIContextualAction+Ext.swift */; };
 		0B73EE112401BC74005E503F /* ReminderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE102401BC74005E503F /* ReminderDataSource.swift */; };
 		0B73EE192403EF35005E503F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE182403EF35005E503F /* NotificationManager.swift */; };
 		0B73EE2124094028005E503F /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE2024094028005E503F /* Key.swift */; };
@@ -60,11 +58,11 @@
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
 		0BA9CF11239E501800ACB8E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0F239E501800ACB8E3 /* LaunchScreen.storyboard */; };
 		0BA9CF35239FBCA900ACB8E3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF34239FBCA900ACB8E3 /* Error.swift */; };
+		0BD6EE0F25691AC000AD26C4 /* NavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6EE0E25691AC000AD26C4 /* NavigationVC.swift */; };
 		0BE3780724BDD0CC004CBE5B /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationView.swift; sourceTree = "<group>"; };
 		0B0EFF00240CFE0500F087C7 /* MMAnnotationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMAnnotationVC.swift; sourceTree = "<group>"; };
 		0B0EFF07240FD12800F087C7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		0B73ED7F23FBE5E7005E503F /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 		0B73EDE423FEB0DF005E503F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		0B73EDE623FEB501005E503F /* MMButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMButton.swift; sourceTree = "<group>"; };
 		0B73EDE823FEB5D4005E503F /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
-		0B73EE0C2400458F005E503F /* UIContextualAction+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIContextualAction+Ext.swift"; sourceTree = "<group>"; };
 		0B73EE102401BC74005E503F /* ReminderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDataSource.swift; sourceTree = "<group>"; };
 		0B73EE182403EF35005E503F /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		0B73EE2024094028005E503F /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
@@ -119,6 +116,7 @@
 		0BA9CF10239E501800ACB8E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0BA9CF12239E501800ACB8E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BA9CF34239FBCA900ACB8E3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		0BD6EE0E25691AC000AD26C4 /* NavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationVC.swift; sourceTree = "<group>"; };
 		0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,14 +131,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0B0EFEFD240C483D00F087C7 /* MKAnnotationView */ = {
-			isa = PBXGroup;
-			children = (
-				0B0EFEFE240C485E00F087C7 /* MMAnnotationView.swift */,
-			);
-			path = MKAnnotationView;
-			sourceTree = "<group>";
-		};
 		0B0EFF06240FD11800F087C7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,7 +146,6 @@
 				0B73ED8523FBE66A005E503F /* FloatingPoint+Ext.swift */,
 				0B73ED8723FBE6D8005E503F /* LosslessStringConvertible+Ext.swift */,
 				0B73ED7F23FBE5E7005E503F /* String+Ext.swift */,
-				0B73EE0C2400458F005E503F /* UIContextualAction+Ext.swift */,
 				0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */,
 				0B73EE31240A9DCD005E503F /* UIImage+Ext.swift */,
 				0BE3780624BDD0CC004CBE5B /* UIStackView+Ext.swift */,
@@ -301,6 +290,7 @@
 				0B73ED9E23FBF3C1005E503F /* ReminderListVC.swift */,
 				0B73EDA223FBF3E7005E503F /* ReminderVC.swift */,
 				0B73EDE823FEB5D4005E503F /* LocationVC.swift */,
+				0BD6EE0E25691AC000AD26C4 /* NavigationVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -383,7 +373,6 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0B0EFEFD240C483D00F087C7 /* MKAnnotationView */,
 				0B73EDA623FC1ACB005E503F /* MKMapView */,
 				0B73ED8B23FBE7E9005E503F /* UIButton */,
 				0B73EDA923FC32CF005E503F /* UIImageView */,
@@ -484,6 +473,7 @@
 				0B73ED9523FBEF27005E503F /* UIView+Ext.swift in Sources */,
 				0B73ED8623FBE66A005E503F /* FloatingPoint+Ext.swift in Sources */,
 				0B73EDC523FD209A005E503F /* PlaceholderText.swift in Sources */,
+				0BD6EE0F25691AC000AD26C4 /* NavigationVC.swift in Sources */,
 				0B73ED8223FBE60D005E503F /* Double+Ext.swift in Sources */,
 				0B73ED8823FBE6D8005E503F /* LosslessStringConvertible+Ext.swift in Sources */,
 				0B73EDC323FC6D69005E503F /* MMToggleButton.swift in Sources */,
@@ -514,7 +504,6 @@
 				0B73EE36240AA595005E503F /* MMLocationTapView.swift in Sources */,
 				0B73EE192403EF35005E503F /* NotificationManager.swift in Sources */,
 				0B73EDE323FEAFA9005E503F /* MapMemo.xcdatamodeld in Sources */,
-				0B73EE0D2400458F005E503F /* UIContextualAction+Ext.swift in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
 				0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */,
 				0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */,
@@ -532,7 +521,6 @@
 				0B73ED9723FBEFCD005E503F /* MMContentView.swift in Sources */,
 				0B73EDA123FBF3D3005E503F /* MapVC.swift in Sources */,
 				0B73ED8D23FBE969005E503F /* MMBackgroundView.swift in Sources */,
-				0B0EFEFF240C485E00F087C7 /* MMAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

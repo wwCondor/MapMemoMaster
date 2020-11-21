@@ -400,19 +400,10 @@ extension MapVC: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        guard let calloutView = view.subviews.first else { return }
-//        let userLocationTapGesture = UITapGestureRecognizer(target: self, action: #selector(userDidTapUserLocation(sender:)))
-//        let pinTapGesutre = UITapGestureRecognizer(target: self, action: #selector(userDidTapPinLocation(sender:)))
-//        calloutView.addGestureRecognizer(userLocationTapGesture)
-//        calloutView.addGestureRecognizer(pinTapGesutre)
-        
         if view.annotation is MKUserLocation {
             annotationTapped(at: .currentLocation, for: nil)
         } else {
             guard let reminder = findReminder(for: view) else  { return }
-//            let location = findLocation(for: view)
-//            guard let title = view.annotation?.title, let identifier = title else { return }
-//            guard let reminder = managedObjectContext.fetchReminderWith(identifier: identifier, context: managedObjectContext) else { return }
             let location = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
             centerMap(on: location)
             annotationTapped(at: .pinLocation, for: reminder)
@@ -426,16 +417,35 @@ extension MapVC: MKMapViewDelegate {
         return reminder
     }
     
-//    @objc private func userDidTapUserLocation(sender: UITapGestureRecognizer) {
-//        print("User location was tapped")
-////        switch view {
-////            case
-////        }
-//    }
-//
-//    @objc private func userDidTapPinLocation(sender: UITapGestureRecognizer) {
-//        print("Pin annotation was tapped")
-//    }
+    private func prepareMapForDirections(from location: CLLocation, to destination: CLLocationCoordinate2D) {
+        let direction = MKDirections(request: createRequest(from: location, to: destination))
+        direction.calculate { [unowned self] response, error in
+            guard let unwrappedResponse = response else { return }
+            for route in unwrappedResponse.routes {
+                self.mapView.addOverlay(route.polyline)
+                let padding: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: padding,animated: true)
+            }
+        }
+    }
+    
+    private func createRequest(from location: CLLocation, to destination: CLLocationCoordinate2D) -> MKDirections.Request {
+        let request = MKDirections.Request()
+        let currentCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentCoordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.requestsAlternateRoutes = false // Set to true for multiple routes
+        request.transportType = .automobile
+        return request
+    }
+    
+    private func presentNavigationVC(for reminder: Reminder) {
+        let navigationVC = NavigationViewcontroller(reminder: reminder)
+        let navigationController = UINavigationController(rootViewController: navigationVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+        print("Presenting Navigation Controller")
+    }
 }
 
 class MMPointAnnotation: MKPointAnnotation {
@@ -447,8 +457,15 @@ extension MapVC: AnnotationDelegate {
         print("User wants to share location")
     }
     
-    func userTappedNavigationButton() {
+    func userTappedNavigationButton(for reminder: Reminder) {
+//        guard let currentLocation = lastLocation else {
+//            presentMMAlertOnMainThread(title: "Location Error", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "Ok")
+//            return }
+//        let destination: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+//        prepareMapForDirections(from: currentLocation, to: destination)
+//        print(reminder.identifier)
         print("User wants to navigate to reminder")
+        presentNavigationVC(for: reminder)
     }
     
     func userTappedAddReminderButton() { presentReminderVC(mode: .annotation, reminder: nil) }

@@ -13,7 +13,7 @@ import CoreLocation
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private let locationManager = CLLocationManager()
+//    private let locationManager = CLLocationManager()
     private let notificationsManager = NotificationManager.shared
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

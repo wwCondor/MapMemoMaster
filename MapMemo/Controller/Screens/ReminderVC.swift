@@ -197,7 +197,7 @@ class ReminderVC: UIViewController {
         }
         
         guard let locationName = locationName, locationName.isNotEmpty else {
-            presentMMAlertOnMainThread(title: "Missing Location Name", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
+            presentMMAlertOnMainThread(title: "Missing Location Name", message: MMReminderError.noLocation.localizedDescription, buttonTitle: "Ok")
             return
         }
         
@@ -247,7 +247,7 @@ class ReminderVC: UIViewController {
         }
         
         guard let newLocationName = locationName, newLocationName.isNotEmpty else {
-            presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.missingLocationName.localizedDescription, buttonTitle: "Ok")
+            presentMMAlertOnMainThread(title: "Missing Location", message: MMReminderError.noLocation.localizedDescription, buttonTitle: "Ok")
             return
         }
         

@@ -11,4 +11,5 @@ import UIKit
 enum Configuration {
     static let compassBackgroundSize: CGFloat = 50
     static let compassSize: CGFloat           = 30
+    static let backButtonSize: CGFloat        = 25
 }

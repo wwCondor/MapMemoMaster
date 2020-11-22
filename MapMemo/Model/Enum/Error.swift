@@ -45,7 +45,7 @@ enum MMReminderError: Error {
     case missingMessage 
     case missingLatitude
     case missingLongitude
-    case missingLocationName
+//    case missingLocationName
     case missingLocationAddress
     case unableToObtainLocation
     case maxRemindersReached
@@ -60,11 +60,11 @@ extension MMReminderError: LocalizedError {
         case .missingMessage:               return "Woops! It seems you forgot to add a message to your reminder"
         case .missingLatitude:              return "An error occured finding the latitude for the selected location"
         case .missingLongitude:             return "An error occured finding the longitude for the selected location"
-        case .missingLocationName:          return "Woops! It seems no name could be found for the selected location"
+//        case .missingLocationName:          return "Woops! It seems no name could be found for the selected location"
         case .missingLocationAddress:       return "Woops! It seems no address could be found for the selected location"
         case .unableToObtainLocation:       return "Unable to obtain a location name for the selected coordinates"
         case .maxRemindersReached:          return "Maximum active reminders (20) reached. You need to delete a reminder first"
-        case .titleIsDuplicate:             return "Unable to save reminder. Reminder title already exists."
+        case .titleIsDuplicate:             return "Unable to save reminder. A reminder with this title already exists."
         case .noLocation:                   return "Use Search Location to add a location to the reminder."
         }
     }

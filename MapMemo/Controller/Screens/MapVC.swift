@@ -316,25 +316,7 @@ class MapVC: UIViewController {
         }
     }
     
-    private func presentReminderVC(mode: ReminderMode, reminder: Reminder?) {
-        guard let location = lastLocation else {
-            presentMMAlertOnMainThread(title: "Coordinates not found", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "OK")
-            return
-        }
-                
-        let latitude   = location.coordinate.latitude
-        let longitude  = location.coordinate.longitude
-        
-        let reminderVC = ReminderVC(mode: mode, reminder: reminder)
-        reminderVC.locationName      = self.locationTitle
-        reminderVC.locationAddress   = self.locationSubtitle
-        reminderVC.reminderLatitude  = latitude
-        reminderVC.reminderLongitude = longitude
-        
-        let navigationController = UINavigationController(rootViewController: reminderVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true)
-    }
+
     
     deinit { NotificationCenter.default.removeObserver(self) }
     
@@ -367,13 +349,6 @@ extension MapVC: LocationDataDelegate {
 }
 
 extension MapVC: CLLocationManagerDelegate {
-    
-//    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-//        UIView.animate(withDuration: 0.3) {
-//            let angle = CGFloat(newHeading.trueHeading).degreesToRadians
-//            self.compass.transform = CGAffineTransform(rotationAngle: -CGFloat(angle))
-//        }
-//    }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         guard let newLocation = userLocation.location else { return }
@@ -448,41 +423,31 @@ extension MapVC: MKMapViewDelegate {
         return reminder
     }
     
-    private func prepareMapForDirections(from location: CLLocation, to destination: CLLocationCoordinate2D) {
-        let direction = MKDirections(request: createRequest(from: location, to: destination))
-        direction.calculate { [unowned self] response, error in
-            guard let unwrappedResponse = response else { return }
-            for route in unwrappedResponse.routes {
-                self.mapView.addOverlay(route.polyline)
-                let padding: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: padding,animated: true)
-            }
-        }
-    }
+//    private func prepareMapForDirections(from location: CLLocation, to destination: CLLocationCoordinate2D) {
+//        let direction = MKDirections(request: createRequest(from: location, to: destination))
+//        direction.calculate { [unowned self] response, error in
+//            guard let unwrappedResponse = response else { return }
+//            for route in unwrappedResponse.routes {
+//                self.mapView.addOverlay(route.polyline)
+//                let padding: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: padding,animated: true)
+//            }
+//        }
+//    }
     
-    private func createRequest(from location: CLLocation, to destination: CLLocationCoordinate2D) -> MKDirections.Request {
-        let request = MKDirections.Request()
-        let currentCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentCoordinate))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
-        request.requestsAlternateRoutes = false // Set to true for multiple routes
-        request.transportType = .automobile
-        return request
-    }
+//    private func createRequest(from location: CLLocation, to destination: CLLocationCoordinate2D) -> MKDirections.Request {
+//        let request = MKDirections.Request()
+//        let currentCoordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+//        request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentCoordinate))
+//        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+//        request.requestsAlternateRoutes = false // Set to true for multiple routes
+//        request.transportType = .automobile
+//        return request
+//    }
     
-    private func presentNavigationVC(for reminder: Reminder) {
-        let navigationVC = NavigationVC(reminder: reminder)
-        let navigationController = UINavigationController(rootViewController: navigationVC)
-        navigationController.modalPresentationStyle = .popover
-//        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true)
-        print("Presenting Navigation Controller")
-    }
+
 }
 
-class MMPointAnnotation: MKPointAnnotation {
-    var pinTintColor: UIColor?
-}
 
 extension MapVC: AnnotationDelegate {
     func userTappedShareButton() {
@@ -491,17 +456,42 @@ extension MapVC: AnnotationDelegate {
     }
     
     func userTappedNavigationButton(for reminder: Reminder) {
-//        guard let currentLocation = lastLocation else {
-//            presentMMAlertOnMainThread(title: "Location Error", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "Ok")
-//            return }
-//        let destination: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
-//        prepareMapForDirections(from: currentLocation, to: destination)
-//        print(reminder.identifier)
-        print("User wants to navigate to reminder")
         presentNavigationVC(for: reminder)
     }
     
-    func userTappedAddReminderButton() { presentReminderVC(mode: .annotation, reminder: nil) }
+    private func presentNavigationVC(for reminder: Reminder) {
+        let navigationVC = NavigationVC(reminder: reminder)
+//        present(navigationVC, animated: true)
+        let navigationController = UINavigationController(rootViewController: navigationVC)
+        navigationController.modalPresentationStyle = .popover
+        present(navigationController, animated: true)
+//        print("Presenting Navigation Controller")
+    }
+    
+    func userTappedAddReminderButton() {
+        presentReminderVC(mode: .annotation, reminder: nil)
+    }
+    
+    private func presentReminderVC(mode: ReminderMode, reminder: Reminder?) {
+        guard let location = lastLocation else {
+            presentMMAlertOnMainThread(title: "Coordinates not found", message: MMError.unableToObtainLocation.localizedDescription, buttonTitle: "OK")
+            return
+        }
+                
+        let latitude   = location.coordinate.latitude
+        let longitude  = location.coordinate.longitude
+        
+        let reminderVC = ReminderVC(mode: mode, reminder: reminder)
+        reminderVC.locationName      = self.locationTitle
+        reminderVC.locationAddress   = self.locationSubtitle
+        reminderVC.reminderLatitude  = latitude
+        reminderVC.reminderLongitude = longitude
+        
+        let navigationController = UINavigationController(rootViewController: reminderVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+    }
+    
 }
 
 extension MapVC: NotificationManagerDelegate {

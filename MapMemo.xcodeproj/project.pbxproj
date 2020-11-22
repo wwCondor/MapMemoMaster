@@ -53,6 +53,7 @@
 		0B73EE36240AA595005E503F /* MMLocationTapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE35240AA595005E503F /* MMLocationTapView.swift */; };
 		0B73EE3C240AE5F9005E503F /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */; };
 		0B73EE3E240BE6AE005E503F /* MMPinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B73EE3D240BE6AE005E503F /* MMPinkLabel.swift */; };
+		0B8DD648256A9098008D4450 /* MMPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8DD647256A9098008D4450 /* MMPointAnnotation.swift */; };
 		0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */; };
 		0BA9CF04239E501700ACB8E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */; };
 		0BA9CF0E239E501800ACB8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9CF0D239E501800ACB8E3 /* Assets.xcassets */; };
@@ -110,6 +111,7 @@
 		0B73EE35240AA595005E503F /* MMLocationTapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLocationTapView.swift; sourceTree = "<group>"; };
 		0B73EE3B240AE5F9005E503F /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		0B73EE3D240BE6AE005E503F /* MMPinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMPinkLabel.swift; sourceTree = "<group>"; };
+		0B8DD647256A9098008D4450 /* MMPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMPointAnnotation.swift; sourceTree = "<group>"; };
 		0BA9CEFE239E501700ACB8E3 /* MapMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BA9CF01239E501700ACB8E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BA9CF03239E501700ACB8E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -331,6 +333,14 @@
 			path = Stores;
 			sourceTree = "<group>";
 		};
+		0B8DD646256A9067008D4450 /* MKPointAnnotation */ = {
+			isa = PBXGroup;
+			children = (
+				0B8DD647256A9098008D4450 /* MMPointAnnotation.swift */,
+			);
+			path = MKPointAnnotation;
+			sourceTree = "<group>";
+		};
 		0BA9CEF5239E501600ACB8E3 = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +386,7 @@
 		0BA9CF19239E52BE00ACB8E3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0B8DD646256A9067008D4450 /* MKPointAnnotation */,
 				0B73EDA623FC1ACB005E503F /* MKMapView */,
 				0B73ED8B23FBE7E9005E503F /* UIButton */,
 				0B73EDA923FC32CF005E503F /* UIImageView */,
@@ -509,6 +520,7 @@
 				0B73EE192403EF35005E503F /* NotificationManager.swift in Sources */,
 				0B73EDE323FEAFA9005E503F /* MapMemo.xcdatamodeld in Sources */,
 				0B73EDAD23FC353A005E503F /* Configuration.swift in Sources */,
+				0B8DD648256A9098008D4450 /* MMPointAnnotation.swift in Sources */,
 				0B73EDD123FD2761005E503F /* MMTitleLabel.swift in Sources */,
 				0BA9CF02239E501700ACB8E3 /* AppDelegate.swift in Sources */,
 				0B73EDA523FBF661005E503F /* SFSymbols.swift in Sources */,
